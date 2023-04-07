@@ -4,6 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -28,17 +34,18 @@ public class User {
   @Size(max = 120)
   private String password;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "profile_image_id")
-  private Image profileImage;
 
+  private FileDB profileImage;
 
   private String jwtToken;
-  public User(){
+
+
+  private List<FileDB> files;
+
+  public User() {
   }
 
-
-  public User(Long id, String username, String email, String password, Image profileImage, String jwtToken) {
+  public User(Long id, String username, String email, String password, FileDB profileImage, String jwtToken) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -46,11 +53,13 @@ public class User {
     this.profileImage = profileImage;
     this.jwtToken = jwtToken;
   }
+
   public User(String username, String email, String password) {
     this.username = username;
     this.email = email;
     this.password = password;
   }
+
   public String getJwtToken() {
     return jwtToken;
   }
@@ -91,13 +100,19 @@ public class User {
     this.password = password;
   }
 
-  public Image getProfileImage() {
+  public FileDB getProfileImage() {
     return profileImage;
   }
 
-  public void setProfileImage(Image profileImage) {
+  public void setProfileImage(FileDB profileImage) {
     this.profileImage = profileImage;
   }
 
+  public List<FileDB> getFiles() {
+    return files;
+  }
 
+  public void setFiles(List<FileDB> files) {
+    this.files = files;
+  }
 }

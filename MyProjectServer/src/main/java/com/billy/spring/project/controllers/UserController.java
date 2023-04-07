@@ -7,13 +7,14 @@ import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
@@ -23,24 +24,26 @@ public class UserController {
 
     // Otras dependencias y métodos del controlador
     @Autowired
-    private UserRepository userRepository;
-    @GetMapping("/user")
+    UserRepository userRepository;
+    @GetMapping("/user/info")
     public ResponseEntity<?> getUserInfo() {
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long id = userDetails.getId();
-        String username = userDetails.getUsername();
-        String email = userDetails.getEmail();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        // Consultar la entidad User completa desde la base de datos
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            String profileImageUrl = user.getProfileImage() != null ? user.getProfileImage().getUrl() : null;
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-            UserInfoResponse userInfoResponse = new UserInfoResponse(id, username, email, profileImageUrl);
-            return ResponseEntity.ok(userInfoResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Error: User not found"));
-        }
+        String profileImageUrl = null;
+       /* if (user.getProfileImage() != null) {
+            profileImageUrl = user.getProfileImage().getUrl();
+        }*/
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", user.getId());
+        response.put("username", user.getUsername());
+        response.put("email", user.getEmail());
+        response.put("profileImageUrl", profileImageUrl);
+
+        return ResponseEntity.ok(response);
     }
+
 }

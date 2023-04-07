@@ -1,13 +1,8 @@
 package com.billy.spring.project.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @Table(name = "files")
 public class FileDB {
@@ -22,6 +17,9 @@ public class FileDB {
 
     @Lob
     private byte[] data;
+
+
+    private User user;
 
     public FileDB() {
     }
@@ -60,4 +58,11 @@ public class FileDB {
         this.data = data;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
