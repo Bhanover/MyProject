@@ -32,16 +32,16 @@ public class UserController {
 
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        String profileImageUrl = null;
-       /* if (user.getProfileImage() != null) {
-            profileImageUrl = user.getProfileImage().getUrl();
-        }*/
-
         Map<String, Object> response = new HashMap<>();
         response.put("id", user.getId());
         response.put("username", user.getUsername());
         response.put("email", user.getEmail());
-        response.put("profileImageUrl", profileImageUrl);
+
+        if (user.getProfileImage() != null) {
+            response.put("profileImage", user.getProfileImage().getUrl());
+        } else {
+            response.put("profileImage", null);
+        }
 
         return ResponseEntity.ok(response);
     }

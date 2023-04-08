@@ -5,6 +5,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -34,13 +40,26 @@ public class User {
   @Size(max = 120)
   private String password;
 
-
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
   private FileDB profileImage;
 
   private String jwtToken;
 
-
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<FileDB> files;
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<Publication> publications;
+
+  public List<Publication> getPublications() {
+    return publications;
+  }
+
+  public void setPublications(List<Publication> publications) {
+    this.publications = publications;
+  }
 
   public User() {
   }
