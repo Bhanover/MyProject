@@ -1,5 +1,8 @@
 package com.billy.spring.project.models;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
@@ -15,23 +18,26 @@ public class Publication {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "publication", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<FileDB> media;
-
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
+    private User user;
 
     public Publication() {
     }
 
-    public Publication(String content, User user, List<FileDB> media, LocalDateTime creationTime) {
+    public Publication(Long id, String content, LocalDateTime creationTime, User user) {
+        this.id = id;
         this.content = content;
+        this.creationTime = creationTime;
         this.user = user;
-        this.media = media;
+    }
+
+    public Publication(String content, LocalDateTime creationTime) {
+        this.content = content;
         this.creationTime = creationTime;
     }
 
@@ -51,27 +57,19 @@ public class Publication {
         this.content = content;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<FileDB> getMedia() {
-        return media;
-    }
-
-    public void setMedia(List<FileDB> media) {
-        this.media = media;
-    }
-
     public LocalDateTime getCreationTime() {
         return creationTime;
     }
 
     public void setCreationTime(LocalDateTime creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

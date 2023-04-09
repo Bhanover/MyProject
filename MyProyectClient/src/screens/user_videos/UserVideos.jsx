@@ -76,6 +76,9 @@ const UserVideos = () => {
           <button onClick={() => deleteVideo(url.id)}>
             Eliminar video
           </button>
+          <div className="image-description">
+            {url.description}
+        </div>
         </div>
       ))}
       {selectedVideo && (

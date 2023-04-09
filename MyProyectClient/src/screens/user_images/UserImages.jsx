@@ -62,7 +62,7 @@ const UserImages = () => {
     };
 
     const handleClickImage = (url, index) => {
-        setSelectedImage(url);
+        setSelectedImage(url.url); // Cambia esto
         setSelectedIndex(index);
     };
 
@@ -90,24 +90,27 @@ const UserImages = () => {
             <div>
                 <h1>Mis imágenes</h1>
                 {imageUrls.map((url, index) => (
-                    <div key={index} className="thumbnail-wrapper">
-                        <img
-                            src={url.url}
-                            alt={`Imagen del usuario ${index}`}
-                            onClick={() => handleClickImage(url.url, index)}
-                            className="thumbnail"
-                        />
-                        <div className="circle" onClick={() => toggleActionButtons(index)}></div>
-                        <div className={`action-buttons ${visibleButtonsIndex === index ? 'visible' : 'hidden'}`}>
-                            <button onClick={() => deleteImage(url.imageId)}>
-                                Eliminar imagen
-                            </button>
-                            <button onClick={() => setProfilePicture(url.imageId)}>
-                                Establecer como foto de perfil
-                            </button>
-                        </div>
-                    </div>
-                ))}
+    <div key={index} className="thumbnail-wrapper">
+        <img
+            src={url.url}
+            alt={`Imagen del usuario ${index}`}
+            onClick={() => handleClickImage(url.url, index)}
+            className="thumbnail"
+        />
+        <div className="circle" onClick={() => toggleActionButtons(index)}></div>
+        <div className={`action-buttons ${visibleButtonsIndex === index ? 'visible' : 'hidden'}`}>
+            <button onClick={() => deleteImage(url.imageId)}>
+                Eliminar imagen
+            </button>
+            <button onClick={() => setProfilePicture(url.imageId)}>
+                Establecer como foto de perfil
+            </button>
+        </div>
+        <div className="image-description">
+            {url.description}
+        </div>
+    </div>
+))}
                 {selectedImage && (
                     <div className="modal">
                         <button className="close" onClick={handleCloseModal}>×</button>

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -32,18 +33,13 @@ public class FileDB {
     private User profileUser;
 
     private String url;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publication_id", nullable = true)
-    @JsonIgnore // Agregar esta anotación para evitar la recursión infinita
-    private Publication publication;
-
-    public Publication getPublication() {
-        return publication;
-    }
+    @Column(name = "creation_time")
+    private LocalDateTime creationTime;
+    private String description;
     public FileDB() {
     }
-    public FileDB(String id, String filename, String contentType, byte[] bytes, User user, User profileUser, String url, Publication publication) {
+
+    public FileDB(String id, String filename, String contentType, byte[] bytes, User user, User profileUser, String url, LocalDateTime creationTime, String description) {
         this.id = id;
         this.filename = filename;
         this.contentType = contentType;
@@ -51,15 +47,31 @@ public class FileDB {
         this.user = user;
         this.profileUser = profileUser;
         this.url = url;
-        this.publication = publication;
+        this.creationTime = creationTime;
+        this.description = description;
     }
-
 
     // Agregar un constructor que excluya el atributo "publication"
     public FileDB(String filename, String contentType, byte[] bytes) {
         this.filename = filename;
         this.contentType = contentType;
         this.bytes = bytes;
+    }
+
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getId() {
@@ -118,7 +130,4 @@ public class FileDB {
         this.url = url;
     }
 
-    public void setPublication(Publication publication) {
-        this.publication = publication;
-    }
 }

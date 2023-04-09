@@ -28,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class FileController {
     private Cloudinary cloudinary;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam(value = "description", required = false) String description) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String fileType = file.getContentType();
 
@@ -62,27 +63,31 @@ public class FileController {
             return ResponseEntity.badRequest().body("El archivo no es una imagen ni un video.");
         }
 
-        // Define las carpetas donde se guardarán las imágenes y videos
-        String folder = isImage ? "images" : "videos";
-
         try {
             // Obtiene el usuario autenticado
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
+            // Define las carpetas donde se guardarán las imágenes y videos
+            String folder = isImage ? "images/" : "videos/";
+            String userFolder = user.getUsername() + "/";
+
             // Guarda el archivo en Cloudinary en la carpeta correspondiente
             Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap(
                             "resource_type", isImage ? "image" : "video",
-                            "folder", folder));
+                            "folder", folder + userFolder));
 
             // Crea la entidad FileDB y la guarda en la base de datos
-            // Modifica la creación de la entidad FileDB para incluir la relación con User
+            // Modifica la creación de la entidad FileDB para incluir la relación con User y la descripción
             String url = (String) uploadResult.get("url");
             FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
             fileDB.setUser(user);
             fileDB.setUrl(url);
+            fileDB.setDescription(description);
+            fileDB.setCreationTime(LocalDateTime.now());
+
             fileDBRepository.save(fileDB);
 
             // Retorna la URL del archivo guardado
@@ -100,17 +105,22 @@ public class FileController {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             User user = userRepository.findById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User Not Found"));
-
+            System.out.println("Usuario autenticado: " + user);
             // Recupera las imágenes del usuario
             List<FileDB> images = fileDBRepository.findByUserAndContentTypeStartingWith(user, "image/");
-
+            System.out.println("Imágenes recuperadas: " + images);
             // Extrae las URLs y los identificadores de las imágenes
             List<Map<String, String>> imageUrlsAndIds = images.stream().map(image -> {
                 Map<String, String> imageData = new HashMap<>();
                 imageData.put("url", image.getUrl());
                 imageData.put("imageId", image.getId());
+                imageData.put("description",image.getDescription());
+                imageData.put("creationTime", image.getCreationTime().toString());
+                System.out.println("Datos de la imagen: " + imageData);
+
                 return imageData;
             }).collect(Collectors.toList());
+            System.out.println("URLs y identificadores de imágenes: " + imageUrlsAndIds);
 
             // Retorna la lista de objetos con las URLs y los identificadores de las imágenes
             return ResponseEntity.ok(imageUrlsAndIds);
@@ -136,6 +146,8 @@ public class FileController {
                 Map<String, String> videoData = new HashMap<>();
                 videoData.put("url", video.getUrl());
                 videoData.put("videoId", video.getId());
+                videoData.put("description",video.getDescription());
+                videoData.put("creationTime", video.getCreationTime().toString());
                 return videoData;
             }).collect(Collectors.toList());
 
@@ -196,6 +208,26 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
+    /*@GetMapping("/all-images")
+    public ResponseEntity<List<Map<String, String>>> getAllImages() {
+        try {
+            List<FileDB> images = fileDBRepository.findAllByContentTypeStartingWith("image/");
+            List<Map<String, String>> imageUrlsAndIds = images.stream().map(image -> {
+                Map<String, String> imageData = new HashMap<>();
+                imageData.put("url", image.getUrl());
+                imageData.put("imageId", image.getId());
+                imageData.put("description", image.getDescription());
+                imageData.put("creationTime", image.getCreationTime().toString());
+                imageData.put("userId", image.getUser().getId());
+                return imageData;
+            }).collect(Collectors.toList());
+            return ResponseEntity.ok(imageUrlsAndIds);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }*/
   /* esto es el valido para subir imagenes en este servidor @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

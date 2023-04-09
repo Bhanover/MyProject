@@ -1,5 +1,6 @@
 package com.billy.spring.project.controllers;
 
+import com.billy.spring.project.models.Friendship;
 import com.billy.spring.project.models.User;
 import com.billy.spring.project.payload.response.MessageResponse;
 import com.billy.spring.project.payload.response.UserInfoResponse;
@@ -45,5 +46,6 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
+
 
 }

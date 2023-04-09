@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
@@ -49,9 +49,20 @@ public class User {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<FileDB> files;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   @JsonIgnore
   private List<Publication> publications;
+
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @JsonIgnore
+  private List<Friendship> friendships;
+
+  @OneToMany(mappedBy = "friend", fetch = FetchType.LAZY)
+  @JsonIgnore
+  private List<Friendship> friends;
+
+
 
   public List<Publication> getPublications() {
     return publications;
@@ -61,16 +72,37 @@ public class User {
     this.publications = publications;
   }
 
+
+  public List<Friendship> getFriendships() {
+    return friendships;
+  }
+
+  public void setFriendships(List<Friendship> friendships) {
+    this.friendships = friendships;
+  }
+
+  public List<Friendship> getFriends() {
+    return friends;
+  }
+
+  public void setFriends(List<Friendship> friends) {
+    this.friends = friends;
+  }
+
   public User() {
   }
 
-  public User(Long id, String username, String email, String password, FileDB profileImage, String jwtToken) {
+  public User(Long id, String username, String email, String password, FileDB profileImage, String jwtToken, List<FileDB> files, List<Publication> publications, List<Friendship> friendships, List<Friendship> friends) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
     this.profileImage = profileImage;
     this.jwtToken = jwtToken;
+    this.files = files;
+    this.publications = publications;
+    this.friendships = friendships;
+    this.friends = friends;
   }
 
   public User(String username, String email, String password) {
