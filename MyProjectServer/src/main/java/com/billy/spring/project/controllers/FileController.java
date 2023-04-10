@@ -7,6 +7,7 @@ import com.billy.spring.project.payload.response.ResponseMessage;
 
 import com.billy.spring.project.repository.FileDBRepository;
 import com.billy.spring.project.repository.UserRepository;
+import com.billy.spring.project.security.jwt.JwtUtils;
 import com.billy.spring.project.security.services.UserDetailsImpl;
 import com.billy.spring.project.service.FileStorageService;
 import com.billy.spring.project.utils.FileUploadUtil;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import javax.servlet.http.HttpServletRequest;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth/")
@@ -48,8 +49,10 @@ public class FileController {
 
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private JwtUtils jwtUtils;
 
-    @PostMapping("/upload")
+    /*@PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam(value = "description", required = false) String description) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String fileType = file.getContentType();
@@ -67,6 +70,8 @@ public class FileController {
             // Obtiene el usuario autenticado
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            System.out.println("Authentication: " + authentication); // Agrega esta línea para imprimir la información de autenticación
+
             User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
             // Define las carpetas donde se guardarán las imágenes y videos
@@ -95,8 +100,62 @@ public class FileController {
         } catch (IOException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
+    }*/
+    @PostMapping("/upload")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam(value = "description", required = false) String description, HttpServletRequest request) {
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileType = file.getContentType();
 
+        // Verifica si el archivo es una imagen o un video
+        boolean isImage = fileType != null && fileType.startsWith("image/");
+        boolean isVideo = fileType != null && fileType.startsWith("video/");
+
+        // Si el archivo no es una imagen ni un video, retorna un error
+        if (!isImage && !isVideo) {
+            return ResponseEntity.badRequest().body("El archivo no es una imagen ni un video.");
+        }
+
+        try {
+            // Obtiene el usuario autenticado
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+            // Verifica si el token de acceso coincide
+            String tokenFromRequest = jwtUtils.getTokenFromRequest(request);
+
+            User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+            if (tokenFromRequest == null || !tokenFromRequest.equals(user.getJwtToken())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El token no es válido.");
+            }
+
+
+            // Define las carpetas donde se guardarán las imágenes y videos
+            String folder = isImage ? "images/" : "videos/";
+            String userFolder = user.getUsername() + "/";
+
+            // Guarda el archivo en Cloudinary en la carpeta correspondiente
+            Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                    ObjectUtils.asMap(
+                            "resource_type", isImage ? "image" : "video",
+                            "folder", folder + userFolder));
+
+            // Crea la entidad FileDB y la guarda en la base de datos
+            // Modifica la creación de la entidad FileDB para incluir la relación con User y la descripción
+            String url = (String) uploadResult.get("url");
+            FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
+            fileDB.setUser(user);
+            fileDB.setUrl(url);
+            fileDB.setDescription(description);
+            fileDB.setCreationTime(LocalDateTime.now());
+
+            fileDBRepository.save(fileDB);
+
+            // Retorna la URL del archivo guardado
+            return ResponseEntity.ok(url);
+        } catch (IOException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     @GetMapping("/user-images")
     public ResponseEntity<List<Map<String, String>>> getUserImages() {
         try {
@@ -105,6 +164,7 @@ public class FileController {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             User user = userRepository.findById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User Not Found"));
+
             System.out.println("Usuario autenticado: " + user);
             // Recupera las imágenes del usuario
             List<FileDB> images = fileDBRepository.findByUserAndContentTypeStartingWith(user, "image/");

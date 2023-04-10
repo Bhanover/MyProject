@@ -2,6 +2,12 @@ package com.billy.spring.project.controllers;
 
 import javax.validation.Valid;
 
+import com.billy.spring.project.exeption.TokenRefreshException;
+import com.billy.spring.project.models.RefreshToken;
+import com.billy.spring.project.payload.request.TokenRefreshRequest;
+import com.billy.spring.project.payload.response.JwtResponse;
+import com.billy.spring.project.payload.response.TokenRefreshResponse;
+import com.billy.spring.project.security.services.RefreshTokenService;
 import com.billy.spring.project.service.UserServiceImpl;
 import com.billy.spring.project.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +26,8 @@ import com.billy.spring.project.payload.response.MessageResponse;
 import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.jwt.JwtUtils;
 import com.billy.spring.project.security.services.UserDetailsImpl;
+
+import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 
@@ -43,23 +51,23 @@ public class AuthController {
   @Autowired
   private UserServiceImpl userService;
 
+  @Autowired
+  RefreshTokenService refreshTokenService;
+
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
     SecurityContextHolder.getContext().setAuthentication(authentication);
-
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
     String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
+    User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+    user.setJwtToken(jwtToken);
+    userRepository.save(user);
 
-    userService.updateToken(userDetails.getId(), jwtToken);
-    System.out.println(jwtToken);
-    // Return JWT token in response
-    return ResponseEntity.ok()
-            .body(new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), jwtToken));
+    return ResponseEntity.ok(new JwtResponse(jwtToken, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail()));
   }
+
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -84,10 +92,59 @@ public class AuthController {
     return ResponseEntity.ok(new UserInfoResponse(user.getId(), user.getUsername(), user.getEmail(), jwtToken));
   }
 
+
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
-    // There's nothing to delete on the client side when using tokens
-    return ResponseEntity.ok().body(new MessageResponse("You've been signed out!"));
+    UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Long userId = userDetails.getId();
+
+    // Elimina el token de actualización
+    refreshTokenService.deleteByUserId(userId);
+
+    // Obtiene el objeto User de la base de datos
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User Not Found with id: " + userId));
+
+    // Elimina el token JWT del registro del usuario en la base de datos
+    user.setJwtToken(null);
+    userRepository.save(user);
+
+    return ResponseEntity.ok(new MessageResponse("Log out successful!"));
+  }
+  @PostMapping("/refreshtoken")
+  public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+    String requestRefreshToken = request.getRefreshToken();
+
+    return refreshTokenService.findByToken(requestRefreshToken)
+            .map(refreshTokenService::verifyExpiration)
+            .map(RefreshToken::getUser)
+            .map(user -> {
+              String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+              return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+            })
+            .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                    "Refresh token is not in database!"));
   }
 }
 
+ /* @PostMapping("/signin")
+  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+    String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
+    RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+
+
+    System.out.println(jwtToken);
+    // Return JWT token in response
+   /* return ResponseEntity.ok()
+            .body(new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), jwtToken));
+  }
+     return ResponseEntity.ok(new JwtResponse(jwtToken, refreshToken.getToken(), userDetails.getId(),
+            userDetails.getUsername(), userDetails.getEmail()));
+  }*/
