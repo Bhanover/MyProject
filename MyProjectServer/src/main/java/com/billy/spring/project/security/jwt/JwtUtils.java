@@ -52,7 +52,7 @@ public class JwtUtils {
     }
     return null;
   }
-  public boolean validateToken(String token, UserDetails userDetails) {
+  /*public boolean validateToken(String token, UserDetails userDetails) {
     try {
       final String username = getUsernameFromToken(token);
       Jwts.parser()
@@ -64,6 +64,20 @@ public class JwtUtils {
     } catch (ExpiredJwtException e) {
       System.out.println("Token is expired"); // Agrega esta línea para imprimir si el token está expirado
 
+    } catch (Exception e) {
+    }
+    return false;
+  }
+  */
+  public boolean validateToken(String token) {
+    try {
+      final String username = getUsernameFromToken(token);
+      Jwts.parser()
+              .setSigningKey(jwtSecret)
+              .parseClaimsJws(token);
+      return true;
+    } catch (ExpiredJwtException e) {
+      System.out.println("Token is expired");
     } catch (Exception e) {
     }
     return false;
@@ -112,5 +126,6 @@ public class JwtUtils {
 
     return token;
   }
+
 
 }

@@ -40,7 +40,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String username = jwtUtils.getUsernameFromToken(jwt);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        boolean isValidToken = jwtUtils.validateToken(jwt, userDetails);
+        /*boolean isValidToken = jwtUtils.validateToken(jwt, userDetails);*/
+        boolean isValidToken = jwtUtils.validateToken(jwt);
         System.out.println("Is token valid? " + isValidToken); // Agrega esta línea para imprimir si el token es válido o no
 
         if (isValidToken) {

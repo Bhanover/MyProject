@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -36,6 +37,9 @@ public class FileDB {
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
     private String description;
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
     public FileDB() {
     }
 
@@ -56,6 +60,13 @@ public class FileDB {
         this.filename = filename;
         this.contentType = contentType;
         this.bytes = bytes;
+    }
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public LocalDateTime getCreationTime() {
@@ -129,5 +140,6 @@ public class FileDB {
     public void setUrl(String url) {
         this.url = url;
     }
+
 
 }
