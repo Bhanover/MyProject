@@ -32,6 +32,20 @@ public class FriendshipService {
 
         return friendshipRepository.save(friendship);
     }
+    public boolean areFriends(Long userId, Long friendId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalFriend = userRepository.findById(friendId);
+
+        if (optionalUser.isPresent() && optionalFriend.isPresent()) {
+            User user = optionalUser.get();
+            User friend = optionalFriend.get();
+
+            Optional<Friendship> friendship = friendshipRepository.findByUserAndFriend(user, friend);
+
+            return friendship.isPresent();        }
+
+        return false;
+    }
     public Friendship getFriendshipById(Long friendshipId) {
         return friendshipRepository.findById(friendshipId).orElseThrow(() -> new RuntimeException("Friendship Not Found"));
     }
@@ -65,5 +79,12 @@ public class FriendshipService {
         List<Friendship> friendships = friendshipRepository.findByUserAndStatus(user, FriendshipStatus.ACCEPTED);
 
         return friendships.stream().map(Friendship::getFriend).collect(Collectors.toList());
+    }
+    public void removeFriend(Long userId, Long friendId) {
+        Optional<Friendship> friendshipOptional = friendshipRepository.findByUserIdAndFriendId(userId, friendId);
+        if (friendshipOptional.isPresent()) {
+            Friendship friendship = friendshipOptional.get();
+            friendshipRepository.delete(friendship);
+        }
     }
 }

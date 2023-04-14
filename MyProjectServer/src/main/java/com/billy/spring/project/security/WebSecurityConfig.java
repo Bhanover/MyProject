@@ -70,10 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  @Override
+  /*@Override
   public void configure(WebSecurity web) {
     web.ignoring().antMatchers("/mywebsocket");
-  }
+  }*/
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -81,8 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-            .antMatchers("/api/test/**").permitAll().antMatchers("/mywebsocket").permitAll();
-            /*.anyRequest().authenticated();*/
+            .antMatchers("/api/test/**")
+            .permitAll().antMatchers("/mywebsocket").permitAll();
+            /*.antMatchers("/api/auth/friends", "/api/auth/friends/*", "/api/auth/remove/*").authenticated()*/
+
+    /*.permitAll().antMatchers("/mywebsocket").authenticated() // requerir autenticación
+            .anyRequest().authenticated(); // requerir autenticación para cualquier otra solicitud*/
 
     http.authenticationProvider(authenticationProvider());
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

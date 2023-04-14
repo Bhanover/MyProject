@@ -32,6 +32,17 @@ public class PublicationController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/publications")
+    public ResponseEntity<List<Publication>> getPublications() {
+        // Obtiene el usuario autenticado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        List<Publication> publications = publicationService.getPublicationsByUser(user);
+        return new ResponseEntity<>(publications, HttpStatus.OK);
+    }
+
     @PostMapping("/publication")
     public ResponseEntity<Publication> createPublication(@RequestBody PublicationDTO publicationDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -42,6 +53,5 @@ public class PublicationController {
         Publication newPublication = publicationService.createPublication(publicationDTO, user);
         return new ResponseEntity<>(newPublication, HttpStatus.CREATED);
     }
-
 
 }

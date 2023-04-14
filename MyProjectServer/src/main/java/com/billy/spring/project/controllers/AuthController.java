@@ -8,7 +8,6 @@ import com.billy.spring.project.payload.request.TokenRefreshRequest;
 import com.billy.spring.project.payload.response.JwtResponse;
 import com.billy.spring.project.payload.response.TokenRefreshResponse;
 import com.billy.spring.project.security.services.RefreshTokenService;
-import com.billy.spring.project.service.UserServiceImpl;
 import com.billy.spring.project.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +26,6 @@ import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.jwt.JwtUtils;
 import com.billy.spring.project.security.services.UserDetailsImpl;
 
-import java.util.Date;
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 
@@ -44,12 +41,10 @@ public class AuthController {
 
   @Autowired
   PasswordEncoder encoder;
-  @Autowired
-  UserServiceImpl userServiceImpl;
+
   @Autowired
   JwtUtils jwtUtils;
-  @Autowired
-  private UserServiceImpl userService;
+
 
   @Autowired
   RefreshTokenService refreshTokenService;

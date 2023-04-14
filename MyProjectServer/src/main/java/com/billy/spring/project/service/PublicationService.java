@@ -25,8 +25,13 @@ public class PublicationService {
         return publicationRepository.save(publication);
     }
 
+    public List<Publication> getPublicationsByUser(User user) {
+        return publicationRepository.findByUser(user);
+    }
     private User getCurrentUser() {
         // aquí iría la lógica para obtener el usuario actual (ejemplo)
         return new User("usuario", "usuario@example.com", "123456");
     }
+
+
 }

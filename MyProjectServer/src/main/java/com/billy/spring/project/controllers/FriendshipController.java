@@ -111,4 +111,16 @@ public class FriendshipController {
         List<User> friends = friendshipService.getFriends(user.getId());
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
+    @DeleteMapping("/remove/{friendId}")
+    public ResponseEntity<?> removeFriend(@PathVariable Long friendId) {
+        // Obtiene el usuario autenticado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        // Agrega la lógica adicional que necesites aquí, como verificar si el usuario autenticado es amigo del amigo antes de eliminarlo
+
+        friendshipService.removeFriend(user.getId(), friendId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
