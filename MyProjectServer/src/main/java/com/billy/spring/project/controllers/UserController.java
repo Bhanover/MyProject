@@ -94,5 +94,9 @@ public class UserController {
 
         return ResponseEntity.ok(responses);
     }
-
+    @GetMapping("/getusers")
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
+    }
 }

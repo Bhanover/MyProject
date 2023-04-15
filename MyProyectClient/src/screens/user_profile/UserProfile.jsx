@@ -1,40 +1,88 @@
+// PrivateChat.js
+import { useEffect, useRef, useState } from "react";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+function PrivateChat({ senderId, recipientId, onClose }) {
+  const [connected, setConnected] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const stompClientRef = useRef(null);
 
-const UserProfile = () => {
-    const [userInfo, setUserInfo] = useState({});
-    const jwtToken = localStorage.getItem('jwtToken');
-  
-    useEffect(() => {
-      const fetchUserInfo = async () => {
-        try {
-          const response = await axios.get('http://localhost:8081/api/auth/user/info', {
-            headers: {
-              Authorization: 'Bearer ' + jwtToken
-            }
-          });
-          setUserInfo(response.data);
-        } catch (error) {
-          console.error('Error al obtener la información del usuario:', error.response.data);
-          alert('Error al obtener la información del usuario. Inténtalo de nuevo.');
-        }
-      };
-      fetchUserInfo();
-    }, [jwtToken]);
-  
-    return (
-      <div>
-        <h1>Información del usuario</h1>
-        <p>ID: {userInfo.id}</p>
-        <p>Nombre de usuario: {userInfo.username}</p>
-        <p>Correo electrónico: {userInfo.email}</p>
-        {userInfo.profileImage ? (
-          <img src={userInfo.profileImage} alt="Imagen de perfil" />
-        ) : (
-          <p>No hay imagen de perfil</p>
-        )}
-      </div>
-    );
+  const connect = () => {
+    return new Promise((resolve, reject) => {
+      const socket = new SockJS("http://localhost:8081/mywebsocket");
+      stompClientRef.current = Stomp.over(socket);
+      stompClientRef.current.connect({}, () => {
+        console.log("CONNECTED TO SERVER");
+
+        setConnected(true);
+
+        stompClientRef.current.subscribe(
+          `/topic/chat/private/${senderId}-${recipientId}`,
+          (response) => {
+            const message = JSON.parse(response.body);
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              { sender: message.sender, content: message.message },
+            ]);
+          }
+        );
+        resolve();
+      }, (error) => {
+        reject(error);
+      });
+    });
   };
-export default UserProfile;
+
+  useEffect(() => {
+    connect();
+    return () => {
+      if (stompClientRef.current !== null) {
+        stompClientRef.current.disconnect();
+      }
+    };
+  }, []);
+
+  const enviarMensaje = () => {
+    if (message.trim() !== "") {
+      stompClientRef.current.send(
+        `/app/chat/private/${senderId}-${recipientId}`,
+        {},
+        JSON.stringify({ message, sender: senderId })
+      );
+      setMessage("");
+    }
+  };
+
+  return (
+    <div className="private-chat">
+      <h2>Private Chat with {recipientId}</h2>
+      <div>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Enter your message"
+        />
+        <button onClick={enviarMensaje}>Send</button>
+      </div>
+      <div>
+        <h3>Private chat</h3>
+        <ul>
+          {messages.map((message, index) => (
+            <li key={index}>
+              <strong>{message.sender}: </strong>
+              {message.content}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+}
+
+export default PrivateChat;

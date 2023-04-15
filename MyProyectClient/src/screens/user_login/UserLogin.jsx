@@ -15,8 +15,8 @@ const UserLogin = () => {
         e.preventDefault()
         axios.post('http://localhost:8081/api/auth/signin', formData).then((response) => {
             localStorage.setItem('idP', response.data.id);
-            localStorage.setItem('jwtToken', response.data.jwtToken);
-            console.log(response.data.jwtToken)
+            localStorage.setItem('jwtToken', response.data.accessToken);
+            console.log(response.data.accessToken)
             console.log(response.data.id)
       navigate('/');
         })

@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/test/**")
-            .permitAll().antMatchers("/mywebsocket").permitAll();
+            .permitAll().antMatchers("/mywebsocket/**").permitAll();
             /*.antMatchers("/api/auth/friends", "/api/auth/friends/*", "/api/auth/remove/*").authenticated()*/
 
     /*.permitAll().antMatchers("/mywebsocket").authenticated() // requerir autenticación

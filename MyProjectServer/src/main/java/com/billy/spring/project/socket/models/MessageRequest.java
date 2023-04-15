@@ -4,9 +4,21 @@ public class MessageRequest {
     private String message;
     private String sender;
 
-    public MessageRequest(String message, String sender) {
-        this.message = message;
-        this.sender = sender;
+    private String recipient;
+
+    public MessageRequest() {
+    }
+
+    public MessageRequest(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getMessage() {
