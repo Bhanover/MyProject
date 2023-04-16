@@ -6,6 +6,16 @@ public class MessageRequest {
 
     private String recipient;
 
+    private String searchTerm;
+
+    public String getSearchTerm() {
+        return searchTerm;
+    }
+
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
+    }
+
     public MessageRequest() {
     }
 
@@ -36,4 +46,6 @@ public class MessageRequest {
     public void setSender(String sender) {
         this.sender = sender;
     }
+
+
 }

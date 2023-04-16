@@ -11,6 +11,7 @@ import UserVideos from './screens/user_videos/UserVideos'
 import SocketTry from './screens/socket/SocketTry'
 import PrivateChat from './screens/socket/privateChat/PrivateChat'
 import UserListComponent from './screens/userList/UserListComponent'
+import UserSearch from './screens/socket/searchUser/UserSearch'
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
     <Route path='/chatGeneral' element={<SocketTry />}></Route>
     <Route path='/privateChat' element={<PrivateChat />}></Route>
     <Route path='/userList' element={<UserListComponent />}></Route>
+    <Route path='/userSearch' element={<UserSearch />}></Route>
   </Routes>
 
   );

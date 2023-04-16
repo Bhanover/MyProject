@@ -5,8 +5,16 @@ public class PrivateMessage {
     private String recipientId;
     private String message;
     private String roomName;
-
+    private String senderUsername;
     // Getters and setters
+
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
 
     public String getSenderId() {
         return senderId;

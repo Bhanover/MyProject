@@ -55,7 +55,7 @@ function PrivateChat() {
         const message = JSON.parse(response.body);
         setPrivateMessages((prevMessages) => [
           ...prevMessages,
-          { sender: message.sender, content: message.message },
+          { sender: message.senderUsername, content: message.message },
         ]);
       });
     });
@@ -75,11 +75,17 @@ function PrivateChat() {
     const roomMembers = [currentUser, recipient].sort(); // Ordenar nombres de usuario
     const roomName = roomMembers.join("-"); 
     if (message.trim() !== "" && recipient.trim() !== "") {
-      stompClientRef.current.send(
-        "/app/chat/private",
-        {},
-        JSON.stringify({ message, senderId: currentUser, recipientId: recipient, roomName })
-      );
+        stompClientRef.current.send(
+            "/app/chat/private",
+            {},
+            JSON.stringify({
+              message,
+              senderId: currentUser,
+              senderUsername: userInfo.username,
+              recipientId: recipient,
+              roomName,
+            })
+          );
       setMessage("");
     }
   };
