@@ -34,14 +34,10 @@ import com.billy.spring.project.security.services.UserDetailsImpl;
 public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
-
-
   @Autowired
   UserRepository userRepository;
-
   @Autowired
   PasswordEncoder encoder;
-
   @Autowired
   JwtUtils jwtUtils;
 
@@ -49,7 +45,7 @@ public class AuthController {
   @Autowired
   RefreshTokenService refreshTokenService;
 
-  @PostMapping("/signin")
+ @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -58,7 +54,8 @@ public class AuthController {
     String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
     User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
     user.setJwtToken(jwtToken);
-    userRepository.save(user);
+     user.setOnline(true); // Establecer el estado en línea aquí
+     userRepository.save(user);
 
     return ResponseEntity.ok(new JwtResponse(jwtToken, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail()));
   }
@@ -88,7 +85,7 @@ public class AuthController {
   }
 
 
-  @PostMapping("/signout")
+  /*@PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
     UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     Long userId = userDetails.getId();
@@ -105,8 +102,34 @@ public class AuthController {
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("Log out successful!"));
-  }
-  @PostMapping("/refreshtoken")
+  }*/
+
+    @PostMapping("/signout")
+    public ResponseEntity<?> logoutUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetailsImpl) {
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            Long userId = userDetails.getId();
+
+            // Elimina el token de actualización
+            refreshTokenService.deleteByUserId(userId);
+
+            // Obtiene el objeto User de la base de datos
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User Not Found with id: " + userId));
+
+            // Elimina el token JWT del registro del usuario en la base de datos
+            user.setJwtToken(null);
+            user.setOnline(false); // Establecer el estado fuera de línea aquí
+            userRepository.save(user);
+
+            return ResponseEntity.ok(new MessageResponse("Log out successful!"));
+        } else {
+            throw new RuntimeException("No se pudo obtener el usuario autenticado");
+        }
+    }
+
+    @PostMapping("/refreshtoken")
   public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
     String requestRefreshToken = request.getRefreshToken();
 
@@ -121,25 +144,3 @@ public class AuthController {
                     "Refresh token is not in database!"));
   }
 }
-
- /* @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-    String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
-    RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-
-
-    System.out.println(jwtToken);
-    // Return JWT token in response
-   /* return ResponseEntity.ok()
-            .body(new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), jwtToken));
-  }
-     return ResponseEntity.ok(new JwtResponse(jwtToken, refreshToken.getToken(), userDetails.getId(),
-            userDetails.getUsername(), userDetails.getEmail()));
-  }*/

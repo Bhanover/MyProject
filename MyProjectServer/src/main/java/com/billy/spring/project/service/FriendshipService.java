@@ -5,10 +5,14 @@ import com.billy.spring.project.models.FriendshipStatus;
 import com.billy.spring.project.models.User;
 import com.billy.spring.project.repository.FriendshipRepository;
 import com.billy.spring.project.repository.UserRepository;
+import com.billy.spring.project.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,9 +80,18 @@ public class FriendshipService {
 
     public List<User> getFriends(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
-        List<Friendship> friendships = friendshipRepository.findByUserAndStatus(user, FriendshipStatus.ACCEPTED);
+        List<Friendship> sentFriendships = friendshipRepository.findByUserAndStatus(user, FriendshipStatus.ACCEPTED);
+        List<Friendship> receivedFriendships = friendshipRepository.findByFriendAndStatus(user, FriendshipStatus.ACCEPTED);
 
-        return friendships.stream().map(Friendship::getFriend).collect(Collectors.toList());
+        List<User> friends = new ArrayList<>();
+        for (Friendship friendship : sentFriendships) {
+            friends.add(friendship.getFriend());
+        }
+        for (Friendship friendship : receivedFriendships) {
+            friends.add(friendship.getUser());
+        }
+
+        return friends;
     }
     public void removeFriend(Long userId, Long friendId) {
         Optional<Friendship> friendshipOptional = friendshipRepository.findByUserIdAndFriendId(userId, friendId);

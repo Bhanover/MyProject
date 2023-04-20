@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
-const UserRegister = () => {
+const UserRegister = ({ className , setFormType }) => {
 
     /*const [username,setUsername]= useState("");
     const [email,setEmail]= useState("");
@@ -30,25 +30,29 @@ const UserRegister = () => {
     };
 
     const onSubmit = (e) => {
-        console.log(formData)
-        e.preventDefault();
-    
-        axios.post("http://localhost:8081/api/auth/signup", formData).then((response) => {
-            console.log(response);
-           });
-      };
+      console.log(formData);
+      e.preventDefault();
+  
+      axios
+        .post("http://localhost:8081/api/auth/signup", formData)
+        .then((response) => {
+          console.log(response);
+          setFormType("login"); // Cambia a la vista de inicio de sesión
+        });
+    };
 
 
 
 
     return(<div>
-       <form onSubmit={onSubmit} method="POST">
+       <form onSubmit={onSubmit} className={className} method="POST">
             <label>Username:</label>
             <input type="text" onChange={onChangeUsername}></input>
             <label>Email:</label>
             <input type="email" onChange={onChangeEmail} ></input>
             <label>Password:</label>
             <input type="password" onChange={onChangePassword} ></input>
+            <br />
             <input type="submit" value="Sign Up"></input>
         </form> 
         

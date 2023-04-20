@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
@@ -172,6 +173,8 @@ public class User {
           @UniqueConstraint(columnNames = "username"),
           @UniqueConstraint(columnNames = "email")
 })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -212,12 +215,13 @@ public class User {
     @JsonIgnore
     private List<Friendship> friends;
 
-
+    private boolean isOnline;
 
     public User() {
     }
 
-    public User(Long id, String username, String email, String password, FileDB profileImage, String jwtToken, List<FileDB> files, List<Publication> publications, List<Friendship> friendships, List<Friendship> friends) {
+
+    public User(Long id, String username, String email, String password, FileDB profileImage, String jwtToken, List<FileDB> files, List<Publication> publications, List<Friendship> friendships, List<Friendship> friends, boolean isOnline) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -228,6 +232,16 @@ public class User {
         this.publications = publications;
         this.friendships = friendships;
         this.friends = friends;
+        this.isOnline = isOnline;
+    }
+
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 
     public User(String username, String email, String password) {

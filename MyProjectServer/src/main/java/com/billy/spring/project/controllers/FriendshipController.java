@@ -59,7 +59,6 @@ public class FriendshipController {
         System.out.println("After calling sendFriendRequest service");
         // Agrega otro registro de evento aquí
         System.out.println("Friend request sent successfully. Friendship id: " + newFriendship.getId());
-
         return new ResponseEntity<>(newFriendship, HttpStatus.CREATED);
     }
 

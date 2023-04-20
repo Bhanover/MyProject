@@ -4,6 +4,7 @@ package com.billy.spring.project.socket.controller;
 import java.security.Principal;
 import java.util.List;
 
+import com.billy.spring.project.exeption.InvalidJwtException;
 import com.billy.spring.project.models.User;
 import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.jwt.JwtUtils;
@@ -78,7 +79,7 @@ public class WebSocketController {
 
 
     @MessageMapping("/searchUsers")
-    public void searchUsers(@Header("Authorization") String token, String searchTerm) {
+    public void searchUsers(@Header("Authorization") String token, String searchTerm) throws InvalidJwtException {
         if (token != null && jwtUtils.validateToken(token)) {
             String username = jwtUtils.getUsernameFromToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);

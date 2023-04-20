@@ -49,7 +49,7 @@ public class PublicationController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId())
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
-
+        System.out.println("ESTO ES LA PUBLICATION"+publicationDTO);
         Publication newPublication = publicationService.createPublication(publicationDTO, user);
         return new ResponseEntity<>(newPublication, HttpStatus.CREATED);
     }

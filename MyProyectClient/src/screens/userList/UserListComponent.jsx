@@ -10,7 +10,7 @@ const UserListComponent = () => {
   const idP = localStorage.getItem('idP');
   const getUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/auth/getusers', {
+      const response = await axios.get('http://localhost:8081/api/auth/friends', {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },

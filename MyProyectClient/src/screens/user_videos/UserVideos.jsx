@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./UserVideos.css";
+import "../user_images/UserImages.css";
 
 const UserVideos = () => {
   const [videoUrls, setVideoUrls] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const videosPerPage = 16; // 4 filas de videos (4 videos por fila)
 
   useEffect(() => {
     fetchUserVideos();
@@ -61,35 +63,51 @@ const UserVideos = () => {
     setSelectedIndex((selectedIndex - 1 + videoUrls.length) % videoUrls.length);
     setSelectedVideo(videoUrls[(selectedIndex - 1 + videoUrls.length) % videoUrls.length]);
   };
+  const handlePageClick = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const totalPages = Math.ceil(videoUrls.length / videosPerPage);
+  const videosToDisplay = videoUrls.slice((currentPage - 1) * videosPerPage, currentPage * videosPerPage);
+
 
   return (
     <div>
       <h1>Mis videos</h1>
-      {videoUrls.map((url, index) => (
-        <div key={index} className="thumbnail-wrapper">
-          <video 
-            src={url.url} // Accede a la propiedad "url" del objeto "url"
-            alt={`Video del usuario ${index}`}
-            onClick={() => handleClickVideo(url.url, index)} // Pasa la URL como parámetro a la función "handleClickVideo"
-            className="thumbnail"
-          />
-          <button onClick={() => deleteVideo(url.id)}>
-            Eliminar video
+      <div className="gallery-container">
+        {videosToDisplay.map((url, index) => (
+          <div key={index} className="gallery-item">
+            <video 
+              src={url.url}
+              alt={`Video del usuario ${index}`}
+              onClick={() => handleClickVideo(url.url, index)}
+              className="thumbnail"
+            />
+            <button onClick={() => deleteVideo(url.id)}>
+              Eliminar video
+            </button>
+            <div className="image-description">
+              {url.description}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`page-number${index + 1 === currentPage ? " active" : ""}`}
+            onClick={() => handlePageClick(index + 1)}
+          >
+            {index + 1}
           </button>
-          <div className="image-description">
-            {url.description}
-        </div>
-        </div>
-      ))}
+        ))}
+      </div>
       {selectedVideo && (
         <div className="modal">
-          <button className="close" onClick={handleCloseModal}> ×</button>
-          <button className="prev" onClick={handlePrevVideo}>
-
-          </button>
-          <button className="next" onClick={handleNextVideo}>
-
-          </button>
+          <button className="close" onClick={handleCloseModal}>×</button>
+          <button className="prev" onClick={handlePrevVideo}>&lt;</button>
+          <button className="next" onClick={handleNextVideo}>&gt;</button>
           <video src={selectedVideo} controls autoPlay width="500" height="400">
             Tu navegador no soporta la etiqueta <code>video</code>.
           </video>

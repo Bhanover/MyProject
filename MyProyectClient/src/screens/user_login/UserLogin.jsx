@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from 'axios';
 
+
 import { useNavigate } from "react-router-dom";
  
-const UserLogin = () => {
-    
+const UserLogin = ({ className }) => {
+  
+
     const navigate = useNavigate();
     const [formData,setFormData] = useState({
         username:'',
@@ -18,6 +20,8 @@ const UserLogin = () => {
             localStorage.setItem('jwtToken', response.data.accessToken);
             console.log(response.data.accessToken)
             console.log(response.data.id)
+       
+
       navigate('/');
         })
     };
@@ -36,7 +40,7 @@ const UserLogin = () => {
 
     return(<div>
 
-            <form onSubmit={onSubmit}>
+            <form className={className} onSubmit={onSubmit}>
                 <label>Username</label>
                 <input type="text"  onChange={onChangeUsername}></input>
                 <label>Password</label>

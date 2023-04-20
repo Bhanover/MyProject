@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.billy.spring.project.exeption.InvalidJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,26 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtils {
-
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
   @Value("${bezkoder.app.jwtSecret}")
   private String jwtSecret;
 
   @Value("${bezkoder.app.jwtExpirationMs}")
   private int jwtExpirationMs;
-
-  /*public String generateToken(UserDetails userDetails) {
-    Map<String, Object> claims = new HashMap<>();
-    claims.put("sub", userDetails.getUsername());
-    claims.put("iat", new Date());
-    claims.put("exp", new Date(System.currentTimeMillis() + jwtExpirationMs));
-
-    return Jwts.builder()
-            .setClaims(claims)
-            .signWith(SignatureAlgorithm.HS512, jwtSecret)
-            .compact();
-  }*/
 
   public String getUsernameFromToken(String token) {
     return Jwts.parser()
@@ -52,24 +39,7 @@ public class JwtUtils {
     }
     return null;
   }
-  /*public boolean validateToken(String token, UserDetails userDetails) {
-    try {
-      final String username = getUsernameFromToken(token);
-      Jwts.parser()
-              .setSigningKey(jwtSecret)
-              .parseClaimsJws(token);
-      System.out.println("Token is not expired"); // Agrega esta línea para imprimir si el token no está expirado
-// Esta línea verifica automáticamente la expiración del token
-      return (username.equals(userDetails.getUsername()));
-    } catch (ExpiredJwtException e) {
-      System.out.println("Token is expired"); // Agrega esta línea para imprimir si el token está expirado
-
-    } catch (Exception e) {
-    }
-    return false;
-  }
-  */
-  public boolean validateToken(String token) {
+  public boolean validateToken(String token) throws InvalidJwtException {
     try {
       final String username = getUsernameFromToken(token);
       Jwts.parser()
@@ -77,10 +47,10 @@ public class JwtUtils {
               .parseClaimsJws(token);
       return true;
     } catch (ExpiredJwtException e) {
-      System.out.println("Token is expired");
-    } catch (Exception e) {
+      throw new InvalidJwtException("El token ha expirado");
+    } catch (JwtException e) {
+      throw new InvalidJwtException("Token de autenticación no válido");
     }
-    return false;
   }
   public void invalidateToken(String token) {
     Claims claims = Jwts.parser()
@@ -126,6 +96,5 @@ public class JwtUtils {
 
     return token;
   }
-
 
 }

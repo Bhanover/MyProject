@@ -1,0 +1,32 @@
+.grid-containerP {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto; /* Asegurarse de que el contenedor ocupe toda la altura de la pantalla */
+    margin: auto;
+    background: linear-gradient(rgb(217, 217, 217), #6d889a, #5698ea, rgb(210, 210, 210, 0.5));
+  }
+  
+  .headerP {
+    flex: 0 0 auto; /* Ajusta el tamaño al contenido */
+    width: 100%; /* Ocupa el 100% del ancho de la pantalla */
+  }
+  
+  .detailsP {
+    display: flex;
+    flex: 1; /* Ocupa todo el espacio restante en la dirección vertical */
+  }
+  
+  .infoleftP {
+    flex: 0 0 10%;
+  }
+  
+  .leftP {
+    flex: 0 0 30%;
+  }
+  
+  .contentP {
+    flex: 0 0 60%;
+    margin-top: 100px; /* O el valor que corresponda a la altura del elemento fijo */
+
+  }

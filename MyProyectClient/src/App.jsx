@@ -12,6 +12,13 @@ import SocketTry from './screens/socket/SocketTry'
 import PrivateChat from './screens/socket/privateChat/PrivateChat'
 import UserListComponent from './screens/userList/UserListComponent'
 import UserSearch from './screens/socket/searchUser/UserSearch'
+import UserListSocket from './screens/socket/webSocketService/UserListSocket'
+import UserLogout from './screens/user_logout/UserLogout'
+import LoginPage from './screens/login_page/LoginPage'
+import UploadFile from './screens/uploadFile/UploadFile'
+import ProfilePage from './screens/profile_page/ProfilePage'
+import Container from './screens/container/Container'
+import PublicationList from './screens/publication_list/PublicationList'
 
 function App() {
   
@@ -20,13 +27,21 @@ function App() {
   <Routes>
     <Route path='/login' element={<UserLogin />} ></Route>
     <Route path='/register' element={<UserRegister />}></Route>
-    <Route path='/profile' element={<UserProfile />}></Route>
-    <Route path='/images' element={<UserImages /> }></Route>
-    <Route path='/videos' element={<UserVideos />}></Route>
-    <Route path='/chatGeneral' element={<SocketTry />}></Route>
-    <Route path='/privateChat' element={<PrivateChat />}></Route>
-    <Route path='/userList' element={<UserListComponent />}></Route>
-    <Route path='/userSearch' element={<UserSearch />}></Route>
+    <Route path='/' element={<Container />}> 
+      <Route path='/profile' element={<UserProfile />}></Route>
+      <Route path='/images' element={<UserImages /> }></Route>
+      <Route path='/videos' element={<UserVideos />}></Route>
+      <Route path='/chatGeneral' element={<SocketTry />}></Route>
+      <Route path='/privateChat' element={<PrivateChat />}></Route>
+      <Route path='/userList' element={<UserListComponent />}></Route>
+      <Route path='/userSearch' element={<UserSearch />}></Route>
+      <Route path='/listSocket' element={<UserListSocket />}></Route>
+      <Route path="/logout" element={<UserLogout />} />
+      <Route path='/loginPage' element={<LoginPage />}></Route>
+      <Route path='/upload' element={<UploadFile />}></Route>
+      <Route path='/profilePage' element={<ProfilePage />}></Route>
+      <Route path='/publicationList' element={<PublicationList />}></Route>
+    </Route>
   </Routes>
 
   );
