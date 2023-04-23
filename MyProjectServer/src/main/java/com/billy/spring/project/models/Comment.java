@@ -25,17 +25,29 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="file_id")
+    @JsonIgnore
+
     private FileDB file;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
+    @JsonIgnore
+
     private User user;
 
     private LocalDateTime creationTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "publication_id")
+    private Publication publication;
 
     public Comment() {
     }
-
+    public Comment(String text, Publication publication, User user) {
+        this.text = text;
+        this.publication = publication;
+        this.user = user;
+        this.creationTime = LocalDateTime.now();
+    }
     public Comment(String text, FileDB file, User user) {
         this.text = text;
         this.file = file;
@@ -49,6 +61,14 @@ public class Comment {
         this.file = file;
         this.user = user;
         this.creationTime = creationTime;
+    }
+
+
+
+    public Comment(String text, User user, Publication publication) {
+        this.text = text;
+        this.user = user;
+        this.publication = publication;
     }
 // Getters and setters omitted for brevity
 

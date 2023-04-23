@@ -195,6 +195,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+    @JsonIgnore
     private FileDB profileImage;
 
     private String jwtToken;

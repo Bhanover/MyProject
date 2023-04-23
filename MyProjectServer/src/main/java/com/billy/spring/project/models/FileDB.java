@@ -31,6 +31,7 @@ public class FileDB {
     private User user;
 
     @OneToOne(mappedBy = "profileImage", fetch = FetchType.LAZY)
+    @JsonIgnore
     private User profileUser;
 
     private String url;
@@ -38,6 +39,7 @@ public class FileDB {
     private LocalDateTime creationTime;
     private String description;
     @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
     public FileDB() {

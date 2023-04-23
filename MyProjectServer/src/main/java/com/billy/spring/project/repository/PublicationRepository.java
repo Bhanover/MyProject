@@ -13,4 +13,5 @@ import java.util.List;
 public interface PublicationRepository extends JpaRepository<Publication, Long> {
     @Query("SELECT p FROM Publication p WHERE p.user = :user")
     List<Publication> findByUser(@Param("user") User user);
+
 }

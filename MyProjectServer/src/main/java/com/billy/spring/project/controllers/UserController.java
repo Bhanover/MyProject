@@ -35,28 +35,48 @@ public class UserController {
     FriendshipService friendshipService;
     @Autowired
     UserRepository userRepository;
-    @GetMapping("/user/info")
-    public ResponseEntity<?> getUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", user.getId());
-        response.put("username", user.getUsername());
-        response.put("email", user.getEmail());
+        @GetMapping("/user/{id}/info")
+        public ResponseEntity<?> getUserInfo(@PathVariable Long id) {
 
-        if (user.getProfileImage() != null) {
-            response.put("profileImage", user.getProfileImage().getUrl());
-        } else {
-            response.put("profileImage", null);
+            User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", user.getId());
+            response.put("username", user.getUsername());
+            response.put("email", user.getEmail());
+
+            if (user.getProfileImage() != null) {
+                response.put("profileImage", user.getProfileImage().getUrl());
+            } else {
+                response.put("profileImage", null);
+            }
+
+            return ResponseEntity.ok(response);
         }
 
-        return ResponseEntity.ok(response);
-    }
+        /* @GetMapping("/user/info")
+        public ResponseEntity<?> getUserInfo() {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+            User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", user.getId());
+            response.put("username", user.getUsername());
+            response.put("email", user.getEmail());
+
+            if (user.getProfileImage() != null) {
+                response.put("profileImage", user.getProfileImage().getUrl());
+            } else {
+                response.put("profileImage", null);
+            }
+
+            return ResponseEntity.ok(response);
+        }
+*/
     @GetMapping("/search")
     public ResponseEntity<List<User>> searchFriends(@RequestParam String query) {
         // Obtiene el usuario autenticado

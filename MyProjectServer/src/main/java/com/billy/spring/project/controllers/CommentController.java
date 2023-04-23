@@ -4,10 +4,12 @@ import com.billy.spring.project.exeption.ResourceNotFoundException;
 import com.billy.spring.project.exeption.UnauthorizedException;
 import com.billy.spring.project.models.Comment;
 import com.billy.spring.project.models.FileDB;
+import com.billy.spring.project.models.Publication;
 import com.billy.spring.project.models.User;
 import com.billy.spring.project.payload.response.CommentResponse;
 import com.billy.spring.project.repository.CommentRepository;
 import com.billy.spring.project.repository.FileDBRepository;
+import com.billy.spring.project.repository.PublicationRepository;
 import com.billy.spring.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,9 @@ public class CommentController {
     private FileDBRepository fileDBRepository;
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private PublicationRepository publicationRepository;
     @PostMapping("/files/{fileId}/comments")
     public ResponseEntity<?> addCommentToFile(@PathVariable("fileId") String fileId, @RequestBody String commentText, Principal principal) {
         User currentUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User", "username", principal.getName()));
@@ -47,9 +52,9 @@ public class CommentController {
 
         // Convierte la lista de comentarios a una lista de CommentResponse
         List<CommentResponse> commentResponses = comments.stream().map(comment -> {
-            return new CommentResponse(comment.getId(), comment.getText(), comment.getCreationTime(), comment.getUser().getUsername());
+            User author = comment.getUser();
+            return new CommentResponse(comment.getId(), comment.getText(), comment.getCreationTime(), author.getUsername(), author.getId());
         }).collect(Collectors.toList());
-
         return ResponseEntity.ok(commentResponses);
     }
     @PutMapping("/comments/{commentId}")
@@ -80,5 +85,30 @@ public class CommentController {
         commentRepository.delete(comment);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/publications/{publicationId}/comments")
+    public ResponseEntity<?> addCommentToPublication(@PathVariable("publicationId") Long publicationId, @RequestBody String commentText, Principal principal) {
+        User currentUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User", "username", principal.getName()));
+        Publication publication = publicationRepository.findById(publicationId).orElseThrow(() -> new ResourceNotFoundException("Publication", "id", publicationId));
+
+        Comment comment = new Comment(commentText, publication, currentUser);
+        commentRepository.save(comment);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/publications/{publicationId}/comments")
+    public ResponseEntity<List<CommentResponse>> getAllCommentsForPublication(@PathVariable("publicationId") Long publicationId, Principal principal) {
+        User currentUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User", "username", principal.getName()));
+        Publication publication = publicationRepository.findById(publicationId).orElseThrow(() -> new ResourceNotFoundException("Publication", "id", publicationId));
+
+        List<Comment> comments = publication.getComments();
+
+        List<CommentResponse> commentResponses = comments.stream().map(comment -> {
+            User author = comment.getUser();
+            return new CommentResponse(comment.getId(), comment.getText(), comment.getCreationTime(), author.getUsername(), author.getId());
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(commentResponses);
     }
 }

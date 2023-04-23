@@ -7,15 +7,16 @@ public class CommentResponse {
     private String text;
     private LocalDateTime createdAt;
     private String authorUsername;
-
+    private Long authorId;
     public CommentResponse() {
     }
 
-    public CommentResponse(Long id, String text, LocalDateTime createdAt, String authorUsername) {
+    public CommentResponse(Long id, String text, LocalDateTime createdAt, String authorUsername, Long authorId) {
         this.id = id;
         this.text = text;
         this.createdAt = createdAt;
         this.authorUsername = authorUsername;
+        this.authorId = authorId;
     }
 
     public Long getId() {
@@ -48,5 +49,13 @@ public class CommentResponse {
 
     public void setAuthorUsername(String authorUsername) {
         this.authorUsername = authorUsername;
+    }
+
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
 }

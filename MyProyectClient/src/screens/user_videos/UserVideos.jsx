@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "../user_images/UserImages.css";
 
-const UserVideos = () => {
+const UserVideos = (props) => {
   const [videoUrls, setVideoUrls] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -16,7 +16,7 @@ const UserVideos = () => {
 
   const fetchUserVideos = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/auth/user-videos', {
+      const response = await axios.get(`http://localhost:8081/api/auth/${props.userId}/user-videos`, {
         headers: {
           'Authorization': 'Bearer ' + jwtToken
         }
@@ -31,18 +31,18 @@ const UserVideos = () => {
 
   const deleteVideo = async (videoId) => {
     try {
-      await axios.delete(`http://localhost:8081/api/auth/user-videos/${videoId}`, {
-        headers: {
-          'Authorization': 'Bearer ' + jwtToken
-        }
-      });
-      fetchUserVideos();
-      alert('Video eliminado con éxito.');
+        await axios.delete(`http://localhost:8081/api/auth/user-files/${videoId}`, {
+            headers: {
+                'Authorization': 'Bearer ' + jwtToken
+            }
+        });
+        fetchUserVideos(); // Vuelve a cargar los videos del usuario
+        alert('Video eliminado con éxito.');
     } catch (error) {
-      console.error('Error al eliminar el video:', error);
-      alert('Error al eliminar el video. Inténtalo de nuevo.');
+        console.error('Error al eliminar el video:', error);
+        alert('Error al eliminar el video. Inténtalo de nuevo.');
     }
-  };
+};
 
   const handleClickVideo = (url, index) => {
     setSelectedVideo(url);
@@ -70,7 +70,10 @@ const UserVideos = () => {
   const totalPages = Math.ceil(videoUrls.length / videosPerPage);
   const videosToDisplay = videoUrls.slice((currentPage - 1) * videosPerPage, currentPage * videosPerPage);
 
-
+/*
+<button onClick={() => onDelete(fileId)}>
+  Eliminar video
+</button>*/
   return (
     <div>
       <h1>Mis videos</h1>
@@ -83,9 +86,9 @@ const UserVideos = () => {
               onClick={() => handleClickVideo(url.url, index)}
               className="thumbnail"
             />
-            <button onClick={() => deleteVideo(url.id)}>
-              Eliminar video
-            </button>
+         <button onClick={() => onDelete(videoId)}>
+  Eliminar video
+</button>
             <div className="image-description">
               {url.description}
             </div>

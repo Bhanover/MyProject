@@ -31,13 +31,15 @@ public class PublicationController {
 
     @Autowired
     private UserRepository userRepository;
+    /* @GetMapping("/user/{id}/info")
+     public ResponseEntity<?> getUserInfo(@PathVariable Long id) {
 
-    @GetMapping("/publications")
-    public ResponseEntity<List<Publication>> getPublications() {
+         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+ */
+    @GetMapping("/{id}/publications")
+    public ResponseEntity<List<Publication>> getPublications(@PathVariable Long id) {
         // Obtiene el usuario autenticado
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
         List<Publication> publications = publicationService.getPublicationsByUser(user);
         return new ResponseEntity<>(publications, HttpStatus.OK);
@@ -53,5 +55,27 @@ public class PublicationController {
         Publication newPublication = publicationService.createPublication(publicationDTO, user);
         return new ResponseEntity<>(newPublication, HttpStatus.CREATED);
     }
+
+    @PutMapping("/publication/{publicationId}")
+    public ResponseEntity<Publication> updatePublication(@PathVariable Long publicationId, @RequestBody PublicationDTO publicationDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId())
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        Publication updatedPublication = publicationService.updatePublication(publicationId, publicationDTO, user);
+        return new ResponseEntity<>(updatedPublication, HttpStatus.OK);
+    }
+    @DeleteMapping("/publication/{publicationId}")
+    public ResponseEntity<Void> deletePublication(@PathVariable Long publicationId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId())
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        publicationService.deletePublication(publicationId, user);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 }

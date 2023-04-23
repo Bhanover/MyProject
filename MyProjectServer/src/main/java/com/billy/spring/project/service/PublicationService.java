@@ -32,6 +32,30 @@ public class PublicationService {
         // aquí iría la lógica para obtener el usuario actual (ejemplo)
         return new User("usuario", "usuario@example.com", "123456");
     }
+    public Publication updatePublication(Long publicationId, PublicationDTO publicationDTO, User user) {
+        Publication publication = publicationRepository.findById(publicationId)
+                .orElseThrow(() -> new RuntimeException("Publication Not Found"));
+
+        if (!publication.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("You are not authorized to edit this publication");
+        }
+
+        publication.setContent(publicationDTO.getContent());
+
+        return publicationRepository.save(publication);
+    }
+
+    public void deletePublication(Long publicationId, User user) {
+        Publication publication = publicationRepository.findById(publicationId)
+                .orElseThrow(() -> new RuntimeException("Publication Not Found"));
+
+        if (!publication.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("You are not authorized to delete this publication");
+        }
+
+        publicationRepository.deleteById(publicationId);
+    }
+
 
 
 }

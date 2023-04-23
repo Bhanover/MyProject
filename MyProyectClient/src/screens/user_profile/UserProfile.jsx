@@ -3,9 +3,14 @@ import axios from "axios";
 import "./UserProfile.css"
 import defaultAvatar from "./images/defaultAvatar.jpg";
 import UserImages from "../user_images/UserImages";
-function UserProfile() {
+
+function UserProfile(props) {
   const [userInfo, setUserInfo] = useState({});
   const [showUserImages, setShowUserImages] = useState(false);
+  const currentUserId = localStorage.getItem("idP");
+  const [selectedImage, setSelectedImage] = useState(null);
+
+
   const handleProfileImageUpdate = (newProfileImageUrl) => {
     setUserInfo({
       ...userInfo,
@@ -16,7 +21,7 @@ function UserProfile() {
     const jwtToken = localStorage.getItem("jwtToken");
 
     axios
-      .get("http://localhost:8081/api/auth/user/info", {
+      .get(`http://localhost:8081/api/auth/user/${props.userId}/info`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -27,12 +32,18 @@ function UserProfile() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [props.userId]);
 
   const handleProfileImageClick = () => {
-    setShowUserImages(true);
+    if (currentUserId === props.userId) {
+      setShowUserImages(true);
+    } else {
+      setSelectedImage(userInfo.profileImage || defaultAvatar);
+    }
   };
-
+  const handleCloseImageModal = () => {
+    setSelectedImage(null);
+  };
   const handleCloseModal = () => {
     setShowUserImages(false);
   };
@@ -57,19 +68,27 @@ function UserProfile() {
         <p>Username: {userInfo.username}</p>
         <p>Email: {userInfo.email}</p>
       </div>
+      {selectedImage && (
+  <div className="modal" onClick={handleCloseImageModal}>
+    <div className="modal-content" onClick={handleContainerClick}>
+      <img src={selectedImage} alt="Profile" className="large-profile-image" />
+    </div>
+  </div>
+)}
       {showUserImages && (
         <div className="modal" onClick={handleCloseModal}>
           <div className="modal-content" onClick={handleContainerClick}>
             <div className="modal-close" onClick={handleCloseModal}>
               &times;
             </div>
-            <UserImages onProfileImageUpdate={handleProfileImageUpdate} />
+            <div className="gallery-wrapper">
+              <UserImages onProfileImageUpdate={handleProfileImageUpdate} userId={props.userId} />
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
-
 
 export default UserProfile;

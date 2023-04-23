@@ -19,6 +19,8 @@ import UploadFile from './screens/uploadFile/UploadFile'
 import ProfilePage from './screens/profile_page/ProfilePage'
 import Container from './screens/container/Container'
 import PublicationList from './screens/publication_list/PublicationList'
+import UserContent from './screens/user_feed/UserContent'
+
 
 function App() {
   
@@ -29,8 +31,8 @@ function App() {
     <Route path='/register' element={<UserRegister />}></Route>
     <Route path='/' element={<Container />}> 
       <Route path='/profile' element={<UserProfile />}></Route>
-      <Route path='/images' element={<UserImages /> }></Route>
-      <Route path='/videos' element={<UserVideos />}></Route>
+      <Route path='/images/:userId' element={<UserImages /> }></Route>
+      <Route path='/videos/:userId' element={<UserVideos />}></Route>
       <Route path='/chatGeneral' element={<SocketTry />}></Route>
       <Route path='/privateChat' element={<PrivateChat />}></Route>
       <Route path='/userList' element={<UserListComponent />}></Route>
@@ -39,8 +41,9 @@ function App() {
       <Route path="/logout" element={<UserLogout />} />
       <Route path='/loginPage' element={<LoginPage />}></Route>
       <Route path='/upload' element={<UploadFile />}></Route>
-      <Route path='/profilePage' element={<ProfilePage />}></Route>
+      <Route path='/profilePage/:userId' element={<ProfilePage />}></Route>
       <Route path='/publicationList' element={<PublicationList />}></Route>
+      <Route path='/userContent'element={<UserContent />}></Route>
     </Route>
   </Routes>
 
