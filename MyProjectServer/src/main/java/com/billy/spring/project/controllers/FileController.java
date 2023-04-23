@@ -10,6 +10,8 @@ import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.jwt.JwtUtils;
 import com.billy.spring.project.security.services.UserDetailsImpl;
 import com.billy.spring.project.service.FileStorageService;
+import com.billy.spring.project.service.ImageService;
+import com.billy.spring.project.service.VideoService;
 import com.billy.spring.project.utils.FileUploadUtil;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -51,6 +53,10 @@ public class FileController {
     private Cloudinary cloudinary;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private VideoService videoService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam(value = "description", required = false) String description, HttpServletRequest request) {
@@ -117,7 +123,7 @@ public class FileController {
 
             System.out.println("Usuario autenticado: " + user);
             // Recupera las imágenes del usuario
-            List<FileDB> images = fileDBRepository.findByUserAndContentTypeStartingWith(user, "image/");
+            List<FileDB> images = imageService.getImagesByUser(user);
             System.out.println("Imágenes recuperadas: " + images);
             // Extrae las URLs y los identificadores de las imágenes
             List<Map<String, String>> imageUrlsAndIds = images.stream().map(image -> {
@@ -151,7 +157,7 @@ public class FileController {
 
 
             // Recupera los videos del usuario
-            List<FileDB> videos = fileDBRepository.findByUserAndContentTypeStartingWith(user, "video/");
+            List<FileDB> videos = videoService.getVideosByUser(user);
 
             // Extrae las URLs y los identificadores de los videos
             List<Map<String, String>> videoUrlsAndIds = videos.stream().map(video -> {

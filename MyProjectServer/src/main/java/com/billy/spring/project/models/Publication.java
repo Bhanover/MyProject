@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.cache.annotation.Cacheable;
 
 @Entity
 @Table(name = "publications")
@@ -39,7 +40,6 @@ public class Publication {
         this.creationTime = creationTime;
         this.user = user;
     }
-
     public List<Comment> getComments() {
         return comments;
     }

@@ -7,8 +7,7 @@ const UserVideos = (props) => {
   const jwtToken = localStorage.getItem("jwtToken");
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const videosPerPage = 16; // 4 filas de videos (4 videos por fila)
+  const [videosToDisplay, setVideosToDisplay] = useState([]);
 
   useEffect(() => {
     fetchUserVideos();
@@ -29,6 +28,31 @@ const UserVideos = (props) => {
     }
   };
 
+  useEffect(() => {
+    setVideosToDisplay(videoUrls.slice(0, 3));
+  }, [videoUrls]);
+
+  const handleScroll = (e) => {
+    const bottom =
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
+    if (bottom) {
+      const nextVideos = videoUrls.slice(
+        videosToDisplay.length,
+        videosToDisplay.length + 3
+      );
+      if (nextVideos.length > 0) {
+        setVideosToDisplay((prevVideos) => [...prevVideos, ...nextVideos]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
   const deleteVideo = async (videoId) => {
     try {
         await axios.delete(`http://localhost:8081/api/auth/user-files/${videoId}`, {
@@ -42,7 +66,7 @@ const UserVideos = (props) => {
         console.error('Error al eliminar el video:', error);
         alert('Error al eliminar el video. Inténtalo de nuevo.');
     }
-};
+  };
 
   const handleClickVideo = (url, index) => {
     setSelectedVideo(url);
@@ -63,18 +87,12 @@ const UserVideos = (props) => {
     setSelectedIndex((selectedIndex - 1 + videoUrls.length) % videoUrls.length);
     setSelectedVideo(videoUrls[(selectedIndex - 1 + videoUrls.length) % videoUrls.length]);
   };
-  const handlePageClick = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const totalPages = Math.ceil(videoUrls.length / videosPerPage);
-  const videosToDisplay = videoUrls.slice((currentPage - 1) * videosPerPage, currentPage * videosPerPage);
 
 /*
 <button onClick={() => onDelete(fileId)}>
   Eliminar video
 </button>*/
-  return (
+ return (
     <div>
       <h1>Mis videos</h1>
       <div className="gallery-container">
@@ -86,24 +104,13 @@ const UserVideos = (props) => {
               onClick={() => handleClickVideo(url.url, index)}
               className="thumbnail"
             />
-         <button onClick={() => onDelete(videoId)}>
-  Eliminar video
-</button>
+            <button onClick={() => deleteVideo(url.videoId)}>
+              Eliminar video
+            </button>
             <div className="image-description">
               {url.description}
             </div>
           </div>
-        ))}
-      </div>
-      <div className="pagination">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            className={`page-number${index + 1 === currentPage ? " active" : ""}`}
-            onClick={() => handlePageClick(index + 1)}
-          >
-            {index + 1}
-          </button>
         ))}
       </div>
       {selectedVideo && (
@@ -118,6 +125,7 @@ const UserVideos = (props) => {
       )}
     </div>
   );
+
 };
 
 export default UserVideos;

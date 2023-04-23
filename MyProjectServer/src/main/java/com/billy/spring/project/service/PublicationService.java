@@ -6,6 +6,7 @@ import com.billy.spring.project.models.Publication;
 import com.billy.spring.project.models.User;
 import com.billy.spring.project.repository.PublicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,6 @@ public class PublicationService {
 
         return publicationRepository.save(publication);
     }
-
     public List<Publication> getPublicationsByUser(User user) {
         return publicationRepository.findByUser(user);
     }

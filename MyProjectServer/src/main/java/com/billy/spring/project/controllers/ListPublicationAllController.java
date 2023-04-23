@@ -7,7 +7,9 @@ import com.billy.spring.project.repository.FileDBRepository;
 import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.jwt.JwtUtils;
 import com.billy.spring.project.service.FileStorageService;
+import com.billy.spring.project.service.ImageService;
 import com.billy.spring.project.service.PublicationService;
+import com.billy.spring.project.service.VideoService;
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,11 +41,18 @@ public class ListPublicationAllController {
     @Autowired
     private PublicationService publicationService;
 
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private VideoService videoService;
 
+    /*  List<FileDB> images = fileDBRepository.findByUserAndContentTypeStartingWith(user, "image/");
+        List<FileDB> videos = fileDBRepository.findByUserAndContentTypeStartingWith(user, "video/");
+        List<Publication> publications = publicationService.getPublicationsByUser(user);*/
     @GetMapping("/{id}/content")
     public List<Object> getUserContent(@PathVariable Long id,
-                                       @RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "5") int size) {
+                                       @RequestParam(defaultValue = "0") int start,
+                                       @RequestParam(defaultValue = "3") int count) {
         // Recupera las imágenes, videos y publicaciones del usuario
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
@@ -63,15 +72,13 @@ public class ListPublicationAllController {
                 }).reversed())
                 .collect(Collectors.toList());
 
-        // Aplica paginación a la lista combinada
-        int startIndex = page * size;
-        int endIndex = Math.min(startIndex + size, combinedContent.size());
-        List<Object> paginatedContent = combinedContent.subList(startIndex, endIndex);
+        // Aplica paginación en el servidor
+        int endIndex = Math.min(start + count, combinedContent.size());
+        List<Object> paginatedContent = combinedContent.subList(start, endIndex);
 
         // Retorna la lista paginada
         return paginatedContent;
     }
-
 
 
 
