@@ -1,7 +1,8 @@
 .upload-container {
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    top:100px;
+    position: relative;
     background-color: #9c9c9c;
     border: 1px solid #ccc;
     padding: 20px;
@@ -13,6 +14,7 @@
   body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    
   }
 
   .upload-container h1 {

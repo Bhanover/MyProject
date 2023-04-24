@@ -36,7 +36,20 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @GetMapping("/user/{id}/info")
+    public ResponseEntity<?> getUserInfo(@PathVariable Long id) {
+        try {
+            Map<String, Object> userInfo = userRepository.findUserInfoById(id)
+                    .orElseThrow(() -> new RuntimeException("User Not Found"));
 
+            return ResponseEntity.ok(userInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+/*
         @GetMapping("/user/{id}/info")
         public ResponseEntity<?> getUserInfo(@PathVariable Long id) {
 
@@ -54,7 +67,7 @@ public class UserController {
             }
 
             return ResponseEntity.ok(response);
-        }
+        }*/
 
         /* @GetMapping("/user/info")
         public ResponseEntity<?> getUserInfo() {

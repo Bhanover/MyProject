@@ -21,8 +21,29 @@ const UserContent = ({ userId }) => {
             },
           }
         );
-        setContent((prevContent) => [...prevContent, ...response.data]);
-        console.log(content)
+        
+        const processedContent = response.data.map(item => {
+          if (item.entityType === 'file') {
+            return {
+              id: item.id,
+              url: item.url,
+              contentType: item.contentType,
+              filename: item.filename,
+              fileDescription: item.fileDescription,
+              entityType: item.entityType,
+            }
+          } else if (item.entityType === 'publication') {
+            return {
+              id: item.id,
+              content: item.content,
+              creationTime: item.creationTime,
+              entityType: item.entityType,
+            }
+          }
+        });
+
+        setContent((prevContent) => [...prevContent, ...processedContent]);
+        
         if (response.data.length < count) {
           setHasMore(false);
         } else {
@@ -52,20 +73,20 @@ const UserContent = ({ userId }) => {
             {item.contentType && item.contentType.startsWith("image/") && (
               <img
                 src={item.url}
-                alt={item.name}
+                alt={item.filename}
                 style={{ width: "200px" }}
               />
             )}
             {item.contentType && item.contentType.startsWith("video/") && (
               <video
                 src={item.url}
-                alt={item.name}
+                alt={item.filename}
                 style={{ width: "200px" }}
               />
             )}
             {item.content && (
               <div>
-                <h3>{item.content}</h3>
+                <h3>Esto es una publicacion {item.content}</h3>
                 {item.description && <p>{item.description}</p>}
               </div>
             )}

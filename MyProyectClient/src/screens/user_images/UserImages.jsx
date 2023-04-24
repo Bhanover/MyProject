@@ -25,7 +25,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
       });
   
       setImageUrls(response.data);
-      console.log(response.data)
+      console.log("datos de las imagenes---------->"+response.data)
     } catch (error) {
       console.error('Error al establecer la foto de perfil:', error.response.data);
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');

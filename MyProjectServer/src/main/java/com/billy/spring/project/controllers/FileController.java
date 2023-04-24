@@ -1,6 +1,7 @@
 package com.billy.spring.project.controllers;
 
 import com.billy.spring.project.models.FileDB;
+import com.billy.spring.project.models.ImageInfo;
 import com.billy.spring.project.models.User;
 import com.billy.spring.project.payload.response.ResponseFile;
 import com.billy.spring.project.payload.response.ResponseMessage;
@@ -113,18 +114,25 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
     @GetMapping("/{id}/user-images")
+    public ResponseEntity<List<Map<String, Object>>> getUserImages(@PathVariable Long id) {
+        try {
+            List<Map<String, Object>> customData = fileDBRepository.findImagesByUserId(id);
+            return ResponseEntity.ok(customData);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+   /* @GetMapping("/{id}/user-images")
     public ResponseEntity<List<Map<String, String>>> getUserImages(@PathVariable Long id) {
         try {
             // Obtiene el usuario autenticado
             User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-            System.out.println("Usuario autenticado: " + user);
             // Recupera las imágenes del usuario
             List<FileDB> images = imageService.getImagesByUser(user);
-            System.out.println("Imágenes recuperadas: " + images);
             // Extrae las URLs y los identificadores de las imágenes
             List<Map<String, String>> imageUrlsAndIds = images.stream().map(image -> {
                 Map<String, String> imageData = new HashMap<>();
@@ -132,18 +140,15 @@ public class FileController {
                 imageData.put("imageId", image.getId());
                 imageData.put("description",image.getDescription());
                 imageData.put("creationTime", image.getCreationTime().toString());
-                System.out.println("Datos de la imagen: " + imageData);
-
                 return imageData;
             }).collect(Collectors.toList());
-            System.out.println("URLs y identificadores de imágenes: " + imageUrlsAndIds);
 
             // Retorna la lista de objetos con las URLs y los identificadores de las imágenes
             return ResponseEntity.ok(imageUrlsAndIds);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
+    }*/
    /* @GetMapping("/user/{id}/info")
     public ResponseEntity<?> getUserInfo(@PathVariable Long id) {
 
