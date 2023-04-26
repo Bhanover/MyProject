@@ -1,0 +1,28 @@
+.container {
+    width: 100%;
+    height: calc(100vh - 150px); 
+    background-color: #f0f2f5;
+    position: sticky;
+    left: 0;
+    top: 150px;
+    transition: width 0.3s;
+  }
+  
+  .icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+  }
+  
+  .icon {
+    font-size: 24px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      width: 30%;
+    }
+  }

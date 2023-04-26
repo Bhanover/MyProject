@@ -10,7 +10,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
   const [imagesToDisplay, setImagesToDisplay] = useState([]);
-  const [lastImageRef, setLastImageRef] = useState(null);
+  const [profileImageUpdated, setProfileImageUpdated] = useState(false);
 
   useEffect(() => {
     fetchUserImages();
@@ -25,7 +25,6 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
       });
   
       setImageUrls(response.data);
-      console.log("datos de las imagenes---------->"+response.data)
     } catch (error) {
       console.error('Error al establecer la foto de perfil:', error.response.data);
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
@@ -33,7 +32,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   };
 
   useEffect(() => {
-    setImagesToDisplay(imageUrls.slice(0, 4));
+    setImagesToDisplay(imageUrls.slice(0, 8));
   }, [imageUrls]);
 
   const handleScroll = (e) => {
@@ -42,7 +41,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     if (bottom) {
       const nextImages = imageUrls.slice(
         imagesToDisplay.length,
-        imagesToDisplay.length + 4
+        imagesToDisplay.length + 8
       );
       if (nextImages.length > 0) {
         setImagesToDisplay((prevImages) => [...prevImages, ...nextImages]);
@@ -57,32 +56,6 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     };
   }, [handleScroll]);
 
-  useEffect(() => {
-    if (!lastImageRef) return;
-  
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const firstEntry = entries[0];
-        if (firstEntry.isIntersecting) {
-          const nextImages = imageUrls.slice(
-            imagesToDisplay.length,
-            imagesToDisplay.length + 4
-          );
-          if (nextImages.length > 0) {
-            setImagesToDisplay((prevImages) => [...prevImages, ...nextImages]);
-          }
-        }
-      },
-      { threshold: 1.0 }
-    );
-  
-    observer.observe(lastImageRef);
-  
-    return () => {
-      observer.disconnect();
-    };
-  }, [lastImageRef, imageUrls, imagesToDisplay]);
-
   const setProfilePicture = async (imageId) => {
     try {
       await axios.put('http://localhost:8081/api/auth/set-profile-image', null, {
@@ -96,6 +69,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
       alert('Foto de perfil actualizada con éxito.');
       onProfileImageUpdate(selectedImage);
       setSelectedImage(null);
+      setProfileImageUpdated(true); // Agrega esta línea
     } catch (error) {
       console.error('Error al establecer la foto de perfil:', error);
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
@@ -132,20 +106,19 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     <div className="imgContainer">
       <h1>Mis imágenes</h1>
       <div className="gallery-container">
-      {imagesToDisplay.map((url, index) => (
-  <div
-    key={index}
-    className="gallery-item"
-    ref={index === imagesToDisplay.length - 1 ? setLastImageRef : null}
-  >
-    <img
-      src={url.url}
-      alt={`Imagen del usuario ${index}`}
-      onClick={() => handleOpenImageModal(url, url.imageId)}
-      className="thumbnail"
-    />
-  </div>
-))}
+        {imagesToDisplay.map((url, index) => (
+          <div
+            key={index}
+            className="gallery-item"
+          >
+            <img
+              src={url.url}
+              alt={`Imagen del usuario ${index}`}
+              onClick={() => handleOpenImageModal(url, url.imageId)}
+              className="thumbnail"
+            />
+          </div>
+        ))}
       </div>
       {showImageModal && (
         <ImageModal
@@ -154,6 +127,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
           onClose={handleCloseImageModal}
           userId={props.userId}
           onDelete={deleteImage}
+          onSetProfilePicture={setProfilePicture} // Agrega esta línea
         />
       )}
     </div>

@@ -12,18 +12,23 @@ import UserContent from "../user_feed/UserContent";
 const ProfilePage = () => {
   const [contentType, setContentType] = useState("images");
   const { userId } = useParams();
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageUpdated, setProfileImageUpdated] = useState(false);
+
+  const handleProfileImageUpdate = (newProfileImage) => {
+    setProfileImage(newProfileImage);
+    setProfileImageUpdated((prev) => !prev);
+  };
   return (
     <div className="grid-containerP">
-      <div className="headerP">
-      <UserProfile userId={userId} />
+         <div className="headerP">
+         <UserProfile userId={userId} profileImage={profileImage} onProfileImageUpdate={handleProfileImageUpdate} profileImageUpdated={profileImageUpdated} />
       </div>
       <div className="detailsP"> 
       <div className="infoleftP">
         <InfoLeft />
       </div>
-      <div className="leftP">
-        <LeftBar />
-      </div>
+  
       <div className="contentP">
         <div className="content-switch">
           <button
@@ -52,7 +57,7 @@ const ProfilePage = () => {
           </button>
         </div>
         {contentType === "publications" && <PublicationList userId={userId}/>}
-        {contentType === "images" && <UserImages userId={userId}/>}
+        {contentType === "images" && <UserImages userId={userId} onProfileImageUpdate={handleProfileImageUpdate} />}
         {contentType === "videos" && <UserVideos userId={userId}/>}
         {contentType === "content" && <UserContent userId={userId}/>}
       </div>

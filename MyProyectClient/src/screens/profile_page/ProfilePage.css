@@ -18,12 +18,10 @@
   }
   
   .infoleftP {
-    flex: 0 0 10%;
-  }
-  
-  .leftP {
     flex: 0 0 30%;
   }
+  
+
   
   .contentP {
     flex: 0 0 60%;

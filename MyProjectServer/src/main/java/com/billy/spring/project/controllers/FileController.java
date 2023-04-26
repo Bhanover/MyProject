@@ -1,5 +1,7 @@
 package com.billy.spring.project.controllers;
 
+
+import com.billy.spring.project.exeption.ResourceNotFoundException;
 import com.billy.spring.project.models.FileDB;
 import com.billy.spring.project.models.ImageInfo;
 import com.billy.spring.project.models.User;
@@ -114,7 +116,7 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    @GetMapping("/{id}/user-images")
+   @GetMapping("/{id}/user-images")
     public ResponseEntity<List<Map<String, Object>>> getUserImages(@PathVariable Long id) {
         try {
             List<Map<String, Object>> customData = fileDBRepository.findImagesByUserId(id);

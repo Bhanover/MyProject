@@ -2,7 +2,6 @@ package com.billy.spring.project.repository;
 
 import com.billy.spring.project.models.FileDB;
 import com.billy.spring.project.models.User;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +22,10 @@ public interface FileDBRepository extends JpaRepository<FileDB, String> {
    /* @Query("SELECT f FROM FileDB f JOIN FETCH f.user u WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
     List<FileDB> findImagesByUserIdWithJoinFetch(@Param("userId") Long userId);
     */
-    @Query("SELECT new map(f.id as imageId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId) FROM FileDB f JOIN f.user u WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
+   @Query("SELECT new map(f.id as imageId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId) FROM FileDB f JOIN f.user u WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
     List<Map<String, Object>> findImagesByUserId(@Param("userId") Long userId);
+
 }
+
+
+

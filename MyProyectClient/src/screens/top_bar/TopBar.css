@@ -1,68 +1,86 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&display=swap');
-.logoM span:nth-child(1){
-    position: relative;
-    color: black;
-    font-size: 40px;
-    font-weight: 900;
-    text-shadow: white -5px 0px;
+
+.logoM span:nth-child(1) {
+  position: relative;
+  color: black;
+  font-size: 40px;
+  font-weight: 900;
+  text-shadow: white -5px 0px;
 }
-.logoM span:nth-child(2){
-    font-weight: 900;
-    position: relative;
-    color: black    ;
-    font-size: 40px;
-    top:10px;
-    left: -5px;
-    text-shadow: white -5px 0px;
+
+.logoM span:nth-child(2) {
+  font-weight: 900;
+  position: relative;
+  color: black;
+  font-size: 40px;
+  top: 10px;
+  left: -5px;
+  text-shadow: white -5px 0px;
 }
-.logoM span:nth-child(3){
-    font-weight: 900;
-    position: relative;
-    color: black;
-    font-size: 40px;
-    top:35px;
-    left: -50px;
-    text-shadow: white -5px 0px;
+
+.logoM span:nth-child(3) {
+  font-weight: 900;
+  position: relative;
+  color: black;
+  font-size: 40px;
+  top: 35px;
+  left: -50px;
+  text-shadow: white -5px 0px;
 }
+
+.logoM > p > .primero {
+  margin-left: 25px;
+}
+
+.logoM > p {
+  position: relative;
+  left: -48px;
+  top: -19px;
+  letter-spacing: 10px;
+  color: white;
+}
+
+.logoM {
+  position: relative;
+  font-family: 'DM Serif Display', serif;
+  padding-left: 90px;
+  width: 60%;
+  height: 100px;
  
-
-.logoM > p > .primero{
-     
-    margin-left:25px;
-   
+  cursor: pointer;
 }
 
-.logoM > p{
-    position: relative;
-    left: -48px;
-    top:-19px;
-    letter-spacing: 10px;
-    color:white;
+.logoM:hover {
+  color: red;
+  animation: check 1s ease-in-out infinite;
 }
-.logoM{
 
-    position: relative;
-    font-family: 'DM Serif Display', serif;
-    padding-left: 90px;
-    width: 60%;
-    height: 100px;
-  
-    top: -50px;
-    cursor: pointer;
-}
-.topBar .openbtn{
-    position: relative;
-    width: 40px;
-    height:50px;
-  
-    top:30px;
-    background-color: red;
-    cursor: pointer;
-}
-.logoM:hover{
-    color: red;
-    
-    animation: check 1s ease-in-out infinite;
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .logoM {
+    padding-left: 60px;
+    width: 80%;
+    height: 80px;
+  }
+
+  .logoM span:nth-child(1),
+  .logoM span:nth-child(2),
+  .logoM span:nth-child(3) {
+    font-size: 32px;
+  }
+
+  .logoM span:nth-child(2) {
+    top: 5px;
+  }
+
+  .logoM span:nth-child(3) {
+    top: 25px;
+  }
+
+  .logoM > p {
+    left: -30px;
+    top: -12px;
+  }
 }
 @keyframes check {
     0%{
@@ -141,3 +159,90 @@
    border-radius: 100%;
     
 }
+/*------------------------*/
+
+
+
+
+
+
+/*----------------------------------*/
+.dropdown {
+    position: absolute;
+    right: 10px;
+    top: 100%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+  
+  .dropdown button {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .dropdown button:hover {
+    color: #3d7bbd;
+  }
+  
+  .topBar::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0),
+      rgba(3, 7, 18, 0.7)
+    );
+    z-index: -1;
+  }
+  
+  @media (max-width: 768px) {
+    .topBar {
+      height: 70px;
+    }
+  
+   
+
+  
+    .topBar > .iconT > .perfil {
+      height: 40%;
+    }
+  }
+
+  /* Estilos para el buscador en dispositivos móviles */
+@media (max-width: 768px) {
+    .topBar > .buscador {
+      display: none;
+    }
+  
+    .topBar > .buscador.mobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+
+  /* Estilos para el icono de búsqueda en dispositivos móviles */
+.buscador-icon {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .buscador-icon {
+      display: flex;
+      align-items: center;
+      padding-right: 20px;
+    }
+  }

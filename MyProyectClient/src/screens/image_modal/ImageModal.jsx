@@ -5,8 +5,13 @@ import CommentFile from '../comment_file/CommentFile';
 import UseUserInfo from '../user_profile/UseUserInfo';
 import './ImageModal.css';
 
-const ImageModal = ({ selectedImage, fileId, onClose, userId, onDelete }) => {
+const ImageModal = ({ selectedImage, fileId, onClose, userId, onDelete, onSetProfilePicture }) => {
   const userInfo = UseUserInfo({ userId });
+
+  const handleSetProfilePicture = () => {
+    onSetProfilePicture(fileId);
+    onClose();
+  };
 
   return (
     <div className="fullscreen-modal">
@@ -19,6 +24,7 @@ const ImageModal = ({ selectedImage, fileId, onClose, userId, onDelete }) => {
         </div>
       </div>
       <button onClick={() => onDelete(fileId)}>Eliminar imagen</button>
+      <button onClick={handleSetProfilePicture}>Establecer como foto de perfil</button>
       <button className="close" onClick={onClose}>×</button>
     </div>
   );
