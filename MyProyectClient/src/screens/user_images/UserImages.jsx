@@ -9,8 +9,8 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
-  const [imagesToDisplay, setImagesToDisplay] = useState([]);
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0); // Agrega este estado
 
   useEffect(() => {
     fetchUserImages();
@@ -30,31 +30,6 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
     }
   };
-
-  useEffect(() => {
-    setImagesToDisplay(imageUrls.slice(0, 8));
-  }, [imageUrls]);
-
-  const handleScroll = (e) => {
-    const bottom =
-      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
-    if (bottom) {
-      const nextImages = imageUrls.slice(
-        imagesToDisplay.length,
-        imagesToDisplay.length + 8
-      );
-      if (nextImages.length > 0) {
-        setImagesToDisplay((prevImages) => [...prevImages, ...nextImages]);
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleScroll]);
 
   const setProfilePicture = async (imageId) => {
     try {
@@ -76,12 +51,12 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     }
   };
   
-  const handleOpenImageModal = (url, fileId) => {
+  const handleOpenImageModal = (url, fileId, index) => { // Añade el argumento 'index'
     setSelectedFileId(fileId);
     setSelectedImage(url.url);
+    setSelectedImageIndex(index); // Agrega esta línea
     setShowImageModal(true);
   };
-  
   const handleCloseImageModal = () => {
     setSelectedImage(null);
     setSelectedFileId(null);
@@ -106,30 +81,33 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     <div className="imgContainer">
       <h1>Mis imágenes</h1>
       <div className="gallery-container">
-        {imagesToDisplay.map((url, index) => (
+        {imageUrls.map((url, index) => (
           <div
             key={index}
             className="gallery-item"
           >
             <img
-              src={url.url}
-              alt={`Imagen del usuario ${index}`}
-              onClick={() => handleOpenImageModal(url, url.imageId)}
-              className="thumbnail"
-            />
+            src={url.url}
+            alt={`Imagen del usuario ${index}`}
+            onClick={() => handleOpenImageModal(url, url.imageId, index)}
+            className="thumbnail"
+          />
+
           </div>
         ))}
       </div>
       {showImageModal && (
-        <ImageModal
-          selectedImage={selectedImage}
-          fileId={selectedFileId}
-          onClose={handleCloseImageModal}
-          userId={props.userId}
-          onDelete={deleteImage}
-          onSetProfilePicture={setProfilePicture} // Agrega esta línea
-        />
-      )}
+  <ImageModal
+    selectedImages={imageUrls}
+    selectedFileIds={imageUrls.map((image) => image.imageId)}
+    fileId={selectedFileId}
+    onClose={handleCloseImageModal}
+    userId={props.userId}
+    onDelete={deleteImage}
+    onSetProfilePicture={setProfilePicture}
+    selectedImageIndex={selectedImageIndex} // Agrega esta línea
+  />
+)}
     </div>
   );
 };

@@ -116,11 +116,15 @@ const handleUpdateComment = (commentId) => {
                   {console.log('Author ID:', comment.authorId ,"userId",currentUserId)}
                   {editingComment === comment.id ? (
                     <>
-                      <input
-                        type="text"
-                        value={editedCommentText}
-                        onChange={(e) => setEditedCommentText(e.target.value)}
-                      />
+                    <input
+  type="text"
+  value={editedCommentText}
+  onChange={(e) => {
+    console.log("editedCommentText onChange");
+    setEditedCommentText(e.target.value);
+  }}
+/>
+
                       <button onClick={() => setShowEmojiPickerEdit(!showEmojiPickerEdit)}>
                         {showEmojiPickerEdit ? (
                           'Close Emoji Picker'
@@ -164,10 +168,13 @@ const handleUpdateComment = (commentId) => {
         </InView>
       </div>
       <input
-        type="text"
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-      />
+  type="text"
+  value={newComment}
+  onChange={(e) => {
+    console.log("newComment onChange");
+    setNewComment(e.target.value);
+  }}
+/>
       <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
         {showEmojiPicker ? (
           'Close Emoji Picker'
