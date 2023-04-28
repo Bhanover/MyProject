@@ -116,7 +116,7 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-   @GetMapping("/{id}/user-images")
+    @GetMapping("/{id}/user-images")
     public ResponseEntity<List<Map<String, Object>>> getUserImages(@PathVariable Long id) {
         try {
             List<Map<String, Object>> customData = fileDBRepository.findImagesByUserId(id);
@@ -127,36 +127,36 @@ public class FileController {
     }
 
 
-   /* @GetMapping("/{id}/user-images")
-    public ResponseEntity<List<Map<String, String>>> getUserImages(@PathVariable Long id) {
-        try {
-            // Obtiene el usuario autenticado
-            User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+    /* @GetMapping("/{id}/user-images")
+     public ResponseEntity<List<Map<String, String>>> getUserImages(@PathVariable Long id) {
+         try {
+             // Obtiene el usuario autenticado
+             User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-            // Recupera las imágenes del usuario
-            List<FileDB> images = imageService.getImagesByUser(user);
-            // Extrae las URLs y los identificadores de las imágenes
-            List<Map<String, String>> imageUrlsAndIds = images.stream().map(image -> {
-                Map<String, String> imageData = new HashMap<>();
-                imageData.put("url", image.getUrl());
-                imageData.put("imageId", image.getId());
-                imageData.put("description",image.getDescription());
-                imageData.put("creationTime", image.getCreationTime().toString());
-                return imageData;
-            }).collect(Collectors.toList());
+             // Recupera las imágenes del usuario
+             List<FileDB> images = imageService.getImagesByUser(user);
+             // Extrae las URLs y los identificadores de las imágenes
+             List<Map<String, String>> imageUrlsAndIds = images.stream().map(image -> {
+                 Map<String, String> imageData = new HashMap<>();
+                 imageData.put("url", image.getUrl());
+                 imageData.put("imageId", image.getId());
+                 imageData.put("description",image.getDescription());
+                 imageData.put("creationTime", image.getCreationTime().toString());
+                 return imageData;
+             }).collect(Collectors.toList());
 
-            // Retorna la lista de objetos con las URLs y los identificadores de las imágenes
-            return ResponseEntity.ok(imageUrlsAndIds);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }*/
+             // Retorna la lista de objetos con las URLs y los identificadores de las imágenes
+             return ResponseEntity.ok(imageUrlsAndIds);
+         } catch (Exception e) {
+             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+         }
+     }*/
    /* @GetMapping("/user/{id}/info")
     public ResponseEntity<?> getUserInfo(@PathVariable Long id) {
 
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 */
-    @GetMapping("/{id}/user-videos")
+    /*@GetMapping("/{id}/user-videos")
     public ResponseEntity<List<Map<String, String>>> getUserVideos(@PathVariable Long id) {
         try {
             // Obtiene el usuario autenticado
@@ -178,6 +178,15 @@ public class FileController {
 
             // Retorna la lista de objetos con las URLs y los identificadores de los videos
             return ResponseEntity.ok(videoUrlsAndIds);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }*/
+    @GetMapping("/{id}/user-videos")
+    public ResponseEntity<List<Map<String, Object>>> getUserVideos(@PathVariable Long id) {
+        try {
+            List<Map<String, Object>> customData = fileDBRepository.findVideosByUserId(id);
+            return ResponseEntity.ok(customData);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

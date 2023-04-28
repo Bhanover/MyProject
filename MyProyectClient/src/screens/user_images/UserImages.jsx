@@ -115,6 +115,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
 export default UserImages;
 
 
+
 /*const setProfilePicture = async (imageId) => {
   try {
     await axios.put('http://localhost:8081/api/auth/set-profile-image', null, {

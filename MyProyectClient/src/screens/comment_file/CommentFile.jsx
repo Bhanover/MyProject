@@ -6,6 +6,7 @@ import Picker from "@emoji-mart/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmile } from '@fortawesome/free-solid-svg-icons';
 import { InView } from 'react-intersection-observer';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const jwtToken = localStorage.getItem('jwtToken');
 
@@ -100,50 +101,49 @@ const handleUpdateComment = (commentId) => {
       console.log('No estás autorizado para eliminar este comentario');
     }
   };
-  return (
-    <div className="comment-section">
-      <h2>Comments</h2>
-      <div className="post-owner">{postOwner}</div>
-      <div className="post-description">{postDescription}</div>
-      <div className="comments-container">
-        <InView>
-          {({ inView, ref }) => (
-            <ul ref={ref}>
-              {comments.map((comment) => (
-                <li key={comment.id}>
-                  <span className="username">{comment.username}</span> - {comment.text} -{' '}
-                  <span className="creation-time">{comment.creationTime}</span>
-                  {console.log('Author ID:', comment.authorId ,"userId",currentUserId)}
-                  {editingComment === comment.id ? (
-                    <>
+ return (
+  <div className="comment-sectionC">
+    <h2>Comments</h2>
+    <div className="post-owner">{postOwner}</div>
+    <div className="post-description">{postDescription}</div>
+    <div className="comments-container">
+      <InView>
+        {({ inView, ref }) => (
+          <ul ref={ref}>
+            {comments.map((comment) => (
+              <li key={comment.id}>
+                <span className="username">{comment.username}</span> - {comment.text} -{' '}
+                <span className="creation-time">{comment.creationTime}</span>
+                {editingComment === comment.id ? (
+                  <>
                     <input
-  type="text"
-  value={editedCommentText}
-  onChange={(e) => {
-    console.log("editedCommentText onChange");
-    setEditedCommentText(e.target.value);
-  }}
-/>
+                      type="text"
+                      value={editedCommentText}
+                      onChange={(e) => {
+                        console.log("editedCommentText onChange");
+                        setEditedCommentText(e.target.value);
+                      }}
+                    />
 
-                      <button onClick={() => setShowEmojiPickerEdit(!showEmojiPickerEdit)}>
-                        {showEmojiPickerEdit ? (
-                          'Close Emoji Picker'
-                        ) : (
-                          <FontAwesomeIcon icon={faSmile} />
-                        )}
-                      </button>
-                      {showEmojiPickerEdit && (
-                        <Picker
-                          onEmojiSelect={handleEmojiSelectEdit}
-                          native
-                          data={data}
-                          style={{ position: 'absolute', zIndex: 2, maxWidth: '300px', bottom: '60px', left: '50%', transform: 'translateX(-50%)' }}
-                        />
+                    <button onClick={() => setShowEmojiPickerEdit(!showEmojiPickerEdit)}>
+                      {showEmojiPickerEdit ? (
+                        'Close Emoji Picker'
+                      ) : (
+                        <FontAwesomeIcon icon={faSmile} />
                       )}
-                    </>
-                  ) : (
-                    <span>{comment.text}</span>
-                  )}
+                    </button>
+                    {showEmojiPickerEdit && (
+                      <Picker
+                        onEmojiSelect={handleEmojiSelectEdit}
+                        native
+                        data={data}
+                        style={{ position: 'absolute', zIndex: 2, maxWidth: '300px', bottom: '60px', left: '50%', transform: 'translateX(-50%)' }}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <span>{comment.text}</span>
+                )}
                 {currentUserId == comment.authorId && (
                   <button
                     className="update"
@@ -155,29 +155,30 @@ const handleUpdateComment = (commentId) => {
                   >
                     {editingComment === comment.id ? 'Save' : 'Update'}
                   </button>
-                      )}
-            {currentUserId == comment.authorId && (
-            <button className="delete" onClick={() => handleDeleteComment(comment.id)}>
-                Delete
-            </button>
-            )}
-                </li>
-              ))}
-            </ul>
-          )}
-        </InView>
-      </div>
+                )}
+                {currentUserId == comment.authorId && (
+                  <button className="delete" onClick={() => handleDeleteComment(comment.id)}>
+                    Delete
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </InView>
+    </div>
+    <div className="comment-input-containerC">
       <input
-  type="text"
-  value={newComment}
-  onChange={(e) => {
-    console.log("newComment onChange");
-    setNewComment(e.target.value);
-  }}
-/>
+        type="text"
+        value={newComment}
+        onChange={(e) => {
+          console.log("newComment onChange");
+          setNewComment(e.target.value);
+        }}
+      />
       <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
         {showEmojiPicker ? (
-          'Close Emoji Picker'
+          "Close Emoji Picker"
         ) : (
           <FontAwesomeIcon icon={faSmile} />
         )}
@@ -187,13 +188,22 @@ const handleUpdateComment = (commentId) => {
           onEmojiSelect={handleEmojiSelect}
           native
           data={data}
-          style={{ position: 'absolute', zIndex: 2, maxWidth: '300px', bottom: '60px', left: '50%', transform: 'translateX(-50%)' }}
+          style={{
+            position: "absolute",
+            zIndex: 2,
+            maxWidth: "300px",
+            bottom: "60px",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
         />
       )}
-      <button onClick={handleAddComment}>Add Comment</button>
+     <button onClick={handleAddComment}>
+  <FontAwesomeIcon icon={faPaperPlane} />
+</button>
     </div>
-  );
-  
+  </div>
+);
 };
 
 export default CommentFile;

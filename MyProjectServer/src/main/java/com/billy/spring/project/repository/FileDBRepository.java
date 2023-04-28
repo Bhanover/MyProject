@@ -18,14 +18,18 @@ public interface FileDBRepository extends JpaRepository<FileDB, String> {
             "WHERE f.user = :user AND (f.contentType LIKE 'image/%' OR f.contentType LIKE 'video/%')")
     List<Map<String, Object>> findImagesAndVideosByUser(User user);
 
-    List<FileDB> findByUserAndContentTypeStartingWith(User user, String contentType);
+    /*  List<FileDB> findByUserAndContentTypeStartingWith(User user, String contentType);*/
    /* @Query("SELECT f FROM FileDB f JOIN FETCH f.user u WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
     List<FileDB> findImagesByUserIdWithJoinFetch(@Param("userId") Long userId);
     */
-   @Query("SELECT new map(f.id as imageId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId) FROM FileDB f JOIN f.user u WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
+    @Query("SELECT new map(f.id as videoId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId) FROM FileDB f JOIN f.user u WHERE u.id = :userId AND f.contentType LIKE 'video/%'")
+    List<Map<String, Object>> findVideosByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT new map(f.id as imageId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId) FROM FileDB f JOIN f.user u WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
     List<Map<String, Object>> findImagesByUserId(@Param("userId") Long userId);
 
 }
+
 
 
 

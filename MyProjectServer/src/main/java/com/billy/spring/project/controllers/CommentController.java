@@ -90,14 +90,15 @@ public class CommentController {
     }
 
     @PostMapping("/publications/{publicationId}/comments")
-    public ResponseEntity<?> addCommentToPublication(@PathVariable("publicationId") Long publicationId, @RequestBody String commentText, Principal principal) {
+    public ResponseEntity<CommentResponse> addCommentToPublication(@PathVariable("publicationId") Long publicationId, @RequestBody String commentText, Principal principal) {
         User currentUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User", "username", principal.getName()));
         Publication publication = publicationRepository.findById(publicationId).orElseThrow(() -> new ResourceNotFoundException("Publication", "id", publicationId));
 
         Comment comment = new Comment(commentText, publication, currentUser);
         commentRepository.save(comment);
 
-        return ResponseEntity.ok().build();
+        CommentResponse commentResponse = new CommentResponse(comment.getId(), comment.getText(), comment.getCreationTime(), currentUser.getUsername(), currentUser.getId());
+        return ResponseEntity.ok(commentResponse);
     }
 
    /* @GetMapping("/publications/{publicationId}/comments")

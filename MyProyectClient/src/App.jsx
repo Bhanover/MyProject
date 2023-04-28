@@ -42,7 +42,7 @@ function App() {
       <Route path='/loginPage' element={<LoginPage />}></Route>
       <Route path='/upload' element={<UploadFile />}></Route>
       <Route path='/profilePage/:userId' element={<ProfilePage />}></Route>
-      <Route path='/publicationList' element={<PublicationList />}></Route>
+      <Route path='/publicationList/:userId' element={<PublicationList />}></Route>
       <Route path='/userContent'element={<UserContent />}></Route>
     </Route>
   </Routes>

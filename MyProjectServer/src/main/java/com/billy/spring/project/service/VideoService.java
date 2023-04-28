@@ -17,7 +17,7 @@ public class VideoService {
 
     @Autowired
     private UserRepository userRepository;
-    public List<FileDB> getVideosByUser(User user) {
+    /*public List<FileDB> getVideosByUser(User user) {
         return fileDBRepository.findByUserAndContentTypeStartingWith(user, "video/");
-    }
+    }*/
 }

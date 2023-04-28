@@ -1,84 +1,137 @@
 .fullscreen-modalM {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(7, 7, 7, 0.7);
   z-index: 9999;
+  overflow-y: auto;
 }
 
-.image-comment-sectionM {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-sectionM {
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  left: 0%;
-  height: auto; /* Establece la altura del contenedor de la imagen y la galería */
-  width:60%; /* Establece el ancho del contenedor de la imagen y la galería */
-}
-
-.image-gallery-contentM {
-  height: 100% !important; /* Establece la altura de la galería al 100% */
-}
-
-.image-gallery-slideM img {
-  max-height: 100%; /* Establece la altura máxima de la imagen al 100% */
-  max-width: 100%; /* Establece el ancho máximo de la imagen al 100% */
-}
-
-.button-containerM {
-  position: absolute;
-  top: 0;
-  right: 0;
+.modal-contentM {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 16px;
-  
-
-  
-}
-.button-containerM  > button{
-  font-size:14px;
+  max-width: 1200px;
 }
 
-.button-containerM  > .close{
-  font-size:40px;
+.carousel .slide {
+  background-color: transparent;
+  width: 100%;
+  height: 600px;
+}
+
+.carousel .control-next.control-arrow:before,
+.carousel .control-prev.control-arrow:before {
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+.carousel .control-prev.control-arrow:before {
+  border-right: 8px solid white;
+}
+
+.carousel .control-next.control-arrow:before {
+  border-left: 8px solid white;
+}
+
+.closeM {
   position: absolute;
-  right:  -500px;
-  color: black;
-  z-index: 99999;
-}
-
-
-.button-containerM  > button:hover{
-  background-color: black ;
-}
-.button-containerM  > .close:hover{
+  top: 0;
+  right: 0;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
   background-color: initial;
+  color: white;
 }
- 
-.comment-sectionM {
+
+.set-profile-pictureM {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
-  width: 35%;
-  height: 100%;
-  background-color: #fff;
-  overflow: auto;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: initial;
+  color: white;
+}
+
+.image-comments-wrapperM {
   display: flex;
-  flex-direction: column;
-  padding: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.image-containerM {
+  position: relative;
+  width: 60%;
+  height: auto;
+ }
+
+.image-containerM > img {
+  width: 100%;
+  height: auto;
+  
+}
+
+.comments-containerM {
+  width: 35%;
+  margin-left: 5%;
+}
+
+.delete-buttonM {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.comment-sectionM {
+  margin-top: 10px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  height: auto;
+  overflow-y: auto;
+}
+
+/* Estilos responsive */
+
+@media (max-width: 767px) {
+  .image-containerM {
+    width: 100%;
+ 
+  }
+
+  .comments-containerM {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .image-containerM > img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 479px) {
+  .image-containerM {
+    width: 100%;
+  }
+
+  .comments-containerM {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .image-containerM > img {
+    height: 200px;
+  }
+}
+
+.modal-open {
+  overflow: hidden;
 }

@@ -1,109 +1,126 @@
 .fullscreen-modalV {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(7, 7, 7, 0.7);
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.modal-contentV {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.carousel .slide {
+  background-color: transparent;
+  width: 100%;
+  height: 600px;
+}
+
+.carousel .control-next.control-arrow:before,
+.carousel .control-prev.control-arrow:before {
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+.carousel .control-prev.control-arrow:before {
+  border-right: 8px solid white;
+}
+
+.carousel .control-next.control-arrow:before {
+  border-left: 8px solid white;
+}
+
+.closeV {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: initial;
+  color: white;
+}
+
+.video-comments-wrapperV {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.video-containerV {
+  position: relative;
+  width: 60%;
+  height: auto;
+}
+
+.video-containerV > video {
+  width: 100%;
+  height: auto;
+}
+.comments-containerV {
+  width: 35%;
+  margin-left: 5%;
+}
+
+.delete-buttonV {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.comment-sectionV {
+  margin-top: 10px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  height: auto;
+  overflow-y: auto;
+}
+
+/* Estilos responsive */
+
+
+
+
+@media (max-width: 767px) {
+  .video-containerV {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
   }
-  
-  .modal-content {
-    display: flex;
-    flex-direction: column;
+
+  .comments-containerV {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
   }
-  
-  .carousel .slide {
-    background-color: transparent;
+  .video-containerV > video {
+    height: 200px;
   }
-  
-  .carousel .control-next.control-arrow:before,
-  .carousel .control-prev.control-arrow:before {
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-  }
-  
-  .carousel .control-prev.control-arrow:before {
-    border-right: 8px solid white;
-  }
-  
-  .carousel .control-next.control-arrow:before {
-    border-left: 8px solid white;
-  }
-  
-  .closeV {
-    position: absolute;
-    top: 15px;
-    right: 15  px;
-    font-size: 30px;
-    font-weight: bold;
-    color: #ffffff;
-    cursor: pointer;
-  }
-  
-  .video-comments-wrapper {
-    display: flex;
+}
+
+@media (max-width: 479px) {
+  .video-containerV {
     width: 100%;
   }
-  
-  .video-container {
-    position: relative;
-    width: 60%;
+
+  .comments-containerV {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
   }
-  
-  .comments-container {
-    width: 35%;
-    margin-left: 5%;
+  .video-containerV > video {
+    height: 200px;
   }
-  
-  .delete-button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-  }
-  
-  .comment-sectionV {
-    margin-top: 10px;
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  /* Estilos responsive */
-@media (max-width: 1024px) {
-    .video-container {
-      width: 100%;
-    }
-  
-    .comments-container {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 20px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .video-container {
-      width: 100%;
-    }
-  
-    .comments-container {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 20px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .video-container {
-      width: 100%;
-    }
-  
-    .comments-container {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 20px;
-    }
-  }
+}
+
+.modal-open {
+  overflow: hidden;
+}

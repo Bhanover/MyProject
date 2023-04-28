@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import ReactImageGallery from 'react-image-gallery';
-import 'react-image-gallery/styles/css/image-gallery.css';
-import CommentFile from '../comment_file/CommentFile';
-import UseUserInfo from '../user_profile/UseUserInfo';
-import './ImageModal.css';
+import React, { useState, useEffect } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import CommentFile from "../comment_file/CommentFile";
+import UseUserInfo from "../user_profile/UseUserInfo";
+import "./ImageModal.css";
 
 const ImageModal = ({
   selectedImages,
@@ -13,59 +13,69 @@ const ImageModal = ({
   userId,
   onDelete,
   onSetProfilePicture,
-  selectedImageIndex, // Agrega esta línea
+  selectedImageIndex,
 }) => {
   const userInfo = UseUserInfo({ userId });
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [currentFileId, setCurrentFileId] = useState(fileId); // Agrega este estado
+  const [currentImageIndex, setCurrentImageIndex] = useState(selectedImageIndex);
+  const [currentFileId, setCurrentFileId] = useState(fileId);
 
   const handleSetProfilePicture = () => {
-    onSetProfilePicture(currentFileId); // Reemplaza fileId con currentFileId
+    onSetProfilePicture(currentFileId);
     onClose();
   };
-  const handleSlide = (currentIndex) => {
-    setCurrentImageIndex(currentIndex);
-    setCurrentFileId(selectedFileIds[currentIndex]);
-  };
-  // Convierte selectedImages a un array de objetos compatibles con ReactImageGallery
-  const galleryImages = selectedImages.map((image) => ({
-    original: image.url,
-    thumbnail: image.url,
-  }));
+
+  useEffect(() => {
+    document.body.classList.add("modal-open");
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, []);
+
   return (
     <div className="fullscreen-modalM">
-      <div className="image-comment-sectionM">
-        <div className="image-sectionM">
-        <ReactImageGallery
-        items={galleryImages}
-        showPlayButton={false}
-        startIndex={selectedImageIndex} // Reemplaza 'currentImageIndex' con 'selectedImageIndex'
-        onThumbnailClick={(event, index) => setCurrentImageIndex(index)}
-        onSlide={handleSlide}
-      />
-          <div className="button-containerM">
-            <button onClick={() => onDelete(currentFileId)}>Eliminar imagen</button>
-            <button onClick={handleSetProfilePicture}>
-              Establecer como foto de perfil
-            </button>
-            <button className="close" onClick={onClose}>
-        ×
-      </button>
-          </div>
-        </div>
-        <div className="comment-sectionM">
-          <CommentFile
-            fileId={currentFileId} // Reemplaza fileId con currentFileId
-            postOwner={userInfo.username}
-            postDescription="Descripción de la foto o video"
-          />
-        </div>
+      <div className="modal-contentM">
+        <Carousel
+          selectedItem={selectedImageIndex}
+          showThumbs={false}
+          showStatus={false}
+          showIndicators={false}
+          onChange={index => {
+            setCurrentImageIndex(index);
+            setCurrentFileId(selectedFileIds[index]);
+          }}
+        >
+          {selectedImages.map((image, index) => (
+            <div key={index} className="image-comments-wrapperM">
+              <div className="image-containerM">
+                <img src={image.url} alt="" />
+                <button
+                  className="delete-buttonM"
+                  onClick={() => onDelete(currentFileId)}
+                >
+                  Eliminar imagen
+                </button>
+              </div>
+              <div className="comments-containerM">
+                <div className="comment-sectionM">
+                  <CommentFile
+                    fileId={currentFileId}
+                    postOwner={userInfo.username}
+                    postDescription="Descripción de la foto o video"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+        <button className="closeM" onClick={onClose}>
+          ×
+        </button>
+        <button className="set-profile-pictureM" onClick={handleSetProfilePicture}>
+          Establecer como foto de perfil
+        </button>
       </div>
-     
     </div>
   );
-  
 };
-
 
 export default ImageModal;

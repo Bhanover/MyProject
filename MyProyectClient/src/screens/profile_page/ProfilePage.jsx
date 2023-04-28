@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import UserProfile from "../user_profile/UserProfile";
 import UserImages from "../user_images/UserImages";
 import UserVideos from "../user_videos/UserVideos";
@@ -14,11 +14,14 @@ const ProfilePage = () => {
   const { userId } = useParams();
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
-
+  
   const handleProfileImageUpdate = (newProfileImage) => {
     setProfileImage(newProfileImage);
     setProfileImageUpdated((prev) => !prev);
   };
+  useEffect(() => {
+    setContentType("images");
+  }, [userId]);
   return (
     <div className="grid-containerP">
          <div className="headerP">
