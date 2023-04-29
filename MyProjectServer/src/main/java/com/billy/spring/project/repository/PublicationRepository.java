@@ -13,7 +13,6 @@ import java.util.Map;
 
 @Repository
 public interface PublicationRepository extends JpaRepository<Publication, Long> {
-    @Cacheable(value = "publications", key = "#user.id")
     @Query("SELECT p FROM Publication p WHERE p.user = :user")
     List<Publication> findByUser(@Param("user") User user);
     @Query("SELECT p FROM Publication p WHERE p.user.id = :userId")

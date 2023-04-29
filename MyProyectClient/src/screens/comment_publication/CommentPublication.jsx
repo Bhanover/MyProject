@@ -13,6 +13,8 @@ const CommentPublication = ({ publicationId, userId}) => {
   const currentUserId = localStorage.getItem("idP");
   const [editingComment, setEditingComment] = useState(null);
   const [editingCommentText, setEditingCommentText] = useState('');
+  const [profileMenuCommentId, setProfileMenuCommentId] = useState(null);
+
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/user/${userId}/info`, {
@@ -37,7 +39,7 @@ const CommentPublication = ({ publicationId, userId}) => {
       const response = await axios.get(`${API_BASE_URL}/publications/${publicationId}/comments`, {
         headers: { 'Authorization': 'Bearer ' + jwtToken },
       });
-  
+      console.log(response.data)
       const fetchedComments = await Promise.all(
         response.data.map(async (comment) => {
           const authorResponse = await axios.get(`${API_BASE_URL}/user/${comment.authorId}/info`, {
@@ -60,14 +62,21 @@ const CommentPublication = ({ publicationId, userId}) => {
 
   const handleCreateComment = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/publications/${publicationId}/comments`, newCommentText, {
-        headers: { 'Authorization': 'Bearer ' + jwtToken },
-      });
-      setComments([...comments, response.data]);
-      setNewCommentText('');
+      const response = await axios.post(
+        `${API_BASE_URL}/publications/${publicationId}/comments`,
+        newCommentText,
+        {
+          headers: { Authorization: "Bearer " + jwtToken },
+        }
+      );
+      setComments([
+        ...comments,
+        { ...response.data, authorProfileImage: userInfo.profileImage },
+      ]);
+      setNewCommentText("");
     } catch (error) {
-      console.error('Error al crear el comentario:', error);
-      throw new Error('Error al crear el comentario. Inténtalo de nuevo.');
+      console.error("Error al crear el comentario:", error);
+      throw new Error("Error al crear el comentario. Inténtalo de nuevo.");
     }
   };
 
@@ -104,10 +113,70 @@ const CommentPublication = ({ publicationId, userId}) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', options);
   };
-
+  const toggleProfileMenu = (commentId) => {
+    setProfileMenuCommentId(profileMenuCommentId === commentId ? null : commentId);
+  };
   return (
     <div className="comments-sectionCP">
       <h2>Comentarios</h2>
+      <div className="comments-listCP">
+        <ul>
+          {comments.map((comment) => (
+            <li key={comment.id} className="commentCP">
+              <div className="comment-userCP">
+              <img
+                    className="profile-imageCP"
+                    src={comment.authorProfileImage}
+                    alt="Profile"
+                    onClick={() => toggleProfileMenu(comment.id)}
+                  />
+                {profileMenuCommentId === comment.id && (
+              <div className="profile-menu">
+                <Link to={`/profilePage/${comment.authorId}`}>Ver perfil</Link>
+              </div>
+              )}
+                <p>{comment.authorUsername}</p>
+              </div>
+              <div className="comment-contentCP">
+                {editingComment === comment.id ? (
+                  <input
+                    type="text"
+                    value={editingCommentText}
+                    onChange={(e) => setEditingCommentText(e.target.value)}
+                  />
+                ) : (
+                  <p>{comment.text}</p>
+                )}
+                <span className="comment-dateCP">
+                  Comentado el {formatDate(comment.createdAt)}
+                </span>
+              </div>
+              {comment.authorId == currentUserId && (
+                <>
+                  {editingComment === comment.id ? (
+                    <>
+                      <button onClick={() => handleUpdateComment(comment.id, editingCommentText)}>Guardar</button>
+                      <button onClick={() => setEditingComment(null)}>Cancelar</button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => {
+                          setEditingComment(comment.id);
+                          setEditingCommentText(comment.text);
+                        }}
+                      >
+                        Editar
+                      </button>
+                      <button onClick={() => handleDeleteComment(comment.id)}>Eliminar</button>
+                    </>
+                  )}
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="new-commentCP">
         <input
           type="text"
@@ -117,57 +186,7 @@ const CommentPublication = ({ publicationId, userId}) => {
         />
         <button onClick={handleCreateComment}>Comentar</button>
       </div>
-      <div className="comments-listCP">
-        <ul>
-        {comments.map((comment) => (
-          <li key={comment.id} className="commentCP">
-          <div className="comment-userCP">
-            <Link to={`/profilePage/${comment.authorId}`}> 
-            <img className="profile-imageCP" src={comment.authorProfileImage} alt="Profile" /> 
-            </Link> 
-          <p>{comment.authorUsername}</p> </div>
-            <div className="comment-contentCP">
-              {editingComment === comment.id ? (
-                <input
-                  type="text"
-                  value={editingCommentText}
-                  onChange={(e) => setEditingCommentText(e.target.value)}
-                />
-              ) : (
-                <p>{comment.text}</p>
-              )}
-              <span className="comment-dateCP">
-                Comentado el {formatDate(comment.creationTime)}
-              </span>
-            </div>
-            {comment.authorId == currentUserId && (
-              <>
-                {editingComment === comment.id ? (
-                  <>
-                    <button onClick={() => handleUpdateComment(comment.id, editingCommentText)}>Guardar</button>
-                    <button onClick={() => setEditingComment(null)}>Cancelar</button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => {
-                        setEditingComment(comment.id);
-                        setEditingCommentText(comment.text);
-                      }}
-                    >
-                      Editar
-                    </button>
-                    <button onClick={() => handleDeleteComment(comment.id)}>Eliminar</button>
-                  </>
-                )}
-              </>
-            )}
-          </li>
-        ))}
-        </ul>
-      </div>
     </div>
   );
-};
-
+                      }
 export default CommentPublication;

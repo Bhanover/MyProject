@@ -38,10 +38,10 @@ public class PublicationController {
  */
     @GetMapping("/{id}/publications")
     public ResponseEntity<List<Publication>> getPublications(@PathVariable Long id) {
-        // Obtiene el usuario autenticado
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
         List<Publication> publications = publicationService.getPublicationsByUser(user);
+        System.out.println("Publicaciones encontradas: " + publications.size()); // Agrega esta línea
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 

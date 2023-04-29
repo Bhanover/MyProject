@@ -4,10 +4,7 @@
   margin: 20px auto;
   width: 80%;
   max-width: 800px;
-  
 }
-
-
 
 .publicationPL {
   background-color: white;
@@ -16,8 +13,6 @@
   margin-bottom: 20px;
   padding: 20px;
   position: relative;
-  max-height: 400px; /* Limitar la altura máxima a 400px */
-  overflow-y: auto; /* Agregar desplazamiento vertical cuando sea necesario */
 }
 .publicationPL:before {
   content: "";
