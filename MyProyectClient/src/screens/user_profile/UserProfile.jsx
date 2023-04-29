@@ -3,13 +3,15 @@
   import "./UserProfile.css"
   import defaultAvatar from "./images/defaultAvatar.jpg";
   import UserImages from "../user_images/UserImages";
-
+  import Friendship from "../friendship/Friendship";
   const UserProfile = ({  profileImageUpdated, ...props }) => {
     const [userInfo, setUserInfo] = useState({});
     const [showUserImages, setShowUserImages] = useState(false);
     const currentUserId = localStorage.getItem("idP");
     const [selectedImage, setSelectedImage] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
+    const isOwnProfile = props.userId === props.currentUserId;
+    const [friendRequestSent, setFriendRequestSent] = useState(false);
 
 
     const handleProfileImageUpdate = (newProfileImageUrl) => {
@@ -53,10 +55,18 @@
     const handleContainerClick = (event) => {
       event.stopPropagation();
     };
-
+    const handleFriendRequestSent = () => {
+      setFriendRequestSent(true);
+    };
     return (
       <div className="user-profile">
-        
+       {!isOwnProfile && (
+        <Friendship
+          friendId={props.userId}
+          updateFriends={handleFriendRequestSent}
+          disabled={friendRequestSent}
+        />
+      )}
         <div className="profile-image-container">
           <img
             src={userInfo.profileImage || defaultAvatar}

@@ -1,0 +1,27 @@
+.notification-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .notification-icon {
+    cursor: pointer;
+  }
+  
+  .notification-counter {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 2px 4px;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+  }
+  
+  .notification-list {
+    display: none;
+  }
+  
+  .notification-container:hover .notification-list {
+    display: block;
+  }

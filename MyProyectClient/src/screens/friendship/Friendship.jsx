@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function Friendship({ updateFriends }) {
-  const [friendId, setFriendId] = useState("");
-
+function Friendship({ friendId, updateFriends, disabled }) {
   const sendFriendRequest = async () => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
@@ -11,7 +9,6 @@ function Friendship({ updateFriends }) {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
-        
       };
       updateFriends();
       const response = await axios.post(
@@ -29,14 +26,9 @@ function Friendship({ updateFriends }) {
   return (
     <div>
       <h2>Send Friend Request</h2>
-      <label htmlFor="friendId">Friend ID:</label>
-      <input
-        type="number"
-        id="friendId"
-        value={friendId}
-        onChange={(e) => setFriendId(e.target.value)}
-      />
-      <button onClick={sendFriendRequest}>Send Request</button>
+      <button onClick={sendFriendRequest} disabled={disabled}>
+        Send Request
+      </button>
     </div>
   );
 }

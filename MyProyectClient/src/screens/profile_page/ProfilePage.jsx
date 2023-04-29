@@ -8,13 +8,14 @@ import InfoLeft from "../info_left/InfoLeft";
 import { useParams } from "react-router-dom";
 import PublicationList from "../publication_list/PublicationList";
 import UserContent from "../user_feed/UserContent";
-
+import NotificationList from "../notification_item/NotificationList";
 const ProfilePage = () => {
   const [contentType, setContentType] = useState("images");
   const { userId } = useParams();
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
-  
+  const currentUserId = localStorage.getItem("idP");
+
   const handleProfileImageUpdate = (newProfileImage) => {
     setProfileImage(newProfileImage);
     setProfileImageUpdated((prev) => !prev);
@@ -25,13 +26,22 @@ const ProfilePage = () => {
   return (
     <div className="grid-containerP">
          <div className="headerP">
-         <UserProfile userId={userId} profileImage={profileImage} onProfileImageUpdate={handleProfileImageUpdate} profileImageUpdated={profileImageUpdated} />
-      </div>
+         <UserProfile
+          userId={userId}
+          currentUserId={currentUserId}
+          profileImage={profileImage}
+          onProfileImageUpdate={handleProfileImageUpdate}
+          profileImageUpdated={profileImageUpdated}
+        />      
+        </div>
       <div className="detailsP"> 
       <div className="infoleftP">
         <InfoLeft />
       </div>
-  
+      <div>
+      <NotificationList  />
+
+      </div>
       <div className="contentP">
         <div className="content-switch">
           <button

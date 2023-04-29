@@ -1,14 +1,12 @@
 package com.billy.spring.project.controllers;
-import com.billy.spring.project.models.FriendInfo;
+import com.billy.spring.project.models.*;
 import com.billy.spring.project.repository.FileDBRepository;
-import com.billy.spring.project.models.Friendship;
-import com.billy.spring.project.models.FriendshipStatus;
-import com.billy.spring.project.models.User;
 import com.billy.spring.project.repository.FriendshipRepository;
 import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.services.UserDetailsImpl;
 import com.billy.spring.project.service.FileStorageService;
 import com.billy.spring.project.service.FriendshipService;
+import com.billy.spring.project.service.NotificationService;
 import com.billy.spring.project.utils.FileUploadUtil;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -45,7 +43,8 @@ public class FriendshipController {
     private FriendshipRepository friendshipRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private NotificationService notificationService;
     @PostMapping("/request/{friendId}")
     public ResponseEntity<Friendship> sendFriendRequest(@PathVariable Long friendId) {
         // Obtiene el usuario autenticado
@@ -53,14 +52,17 @@ public class FriendshipController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        // Agrega un registro de evento aquí
-        System.out.println("Sending friend request from user " + user.getId() + " to friend " + friendId);
-
-        System.out.println("Before calling sendFriendRequest service");
         Friendship newFriendship = friendshipService.sendFriendRequest(user.getId(), friendId);
-        System.out.println("After calling sendFriendRequest service");
-        // Agrega otro registro de evento aquí
-        System.out.println("Friend request sent successfully. Friendship id: " + newFriendship.getId());
+
+        // Crear una notificación
+        User friend = userRepository.findById(friendId).orElseThrow(() -> new RuntimeException("Friend Not Found"));
+        Notification notification = new Notification();
+        notification.setUser(friend);
+        notification.setType("FriendRequest");
+        notification.setContent(user.getUsername() + " te ha enviado una solicitud de amistad.");
+        notification.setRead(false);
+        notificationService.save(notification);
+
         return new ResponseEntity<>(newFriendship, HttpStatus.CREATED);
     }
 
@@ -97,20 +99,15 @@ public class FriendshipController {
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
         // Intenta obtener la información de la solicitud de amistad
-        Optional<Friendship> optionalFriendship = friendshipService.findFriendshipById(friendshipId);
+        Friendship friendship = friendshipRepository.findById(friendshipId)
+                .orElseThrow(() -> new RuntimeException("Friendship not found"));
 
-        if (!optionalFriendship.isPresent()) {
-            return new ResponseEntity<>("Friendship not found", HttpStatus.NOT_FOUND);
+        if (!friendship.getStatus().equals(FriendshipStatus.PENDING)) {
+            throw new RuntimeException("The friendship status is not pending.");
         }
 
-        Friendship friendship = optionalFriendship.get();
-
-        // Verifica si el usuario autenticado es el destinatario de la solicitud de amistad antes de rechazarla
-        if (!friendship.getFriend().getId().equals(user.getId())) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        friendshipService.rejectFriendRequest(friendshipId);
+        // Elimina la solicitud de amistad en lugar de cambiar su estado a rechazado
+        friendshipRepository.deleteById(friendshipId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -9,9 +9,9 @@ function FriendsList({ friends, fetchFriends }) {
       <div>
         <h2>Friends List</h2>
         <ul>
-          {friends.map((friend) => (
-            <li key={friend.id}>
-              {friend.username}{" "}
+        {friends.map((friend, index) => (
+          <li key={`${friend.id}-${index}`}>
+          {friend.username}{" "}
               {!friend.pending && (
                 <RemoveFriend
                   friendshipId={friend.friendshipId}
