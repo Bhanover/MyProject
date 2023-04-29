@@ -20,6 +20,8 @@ import ProfilePage from './screens/profile_page/ProfilePage'
 import Container from './screens/container/Container'
 import PublicationList from './screens/publication_list/PublicationList'
 import UserContent from './screens/user_feed/UserContent'
+import Friendship from './screens/friendship/Friendship'
+import FriendsPrincipal from './screens/friendship/FriendsPrincipal'
 
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
       <Route path='/publicationList/:userId' element={<PublicationList />}></Route>
       <Route path='/userContent'element={<UserContent />}></Route>
     </Route>
+    <Route path='/friends' element={<Friendship />}></Route>
+    <Route path='/friendsP' element={<FriendsPrincipal />}></Route>
   </Routes>
 
   );

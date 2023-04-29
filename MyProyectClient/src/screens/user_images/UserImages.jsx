@@ -51,10 +51,9 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     }
   };
   
-  const handleOpenImageModal = (url, fileId, index) => { // Añade el argumento 'index'
+  const handleOpenImageModal = (url, fileId) => { // Añade el argumento 'index'
     setSelectedFileId(fileId);
     setSelectedImage(url.url);
-    setSelectedImageIndex(index); // Agrega esta línea
     setShowImageModal(true);
   };
   const handleCloseImageModal = () => {
@@ -177,3 +176,12 @@ const deleteImage = async (imageId) => {
       </div>
   </div>
 )}*/
+
+ /* const handleOpenImageModal = (url, fileId) => {
+    const imageIndex = content
+      .filter((item) => item.contentType && item.contentType.startsWith("image/"))
+      .findIndex((item) => item.id === fileId);
+    setSelectedFileId(fileId);
+    setSelectedImageIndex(imageIndex);
+    setShowImageModal(true);
+  };*/

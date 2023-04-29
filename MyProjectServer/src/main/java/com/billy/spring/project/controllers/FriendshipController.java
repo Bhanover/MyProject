@@ -1,4 +1,5 @@
 package com.billy.spring.project.controllers;
+import com.billy.spring.project.models.FriendInfo;
 import com.billy.spring.project.repository.FileDBRepository;
 import com.billy.spring.project.models.Friendship;
 import com.billy.spring.project.models.FriendshipStatus;
@@ -40,9 +41,10 @@ public class FriendshipController {
 
     @Autowired
     private FriendshipService friendshipService;
-
     @Autowired
-    private  UserRepository userRepository;
+    private FriendshipRepository friendshipRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/request/{friendId}")
     public ResponseEntity<Friendship> sendFriendRequest(@PathVariable Long friendId) {
@@ -94,32 +96,59 @@ public class FriendshipController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        // Agrega la lógica adicional que necesites aquí, como verificar si el usuario autenticado es el destinatario de la solicitud de amistad antes de rechazarla
+        // Intenta obtener la información de la solicitud de amistad
+        Optional<Friendship> optionalFriendship = friendshipService.findFriendshipById(friendshipId);
+
+        if (!optionalFriendship.isPresent()) {
+            return new ResponseEntity<>("Friendship not found", HttpStatus.NOT_FOUND);
+        }
+
+        Friendship friendship = optionalFriendship.get();
+
+        // Verifica si el usuario autenticado es el destinatario de la solicitud de amistad antes de rechazarla
+        if (!friendship.getFriend().getId().equals(user.getId())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         friendshipService.rejectFriendRequest(friendshipId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /*  @GetMapping("/friends")
+     public ResponseEntity<List<User>> getFriends() {
+         // Obtiene el usuario autenticado
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+         List<User> friends = friendshipService.getFriends(user.getId());
+         return new ResponseEntity<>(friends, HttpStatus.OK);
+     }*/
     @GetMapping("/friends")
-    public ResponseEntity<List<User>> getFriends() {
+    public ResponseEntity<List<FriendInfo>> getFriends() {
         // Obtiene el usuario autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        List<User> friends = friendshipService.getFriends(user.getId());
+        List<FriendInfo> friends = friendshipService.getFriends(user.getId());
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
-    @DeleteMapping("/remove/{friendId}")
-    public ResponseEntity<?> removeFriend(@PathVariable Long friendId) {
+
+    @DeleteMapping("/remove/{friendshipId}")
+    public ResponseEntity<?> removeFriend(@PathVariable Long friendshipId) {
         // Obtiene el usuario autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        System.out.println("User ID: " + user.getId()  + ", Friendship ID: " + friendshipId); // Agrega esta línea
 
-        // Agrega la lógica adicional que necesites aquí, como verificar si el usuario autenticado es amigo del amigo antes de eliminarlo
-
-        friendshipService.removeFriend(user.getId(), friendId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            friendshipService.removeFriend(friendshipId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage()); // Agrega esta línea
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

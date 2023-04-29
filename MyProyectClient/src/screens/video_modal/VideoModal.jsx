@@ -7,7 +7,9 @@ import "./VideoModal.css";
 
 const VideoModal = ({ videos, selectedVideoIndex, onClose, userId, onDelete }) => {
   const userInfo = UseUserInfo({ userId });
-
+  console.log('selectedVideoIndex:', selectedVideoIndex);
+  console.log('videos:', videos);
+  console.log('userId:',userId);
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -30,12 +32,15 @@ const VideoModal = ({ videos, selectedVideoIndex, onClose, userId, onDelete }) =
                 <video src={video.url} controls width="100%">
                   Tu navegador no soporta la etiqueta <code>video</code>.
                 </video>
-                <button className="delete-buttonV" onClick={() => onDelete(video.videoId)}>Eliminar video</button>
+                 <button className="delete-buttonV" onClick={() => onDelete(video.id ? video.id : video.videoId)}>Eliminar video</button>
+
               </div>
+              {console.log("video.videoId----->",video.id)}
               <div className="comments-containerV">
                 <div className="comment-sectionV">
                   <CommentFile
-                    fileId={video.videoId}
+                      fileId={video.id ? video.id : video.videoId}
+
                     postOwner={userInfo.username}
                     postDescription="Descripción del video"
                   />
@@ -54,3 +59,4 @@ const VideoModal = ({ videos, selectedVideoIndex, onClose, userId, onDelete }) =
 
 
 export default VideoModal;
+/*     <button className="delete-buttonV" onClick={() => onDelete(video.videoId)}>Eliminar video</button>*/

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import ImageModal from "../image_modal/ImageModal";
+import VideoModal from "../video_modal/VideoModal";
 const UserContent = ({ userId }) => {
   const [content, setContent] = useState([]);
   const jwtToken = localStorage.getItem('jwtToken');
@@ -8,12 +9,54 @@ const UserContent = ({ userId }) => {
   const [updatedContent, setUpdatedContent] = useState('');
   const [editing, setEditing] = useState(null);
   const [comments, setComments] = useState({});
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedFileId, setSelectedFileId] = useState(null);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
 
- 
- 
+  const handleOpenVideoModal = (url, fileId) => {
+    const videoIndex = content
+      .filter((item) => item.contentType && item.contentType.startsWith("video/"))
+      .findIndex((item) => item.id === fileId);
+    setSelectedFileId(fileId);
+    setSelectedVideoIndex(videoIndex);
+    setShowVideoModal(true);
+  };
+  const handleOpenImageModal = (url, fileId) => {
+    const imageIndex = content
+      .filter((item) => item.contentType && item.contentType.startsWith("image/"))
+      .findIndex((item) => item.id === fileId);
+    setSelectedFileId(fileId);
+    setSelectedImageIndex(imageIndex);
+    setShowImageModal(true);
+  };
+  const handleCloseImageModal = () => {
+    setSelectedFileId(null);
+    setShowImageModal(false);
+  };
   useEffect(() => {
     fetchUserContent();
   }, [userId]);
+
+
+  const setProfilePicture = async (imageId) => {
+    try {
+      await axios.put('http://localhost:8081/api/auth/set-profile-image', null, {
+        headers: {
+          'Authorization': 'Bearer ' + jwtToken
+        },
+        params: {
+          imageId: imageId
+        }
+      });
+      alert('Foto de perfil actualizada con éxito.');
+      setShowImageModal(false);
+    } catch (error) {
+      console.error('Error al establecer la foto de perfil:', error);
+      alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
+    }
+  };
   const axiosConfig = {
     headers: {
       'Authorization': `Bearer ${jwtToken}`,
@@ -99,27 +142,43 @@ const UserContent = ({ userId }) => {
     <div>
       <h2>User Content</h2>
       <ul>
-        {content.map((item) => (
+      {content.map((item, index) => (
           <li key={item.id}>
             {item.contentType && item.contentType.startsWith("image/") && (
               <>
-                <img
-                  src={item.url}
-                  alt={item.filename}
-                  style={{ width: "200px" }}
-                />
+               <img
+                    src={item.url}
+                    alt={item.filename}
+                    style={{ width: "200px" }}
+                    onClick={() => handleOpenImageModal(item.url, item.id)}
+/>
                 <button onClick={() => deleteFile(item.id)}>Eliminar imagen</button>
               </>
             )}
             {item.contentType && item.contentType.startsWith("video/") && (
               <>
-                <video
+                   <video
                   src={item.url}
                   alt={item.filename}
                   style={{ width: "200px" }}
-                  controls
+                  controls={false}
+                  onClick={() => handleOpenVideoModal(item.url, item.id)}
                 />
-                <button onClick={() => deleteFile(item.id)}>Eliminar video</button>
+                {showVideoModal && (
+              <VideoModal
+                videos={content.filter(
+                  (item) => item.contentType && item.contentType.startsWith("video/")
+                )}
+                selectedVideoIndex={selectedVideoIndex}
+                onClose={() => setShowVideoModal(false)}
+                userId={userId}
+                onDelete={(fileId) => {
+                  deleteFile(fileId);
+                  setShowVideoModal(false);
+                }}
+              />
+            )}
+              <button onClick={() => deleteFile(item.id)}>Eliminar video</button>
               </>
             )}
            {item.entityType === "publication" && (
@@ -169,6 +228,25 @@ const UserContent = ({ userId }) => {
           </li>
         ))}
       </ul>
+      {showImageModal && (
+        <ImageModal
+          selectedImages={content.filter(
+            (item) => item.contentType && item.contentType.startsWith("image/")
+          )}
+          selectedFileIds={content
+            .filter((item) => item.contentType && item.contentType.startsWith("image/"))
+            .map((item) => item.id)}
+          fileId={selectedFileId}
+          onClose={handleCloseImageModal}
+          userId={userId}
+          onDelete={(fileId) => {
+            deleteFile(fileId);
+            setShowImageModal(false);
+          }}
+          onSetProfilePicture={setProfilePicture}
+          selectedImageIndex={selectedImageIndex}
+        />
+      )}
     </div>
   );
 };

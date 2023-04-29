@@ -15,6 +15,10 @@ const ImageModal = ({
   onSetProfilePicture,
   selectedImageIndex,
 }) => {
+  console.log('selectedImages:', selectedImages);
+  console.log('selectedFileIds:', selectedFileIds);
+  console.log('fileId:', fileId);
+  console.log('selectedImageIndex:', selectedImageIndex);
   const userInfo = UseUserInfo({ userId });
   const [currentImageIndex, setCurrentImageIndex] = useState(selectedImageIndex);
   const [currentFileId, setCurrentFileId] = useState(fileId);
