@@ -90,7 +90,16 @@ public class FriendshipController {
         friendshipService.acceptFriendRequest(friendshipId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/friendship-status/{friendId}")
+    public ResponseEntity<Friendship> getFriendshipStatus(@PathVariable Long friendId) {
+        // Obtiene el usuario autenticado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
+        Friendship friendship = friendshipService.getFriendshipStatus(user.getId(), friendId);
+        return new ResponseEntity<>(friendship, HttpStatus.OK);
+    }
     @PutMapping("/reject/{friendshipId}")
     public ResponseEntity<?> rejectFriendRequest(@PathVariable Long friendshipId) {
         // Obtiene el usuario autenticado
@@ -107,31 +116,25 @@ public class FriendshipController {
         }
 
         // Elimina la solicitud de amistad en lugar de cambiar su estado a rechazado
+        if (!friendship.getFriend().getId().equals(user.getId()) && !friendship.getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to reject this friend request.");
+        }
+
+// Elimina la solicitud de amistad en lugar de cambiar su estado a rechazado
         friendshipRepository.deleteById(friendshipId);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+// Devuelve una respuesta exitosa con un mensaje de confirmación
+        return ResponseEntity.ok("Friend request rejected successfully.");
     }
 
-    /*  @GetMapping("/friends")
-     public ResponseEntity<List<User>> getFriends() {
-         // Obtiene el usuario autenticado
-         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-         List<User> friends = friendshipService.getFriends(user.getId());
-         return new ResponseEntity<>(friends, HttpStatus.OK);
-     }*/
-    @GetMapping("/friends")
-    public ResponseEntity<List<FriendInfo>> getFriends() {
-        // Obtiene el usuario autenticado
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+    @GetMapping("/{id}/friends")
+    public ResponseEntity<List<FriendInfo>> getUserFriends(@PathVariable Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
         List<FriendInfo> friends = friendshipService.getFriends(user.getId());
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
-
     @DeleteMapping("/remove/{friendshipId}")
     public ResponseEntity<?> removeFriend(@PathVariable Long friendshipId) {
         // Obtiene el usuario autenticado
@@ -149,3 +152,23 @@ public class FriendshipController {
         }
     }
 }
+  /*  @GetMapping("/friends")
+     public ResponseEntity<List<User>> getFriends() {
+         // Obtiene el usuario autenticado
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+         List<User> friends = friendshipService.getFriends(user.getId());
+         return new ResponseEntity<>(friends, HttpStatus.OK);
+     }*/
+    /*@GetMapping("/friends")
+    public ResponseEntity<List<FriendInfo>> getFriends() {
+        // Obtiene el usuario autenticado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        List<FriendInfo> friends = friendshipService.getFriends(user.getId());
+        return new ResponseEntity<>(friends, HttpStatus.OK);
+    }*/

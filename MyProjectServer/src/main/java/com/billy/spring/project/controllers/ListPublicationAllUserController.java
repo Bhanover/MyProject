@@ -6,12 +6,11 @@ import com.billy.spring.project.repository.PublicationRepository;
 import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.jwt.JwtUtils;
 import com.billy.spring.project.security.services.UserDetailsImpl;
-import com.billy.spring.project.service.FileStorageService;
-import com.billy.spring.project.service.ImageService;
-import com.billy.spring.project.service.PublicationService;
-import com.billy.spring.project.service.VideoService;
+import com.billy.spring.project.service.*;
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,7 +51,7 @@ public class ListPublicationAllUserController {
     private VideoService videoService;
     @Autowired
     private  ListPublicationAllController listPublicationAllController;
-  /*  @GetMapping("/content")
+    /*@GetMapping("/all-user-content")
     public List<Map<String, Object>> getAllUserContent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -62,7 +61,7 @@ public class ListPublicationAllUserController {
         List<Map<String, Object>> allContent = new ArrayList<>();
 
         for (User user : users) {
-            List<Map<String, Object>> userContent = getUserContent(user.getId());
+            List<Map<String, Object>> userContent = listPublicationAllController.getUserContent(user.getId());
             allContent.addAll(userContent);
         }
         // Ordena todo el contenido combinado por fecha de creación
@@ -77,5 +76,22 @@ public class ListPublicationAllUserController {
         // Retorna la lista completa
         return combinedContent;
     }*/
+
+
+
+    @Autowired
+    private ContentService contentService;
+
+    @GetMapping("/friends-content")
+    public ResponseEntity<List<Map<String, Object>>> getFriendsContent() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        List<Map<String, Object>> friendsContent = contentService.getFriendsContent(currentUser);
+        return new ResponseEntity<>(friendsContent, HttpStatus.OK);
+    }
+
+
 
 }

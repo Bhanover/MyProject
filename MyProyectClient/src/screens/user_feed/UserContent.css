@@ -1,0 +1,132 @@
+.usercontent-containerCT {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .usercontent-listCT {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .usercontent-itemCT {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  .usercontent-image-containerCT,
+  .usercontent-video-containerCT {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .usercontent-image-containerCT,
+  .usercontent-video-containerCT,
+  .usercontent-publication-containerCT {
+    margin-bottom: 10px;
+  }
+ 
+  .usercontent-descriptionCT,
+  .usercontent-publication-descriptionCT {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .usercontent-imageCT,
+  .usercontent-videoCT {
+    max-height: 300px;
+    max-width: 100%;
+    cursor: pointer;
+    object-fit: cover;
+  }
+  
+  .usercontent-delete-image-btnCT,
+  .usercontent-delete-video-btnCT,
+  .usercontent-delete-publication-btnCT {
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .usercontent-comments-titleCT {
+    margin-top: 10px;
+  }
+  
+  .usercontent-comment-containerCT {
+    margin-bottom: 5px;
+  }
+  
+  .usercontent-edit-inputCT {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .usercontent-save-btnCT,
+  .usercontent-edit-btnCT {
+    margin-right: 5px;
+  }
+  
+  .usercontent-comment-formCT {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .usercontent-comment-inputCT {
+    flex-grow: 1;
+  }
+
+  .usercontent-publication-containerCP {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 20px;
+    position: relative;
+  }
+  
+  .usercontent-publication-containerCP:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #007bff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  
+  .usercontent-publication-containerCP h3 {
+    color: #007bff;
+    margin-top: 0;
+  }
+  
+  .usercontent-publication-containerCP p {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+  .usercontent-descriptionCT {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  
+  .usercontent-publication-dateCP {
+    color: #777;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+  }
+  
+  @media (max-width: 768px) {
+    .usercontent-publication-containerCP {
+      width: 90%;
+    }
+  }
+  

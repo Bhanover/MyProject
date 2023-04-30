@@ -22,6 +22,7 @@ import PublicationList from './screens/publication_list/PublicationList'
 import UserContent from './screens/user_feed/UserContent'
 import Friendship from './screens/friendship/Friendship'
 import FriendsPrincipal from './screens/friendship/FriendsPrincipal'
+import UserAllContent from './screens/user_all_content/UserAllContent'
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
     </Route>
     <Route path='/friends' element={<Friendship />}></Route>
     <Route path='/friendsP' element={<FriendsPrincipal />}></Route>
+    <Route path='/UserAllContent' element={<UserAllContent />}></Route>
   </Routes>
 
   );

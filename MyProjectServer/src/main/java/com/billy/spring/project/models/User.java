@@ -168,58 +168,58 @@ public class User {
 }*/
 
 
-@Entity
-@Table(name = "users", uniqueConstraints = {
-          @UniqueConstraint(columnNames = "username"),
-          @UniqueConstraint(columnNames = "email")
-})
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @Entity
+    @Table(name = "users", uniqueConstraints = {
+              @UniqueConstraint(columnNames = "username"),
+              @UniqueConstraint(columnNames = "email")
+    })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public class User {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @NotBlank
-    @Size(max = 20)
-    private String username;
+        @NotBlank
+        @Size(max = 20)
+        private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    private String email;
+        @NotBlank
+        @Size(max = 50)
+        @Email
+        private String email;
 
-    @NotBlank
-    @Size(max = 120)
-    private String password;
+        @NotBlank
+        @Size(max = 120)
+        private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
-    @JsonIgnore
-    private FileDB profileImage;
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+        @JsonIgnore
+        private FileDB profileImage;
 
-    private String jwtToken;
+        private String jwtToken;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<FileDB> files;
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+        @JsonIgnore
+        private List<FileDB> files;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Publication> publications;
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+        @JsonIgnore
+        private List<Publication> publications;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Friendship> friendships;
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+        @JsonIgnore
+        private List<Friendship> friendships;
 
-    @OneToMany(mappedBy = "friend", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Friendship> friends;
+        @OneToMany(mappedBy = "friend", fetch = FetchType.LAZY)
+        @JsonIgnore
+        private List<Friendship> friends;
 
-    private boolean isOnline;
+        private boolean isOnline;
 
-    public User() {
-    }
+        public User() {
+        }
 
 
     public User(Long id, String username, String email, String password, FileDB profileImage, String jwtToken, List<FileDB> files, List<Publication> publications, List<Friendship> friendships, List<Friendship> friends, boolean isOnline) {

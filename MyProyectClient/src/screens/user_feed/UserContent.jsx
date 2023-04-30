@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ImageModal from "../image_modal/ImageModal";
 import VideoModal from "../video_modal/VideoModal";
+import "./UserContent.css"
+import CommentPublication from "../comment_publication/CommentPublication";
 const UserContent = ({ userId }) => {
   const [content, setContent] = useState([]);
   const jwtToken = localStorage.getItem('jwtToken');
@@ -139,116 +141,187 @@ const UserContent = ({ userId }) => {
     setEditing(null);
   };
   return (
-    <div>
+    <div className="usercontent-containerCT">
       <h2>User Content</h2>
-      <ul>
-      {content.map((item, index) => (
-          <li key={item.id}>
+      <ul className="usercontent-listCT">
+        {content.map((item, index) => (
+          <li key={item.id} className="usercontent-itemCT">
             {item.contentType && item.contentType.startsWith("image/") && (
-              <>
-               <img
-                    src={item.url}
-                    alt={item.filename}
-                    style={{ width: "200px" }}
-                    onClick={() => handleOpenImageModal(item.url, item.id)}
-/>
-                <button onClick={() => deleteFile(item.id)}>Eliminar imagen</button>
-              </>
-            )}
-            {item.contentType && item.contentType.startsWith("video/") && (
-              <>
-                   <video
+              <div className="usercontent-image-containerCT">
+                <p className="usercontent-descriptionCT">{item.description}</p>
+                <img
                   src={item.url}
                   alt={item.filename}
-                  style={{ width: "200px" }}
+                  className="usercontent-imageCT"
+                  onClick={() => handleOpenImageModal(item.url, item.id)}
+                />
+                <button
+                  className="usercontent-delete-image-btnCT"
+                  onClick={() => deleteFile(item.id)}
+                >
+                  Eliminar imagen
+                </button>
+              </div>
+            )}
+            {item.contentType && item.contentType.startsWith("video/") && (
+              <div className="usercontent-video-containerCT">
+                <video
+                  src={item.url}
+                  alt={item.filename}
+                  className="usercontent-videoCT"
                   controls={false}
                   onClick={() => handleOpenVideoModal(item.url, item.id)}
                 />
                 {showVideoModal && (
-              <VideoModal
-                videos={content.filter(
-                  (item) => item.contentType && item.contentType.startsWith("video/")
+                  <VideoModal
+                    videos={content.filter(
+                      (item) =>
+                        item.contentType && item.contentType.startsWith("video/")
+                    )}
+                    selectedVideoIndex={selectedVideoIndex}
+                    onClose={() => setShowVideoModal(false)}
+                    userId={userId}
+                    onDelete={(fileId) => {
+                      deleteFile(fileId);
+                      setShowVideoModal(false);
+                    }}
+                  />
                 )}
-                selectedVideoIndex={selectedVideoIndex}
-                onClose={() => setShowVideoModal(false)}
-                userId={userId}
-                onDelete={(fileId) => {
-                  deleteFile(fileId);
-                  setShowVideoModal(false);
-                }}
-              />
-            )}
-              <button onClick={() => deleteFile(item.id)}>Eliminar video</button>
-              </>
+                <button
+                  className="usercontent-delete-video-btnCT"
+                  onClick={() => deleteFile(item.id)}
+                >
+                  Eliminar video
+                </button>
+              </div>
             )}
            {item.entityType === "publication" && (
-        <div>
-          
-          <h3>Esto es una publicacion {item.content}</h3>
-          {item.description && <p>{item.description}</p>}
-          <h4>Comentarios:</h4>
-          {comments[item.id] &&
-            comments[item.id].map((comment) => (
-              <div key={comment.id}>
-                <p>
-                  <strong>{comment.authorUsername}:</strong> {comment.text}
-                </p>
-              </div>
-            ))}
-          {editing === item.id && (
-            <input
-              type="text"
-              defaultValue={item.content}
-              onChange={(e) => setUpdatedContent(e.target.value)}
-              placeholder="Actualizar contenido"
-            />
-          )}
-          {editing === item.id ? (
-            <button onClick={() => handleSaveButtonClick(item.id)}>Guardar</button>
-          ) : (
-            <button onClick={() => handleEditButtonClick(item.id)}>Editar publicación</button>
-          )}
-          <button onClick={() => deletePublication(item.id)}>Eliminar publicación</button>
-          
-          <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            addCommentToPublication(item.id, e.target.commentText.value);
-          }}
-        >
-          <input
-            type="text"
-            name="commentText"
-            placeholder="Escribir un comentario..."
-          />
-          <button type="submit">Enviar comentario</button>
-        </form>
-      </div>
+  <div className="usercontent-publication-containerCP">
+    <h3>{item.title}</h3>
+    <p>{item.content}</p>
+    <span className="usercontent-publication-dateCP">
+      Publicado el {new Date(item.creationTime).toLocaleDateString("es-ES")}
+    </span>
+    <button onClick={() => deletePublication(item.id)}>Eliminar</button>
+    <button onClick={() => handleEditButtonClick(item.id)}>Editar publicación</button>
+    {editing === item.id && (
+      <input
+        type="text"
+        defaultValue={item.content}
+        className="usercontent-edit-inputCP"
+        onChange={(e) => setUpdatedContent(e.target.value)}
+        placeholder="Actualizar contenido"
+      />
     )}
-          </li>
-        ))}
-      </ul>
-      {showImageModal && (
-        <ImageModal
-          selectedImages={content.filter(
-            (item) => item.contentType && item.contentType.startsWith("image/")
-          )}
-          selectedFileIds={content
-            .filter((item) => item.contentType && item.contentType.startsWith("image/"))
-            .map((item) => item.id)}
-          fileId={selectedFileId}
-          onClose={handleCloseImageModal}
-          userId={userId}
-          onDelete={(fileId) => {
-            deleteFile(fileId);
-            setShowImageModal(false);
-          }}
-          onSetProfilePicture={setProfilePicture}
-          selectedImageIndex={selectedImageIndex}
-        />
-      )}
-    </div>
-  );
-};
+    {editing === item.id ? (
+      <button className="usercontent-save-btnCP" onClick={() => handleSaveButtonClick(item.id)}>
+        Guardar
+      </button>
+    ) : null}
+    <CommentPublication publicationId={item.id} userId={userId} />
+  </div>
+)}
 
+        </li>
+      ))}
+    </ul>
+    {showImageModal && (
+      <ImageModal
+        selectedImages={content.filter(
+          (item) => item.contentType && item.contentType.startsWith("image/")
+        )}
+        selectedFileIds={content
+          .filter((item) => item.contentType && item.contentType.startsWith("image/"))
+          .map((item) => item.id)}
+        fileId={selectedFileId}
+        onClose={handleCloseImageModal}
+        userId={userId}
+        onDelete={(fileId) => {
+          deleteFile(fileId);
+          setShowImageModal(false);
+        }}
+        onSetProfilePicture={setProfilePicture}
+        selectedImageIndex={selectedImageIndex}
+      />
+    )}
+  </div>
+
+);
+      }
 export default UserContent;
+
+/*      {item.entityType === "publication" && (
+              <div className="usercontent-publication-containerCT">
+                <h3 className="usercontent-publication-titleCT">
+                  Esto es una publicacion {item.content}
+                </h3>
+                {item.description && (
+                  <p className="usercontent-publication-descriptionCT">
+                    {item.description}
+                  </p>
+                )}
+                <h4 className="usercontent-comments-titleCT">Comentarios:</h4>
+                {comments[item.id] &&
+                  comments[item.id].map((comment) => (
+                    <div
+                      key={comment.id}
+                      className="usercontent-comment-containerCT"
+                    >
+                      <p className="usercontent-commentCT">
+                        <strong>{comment.authorUsername}:</strong> {comment.text}
+                      </p>
+                    </div>
+                  ))}
+                {editing === item.id && (
+                  <input
+                    type="text"
+                    defaultValue={item.content}
+                    onChange={(e) => setUpdatedContent(e.target.value)}
+                    placeholder="Actualizar contenido"
+                    className="usercontent-edit-inputCT"
+                  />
+                )}
+                {editing === item.id ? (
+                  <button
+                    className="usercontent-save-btnCT"
+                    onClick={() => handleSaveButtonClick(item.id)}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    className="usercontent-edit-btnCT"
+                    onClick={() => handleEditButtonClick(item.id)}
+                  >
+                    Editar publicación
+                  </button>
+                )}
+                <button
+                  className="usercontent-delete-publication-btnCT"
+                  onClick={() => deletePublication(item.id)}
+                >
+   Eliminar publicación
+              </button>
+
+              <form
+                className="usercontent-comment-formCT"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  addCommentToPublication(item.id, e.target.commentText.value);
+                }}
+              >
+                <input
+                  type="text"
+                  name="commentText"
+                  className="usercontent-comment-inputCT"
+                  placeholder="Escribir un comentario..."
+                />
+                <button type="submit" className="usercontent-submit-comment-btnCT">
+                  Enviar comentario
+                </button>
+              </form>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>*/

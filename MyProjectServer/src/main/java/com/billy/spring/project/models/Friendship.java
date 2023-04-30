@@ -41,6 +41,8 @@ public class Friendship {
         this.createdAt = createdAt;
     }
 
+    public Friendship(Long userId, Long friendId, Object o) {
+    }
 
 
     public Long getId() {

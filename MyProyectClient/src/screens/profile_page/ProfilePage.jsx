@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import PublicationList from "../publication_list/PublicationList";
 import UserContent from "../user_feed/UserContent";
 import NotificationList from "../notification_item/NotificationList";
+import FriendsPrincipal from "../friendship/FriendsPrincipal";
 const ProfilePage = () => {
   const [contentType, setContentType] = useState("images");
   const { userId } = useParams();
@@ -68,11 +69,18 @@ const ProfilePage = () => {
           >
             content
           </button>
+          <button
+            onClick={() => setContentType("friends")}
+            className={contentType === "friends" ? "button-active" : ""}
+          >
+            friends
+          </button>
         </div>
         {contentType === "publications" && <PublicationList userId={userId}/>}
         {contentType === "images" && <UserImages userId={userId} onProfileImageUpdate={handleProfileImageUpdate} />}
         {contentType === "videos" && <UserVideos userId={userId}/>}
         {contentType === "content" && <UserContent userId={userId}/>}
+        {contentType === "friends" && <FriendsPrincipal userId={userId}/>}
       </div>
       </div>
     </div>

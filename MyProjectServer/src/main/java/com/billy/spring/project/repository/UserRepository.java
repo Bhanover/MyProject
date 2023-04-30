@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+  List<User> findByIdIn(List<Long> ids);
 
   @Query("SELECT new map(u.id as id, u.username as username, u.email as email, p.url as profileImage) FROM User u LEFT JOIN u.profileImage p WHERE u.id = :userId")
   Optional<Map<String, Object>> findUserInfoById(@Param("userId") Long userId);

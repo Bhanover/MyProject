@@ -24,6 +24,10 @@ public class FriendshipService {
 
     @Autowired
     private UserRepository userRepository;
+    public Friendship getFriendshipStatus(Long userId, Long friendId) {
+        return friendshipRepository.findByUserIdAndFriendIdOrFriendIdAndUserId(userId, friendId, userId, friendId)
+                .orElse(new Friendship(userId, friendId, null));
+    }
 
     public Friendship sendFriendRequest(Long userId, Long friendId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
@@ -125,7 +129,22 @@ public class FriendshipService {
             throw new RuntimeException("Friendship not found.");
         }
     }
+    public List<Long> getFriendIds(Long userId) {
+        List<Friendship> friendships = friendshipRepository.findByUser_IdAndStatusOrFriend_IdAndStatus(
+                userId, FriendshipStatus.ACCEPTED,
+                userId, FriendshipStatus.ACCEPTED
+        );
 
+        List<Long> friendIds = new ArrayList<>();
+        for (Friendship friendship : friendships) {
+            if (friendship.getUser().getId().equals(userId)) {
+                friendIds.add(friendship.getFriend().getId());
+            } else {
+                friendIds.add(friendship.getUser().getId());
+            }
+        }
+        return friendIds;
+    }
    /* public void removeFriend(Long userId, Long friendId) {
         Optional<Friendship> friendshipOptional = friendshipRepository.findByUserIdAndFriendId(userId, friendId);
         if (friendshipOptional.isPresent()) {

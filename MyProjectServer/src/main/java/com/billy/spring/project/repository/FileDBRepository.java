@@ -13,7 +13,7 @@ import java.util.Map;
 @Repository
 public interface FileDBRepository extends JpaRepository<FileDB, String> {
 
-    @Query("SELECT new map(f.id as id, f.filename as name, f.url as url, f.contentType as contentType, f.creationTime as creationTime, 'file' as entityType) " +
+    @Query("SELECT new map(f.id as id, f.filename as name, f.url as url, f.contentType as contentType,f.description as description, f.creationTime as creationTime, 'file' as entityType, f.user.id as userId) " +
             "FROM FileDB f " +
             "WHERE f.user = :user AND (f.contentType LIKE 'image/%' OR f.contentType LIKE 'video/%')")
     List<Map<String, Object>> findImagesAndVideosByUser(User user);

@@ -30,22 +30,35 @@ public class Publication {
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
-
+    @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Reaction> reactions = new ArrayList<>();
     public Publication() {
     }
 
-    public Publication(Long id, String content, LocalDateTime creationTime, User user) {
+    public Publication(Long id, String content, LocalDateTime creationTime, User user, List<Comment> comments, List<Reaction> reactions) {
         this.id = id;
         this.content = content;
         this.creationTime = creationTime;
         this.user = user;
+        this.comments = comments;
+        this.reactions = reactions;
     }
+
     public List<Comment> getComments() {
         return comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<Reaction> getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(List<Reaction> reactions) {
+        this.reactions = reactions;
     }
 
     public Publication(String content, LocalDateTime creationTime) {

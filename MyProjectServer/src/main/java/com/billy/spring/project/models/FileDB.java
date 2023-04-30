@@ -41,11 +41,13 @@ public class FileDB {
     @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
-
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Reaction> reactions = new ArrayList<>();
     public FileDB() {
     }
 
-    public FileDB(String id, String filename, String contentType, byte[] bytes, User user, User profileUser, String url, LocalDateTime creationTime, String description) {
+    public FileDB(String id, String filename, String contentType, byte[] bytes, User user, User profileUser, String url, LocalDateTime creationTime, String description, List<Comment> comments, List<Reaction> reactions) {
         this.id = id;
         this.filename = filename;
         this.contentType = contentType;
@@ -55,6 +57,8 @@ public class FileDB {
         this.url = url;
         this.creationTime = creationTime;
         this.description = description;
+        this.comments = comments;
+        this.reactions = reactions;
     }
 
     // Agregar un constructor que excluya el atributo "publication"
@@ -63,6 +67,15 @@ public class FileDB {
         this.contentType = contentType;
         this.bytes = bytes;
     }
+
+    public List<Reaction> getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(List<Reaction> reactions) {
+        this.reactions = reactions;
+    }
+
     public List<Comment> getComments() {
         return comments;
     }

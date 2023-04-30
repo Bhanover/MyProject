@@ -18,7 +18,7 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     @Query("SELECT p FROM Publication p WHERE p.user.id = :userId")
     List<Publication> findByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT new map(p.id as id, p.content as content, p.creationTime as creationTime, 'publication' as entityType) " +
+    @Query("SELECT new map(p.id as id, p.content as content, p.creationTime as creationTime, 'publication' as entityType, p.user.id as userId) " +
             "FROM Publication p " +
             "WHERE p.user = :user")
     List<Map<String, Object>> findPublicationsByUser(User user);
