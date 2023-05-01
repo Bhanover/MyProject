@@ -15,11 +15,12 @@ function PrivateChat() {
   const [roomName, setRoomName] = useState(null);
 
   const jwtToken = localStorage.getItem("jwtToken");
-
+  const userId = localStorage.getItem("idP");
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get("http://localhost:8081/api/auth/user/info", {
+        const response = await axios.get(`http://localhost:8081/api/auth/user/${userId}/info`, {
+          
           headers: {
             Authorization: "Bearer " + jwtToken,
           },

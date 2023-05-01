@@ -19,16 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/mywebsocket")
 public class UserListSocketController {
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
@@ -43,7 +47,11 @@ public class UserListSocketController {
         String userId = message.getPayload(); // Cambia esta línea para obtener el userId del mensaje
         System.out.println("Usuario en línea: " + userId);
         updateUserOnlineStatus(userId, true);
-        messagingTemplate.convertAndSend("/topic/online", "{\"userId\": \"" + userId + "\"}");
+
+        // Agregar un temporizador para enviar el mensaje de estado en línea después de 2 segundos
+        scheduler.schedule(() -> {
+            messagingTemplate.convertAndSend("/topic/online", "{\"userId\": \"" + userId + "\"}");
+        }, 2, TimeUnit.SECONDS);
     }
 
     @MessageMapping("/offline")

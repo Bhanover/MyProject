@@ -9,6 +9,9 @@ import java.util.Optional;
 @Repository
 public interface ReactionRepository extends JpaRepository<Reaction, Long> {
     Optional<Reaction> findByUserAndPublicationAndFile(User user, Publication publication, FileDB file);
-    long countByPublicationAndType(Publication publication, ReactionType type);
-    long countByFileAndType(FileDB file, ReactionType type);
+
+    // Agrega estos dos métodos
+    Long countByTypeAndPublication(ReactionType type, Publication publication);
+    Long countByTypeAndFile(ReactionType type, FileDB file);
+
 }

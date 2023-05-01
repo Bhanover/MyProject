@@ -9,6 +9,9 @@ const PublicationList = (props) => {
   const jwtToken = localStorage.getItem('jwtToken');
   const [userId,setUserId] =  useState("");
   const [newContent, setNewContent] = useState("");
+  const [editingPublicationId, setEditingPublicationId] = useState(null);
+  const [editingContent, setEditingContent] = useState("");
+
   useEffect(() => {
     fetchPublications();
   }, []);
@@ -89,12 +92,35 @@ const PublicationList = (props) => {
             <span className="publication-datePL">
               Publicado el {new Date(publication.creationTime).toLocaleDateString('es-ES')}
             </span>
-            <button onClick={() => deletePublication(publication.id)}>Eliminar</button>
-            <button onClick={() => updatePublication(publication.id, {/* Aquí van los datos actualizados de la publicación */})}>Actualizar</button>
-
+            {editingPublicationId === publication.id ? (
+              <form onSubmit={(event) => {
+                event.preventDefault();
+                updatePublication(publication.id, { content: editingContent });
+                setEditingPublicationId(null);
+              }}>
+                <input
+                  placeholder="Contenido"
+                  value={editingContent}
+                  onChange={(event) => setEditingContent(event.target.value)}
+                />
+                <button type="submit">Guardar</button>
+                <button onClick={() => setEditingPublicationId(null)}>Cancelar</button>
+              </form>
+            ) : (
+              <>
+                <button onClick={() => deletePublication(publication.id)}>Eliminar</button>
+                <button
+                  onClick={() => {
+                    setEditingContent(publication.content);
+                    setEditingPublicationId(publication.id);
+                  }}
+                >
+                  Actualizar
+                </button>
+              </>
+            )}
             <CommentPublication publicationId={publication.id} userId={props.userId} />
           </div>
-          
         ))}
       </div>
     </div>

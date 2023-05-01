@@ -37,20 +37,22 @@ function App() {
       <Route path='/images/:userId' element={<UserImages /> }></Route>
       <Route path='/videos/:userId' element={<UserVideos />}></Route>
       <Route path='/chatGeneral' element={<SocketTry />}></Route>
-      <Route path='/privateChat' element={<PrivateChat />}></Route>
-      <Route path='/userList' element={<UserListComponent />}></Route>
-      <Route path='/userSearch' element={<UserSearch />}></Route>
-      <Route path='/listSocket' element={<UserListSocket />}></Route>
-      <Route path="/logout" element={<UserLogout />} />
+       <Route path="/logout" element={<UserLogout />} />
       <Route path='/loginPage' element={<LoginPage />}></Route>
       <Route path='/upload' element={<UploadFile />}></Route>
       <Route path='/profilePage/:userId' element={<ProfilePage />}></Route>
       <Route path='/publicationList/:userId' element={<PublicationList />}></Route>
       <Route path='/userContent'element={<UserContent />}></Route>
     </Route>
+    <Route path='/privateChat' element={<PrivateChat />}></Route>
+    <Route path='/userList' element={<UserListComponent />}></Route>
+    <Route path='/listSocket' element={<UserListSocket />}></Route>
+
     <Route path='/friends' element={<Friendship />}></Route>
     <Route path='/friendsP' element={<FriendsPrincipal />}></Route>
     <Route path='/UserAllContent' element={<UserAllContent />}></Route>
+    <Route path='/userSearch' element={<UserSearch />}></Route>
+
   </Routes>
 
   );

@@ -4,7 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CommentFile from "../comment_file/CommentFile";
 import UseUserInfo from "../user_profile/UseUserInfo";
 import "./ImageModal.css";
-
+import Reaction from "../reaction/Reaction";
 const ImageModal = ({
   selectedImages,
   selectedFileIds,
@@ -14,6 +14,7 @@ const ImageModal = ({
   onDelete,
   onSetProfilePicture,
   selectedImageIndex,
+
 }) => {
   console.log('selectedImages:', selectedImages);
   console.log('selectedFileIds:', selectedFileIds);
@@ -60,12 +61,16 @@ const ImageModal = ({
                 </button>
               </div>
               <div className="comments-containerM">
+                {console.log("esto es el id",currentFileId)}
+ 
                 <div className="comment-sectionM">
                   <CommentFile
                     fileId={currentFileId}
                     postOwner={userInfo.username}
                     postDescription="Descripción de la foto o video"
                   />
+<Reaction key={currentFileId} fileId={currentFileId} />
+
                 </div>
               </div>
             </div>

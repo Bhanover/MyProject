@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -25,50 +26,31 @@ public class ReactionController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/publications/{publicationId}/reactions")
-    public ResponseEntity<Reaction> addReaction(@PathVariable Long publicationId,
-                                                @RequestParam ReactionType type,
-                                                @RequestParam(value = "fileId", required = false) Long fileId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userRepository.findById(userDetails.getId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        Reaction reaction = reactionService.addReaction(publicationId, fileId, type, user);
-        return ResponseEntity.ok(reaction);
-    }
-    @GetMapping("/reactions/count")
-    public ResponseEntity<Map<ReactionType, Long>> getReactionCounts(@RequestParam(value = "publicationId", required = false) Long publicationId,
-                                                                     @RequestParam(value = "fileId", required = false) Long fileId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
-        Map<ReactionType, Long> reactionCounts = reactionService.countReactionsByType(publicationId, fileId);
-        return ResponseEntity.ok(reactionCounts);
-    }
-    @DeleteMapping("/reactions/{reactionId}")
-    public ResponseEntity<Void> deleteReaction(@PathVariable Long reactionId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userRepository.findById(userDetails.getId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        reactionService.deleteReaction(reactionId, user);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/count/{type}/publication/{publicationId}")
+    public ResponseEntity<Long> countReactionsByTypeAndPublication(@PathVariable ReactionType type, @PathVariable Long publicationId) {
+        Long count = reactionService.countReactionsByTypeAndPublication(type, publicationId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
-    @PutMapping("/reactions")
-    public ResponseEntity<Reaction> toggleReaction(@RequestParam(value = "publicationId", required = false) Long publicationId,
-                                                   @RequestParam(value = "fileId", required = false) Long fileId,
-                                                   @RequestBody ReactionType type) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userRepository.findById(userDetails.getId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+    @GetMapping("/count/{type}/file/{fileId}")
+    public ResponseEntity<Long> countReactionsByTypeAndFile(@PathVariable ReactionType type, @PathVariable String fileId) {
+        Long count = reactionService.countReactionsByTypeAndFile(type, fileId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+    @PostMapping("/like")
+    public ResponseEntity<Reaction> like(@RequestParam(required = false) Long publicationId, @RequestParam(required = false) String fileId, Principal principal) {
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        Reaction reaction = reactionService.createOrUpdateReaction(user.getId(), publicationId, fileId, ReactionType.LIKE);
+        return new ResponseEntity<>(reaction, HttpStatus.CREATED);
+    }
 
-        Reaction reaction = reactionService.toggleReaction(publicationId, fileId, type, user);
-        return ResponseEntity.ok(reaction);
+    @PostMapping("/dislike")
+    public ResponseEntity<Reaction> dislike(@RequestParam(required = false) Long publicationId, @RequestParam(required = false) String fileId, Principal principal) {
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        Reaction reaction = reactionService.createOrUpdateReaction(user.getId(), publicationId, fileId, ReactionType.DISLIKE);
+        return new ResponseEntity<>(reaction, HttpStatus.CREATED);
     }
 }

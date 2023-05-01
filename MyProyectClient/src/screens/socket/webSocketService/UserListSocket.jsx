@@ -79,21 +79,24 @@ const UserListSocket = () => {
               })
             );
           });
+  
+          // Llama a getUsers() después de suscribirse a los mensajes
+          getUsers();
         },
         (error) => {
           console.log("STOMP error: " + error);
         }
       );
     }
-   // Desconectar al desmontar el componente
-   return () => {
-    if (stompClient) {
-      // Enviar mensaje de desconexión para informar al servidor que el usuario está fuera de línea
-      stompClient.send("/app/offline", {}, idP);
-      stompClient.disconnect();
-    }
-  };
-}, [stompClient, jwtToken, idP]);
+    // Desconectar al desmontar el componente
+    return () => {
+      if (stompClient) {
+        // Enviar mensaje de desconexión para informar al servidor que el usuario está fuera de línea
+        stompClient.send("/app/offline", {}, idP);
+        stompClient.disconnect();
+      }
+    };
+  }, [stompClient, jwtToken, idP]);
 
   
   return (

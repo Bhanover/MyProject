@@ -14,10 +14,11 @@ const CommentPublication = ({ publicationId, userId}) => {
   const [editingComment, setEditingComment] = useState(null);
   const [editingCommentText, setEditingCommentText] = useState('');
   const [profileMenuCommentId, setProfileMenuCommentId] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     axios
-      .get(`${API_BASE_URL}/user/${userId}/info`, {
+      .get(`${API_BASE_URL}/user/${currentUserId}/info`, {
         headers: { Authorization: `Bearer ${jwtToken}` },
       })
       .then((response) => {

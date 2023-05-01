@@ -59,7 +59,7 @@ function UserSearch(props) {
   const handleResultClick = (user_id) => {
     const result = searchResults.find((result) => result.id === user_id);
     if (result) {
-      navigate(`/profile/${user_id}`);
+      navigate(`/profilePage/${user_id}`);
     }
   };
 
