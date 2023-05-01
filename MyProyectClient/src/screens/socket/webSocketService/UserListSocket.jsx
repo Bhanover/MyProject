@@ -34,10 +34,20 @@ const UserListSocket = () => {
     }
   };
 
+  const updateUserStatus = (userId, isOnline) => {
+    setUsers((users) =>
+      users.map((user) => {
+        if (user.id === parseInt(userId, 10)) { // Convierte userId en un número antes de la comparación
+          return { ...user, isOnline };
+        } else {
+          return user;
+        }
+      })
+    );
+  };
   useEffect(() => {
     getUsers();
   }, []);
-
   useEffect(() => {
     const socket = new SockJS("http://localhost:8081/mywebsocket");
     const client = Stomp.over(socket);
@@ -50,76 +60,60 @@ const UserListSocket = () => {
         (frame) => {
           console.log("Conectado: " + frame);
           // Enviar mensaje de conexión para informar al servidor que el usuario está en línea
-          stompClient.send("/app/online", {}, idP);
-  
+          stompClient.send("/app/online", { Authorization: jwtToken }, idP);
+          
+          // Obtener la lista de amigos en línea después de conectarse
           stompClient.subscribe("/topic/online", (message) => {
             const userId = JSON.parse(message.body).userId;
             console.log("Usuario en línea: " + userId);
-            setUsers((users) =>
-              users.map((user) => {
-                if (user.id === userId) {
-                  return { ...user, isOnline: true };
-                } else {
-                  return user;
-                }
-              })
-            );
+            updateUserStatus(userId, true);
           });
+          
   
           stompClient.subscribe("/topic/offline", (message) => {
-            const userId = parseInt(JSON.parse(message.body).userId);
+            const userId = JSON.parse(message.body).userId;
             console.log("Usuario fuera de línea: " + userId);
-            setUsers((users) =>
-              users.map((user) => {
-                if (user.id === userId) {
-                  return { ...user, isOnline: false };
-                } else {
-                  return user;
-                }
-              })
-            );
+            updateUserStatus(userId, false);
           });
-  
-          // Llama a getUsers() después de suscribirse a los mensajes
-          getUsers();
         },
         (error) => {
           console.log("STOMP error: " + error);
         }
       );
     }
-    // Desconectar al desmontar el componente
-    return () => {
-      if (stompClient) {
-        // Enviar mensaje de desconexión para informar al servidor que el usuario está fuera de línea
-        stompClient.send("/app/offline", {}, idP);
-        stompClient.disconnect();
-      }
-    };
-  }, [stompClient, jwtToken, idP]);
-
+ 
+   // Desconectar al desmontar el componente
+   })
+   const handleDisconnect = () => {
+    if (stompClient) {
+      // Enviar mensaje de desconexión para informar al servidor que el usuario está fuera de línea
+      stompClient.send("/app/offline", {}, idP);
+      stompClient.disconnect();
+    }
+  };
   
   return (
     <div>
-      <h1>Lista de usuarios conectados</h1>
-      {users && users.length > 0 ? (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              {user.username}{" "}
-              {user.isOnline ? (
-                <span style={{ color: "green" }}>(online)</span>
-              ) : (
-                <span style={{ color: "red" }}>(offline)</span>
-              )}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No hay usuarios conectados.</p>
-      )}
-    </div>
-  );
-};
+    <h1>Lista de usuarios conectados</h1>
+    <button onClick={handleDisconnect}>Desconectar</button>
+    {users && users.length > 0 ? (
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.username}{" "}
+            {user.isOnline ? (
+              <span style={{ color: "green" }}>(online)</span>
+            ) : (
+              <span style={{ color: "red" }}>(offline)</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No hay usuarios conectados.</p>
+    )}
+  </div>
+);
+    }
 
 export default UserListSocket;

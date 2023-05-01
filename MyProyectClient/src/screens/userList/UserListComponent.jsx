@@ -8,6 +8,7 @@ const UserListComponent = () => {
   const [chatId, setChatId] = useState(null);
   const jwtToken = localStorage.getItem('jwtToken');
   const idP = localStorage.getItem('idP');
+  
   const getUsers = async () => {
     try {
       const response = await axios.get('http://localhost:8081/api/auth/friends', {
