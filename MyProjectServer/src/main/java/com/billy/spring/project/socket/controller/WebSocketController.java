@@ -2,10 +2,12 @@ package com.billy.spring.project.socket.controller;
 
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.billy.spring.project.exeption.InvalidJwtException;
 import com.billy.spring.project.models.User;
+import com.billy.spring.project.repository.PrivateMessageRepository;
 import com.billy.spring.project.repository.UserRepository;
 import com.billy.spring.project.security.jwt.JwtUtils;
 import com.billy.spring.project.security.services.UserDetailsImpl;
@@ -15,6 +17,7 @@ import com.billy.spring.project.socket.models.MessageRequest;
 import com.billy.spring.project.socket.models.MessagesResponse;
 import com.billy.spring.project.socket.models.PrivateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -43,6 +46,8 @@ public class WebSocketController {
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PrivateMessageRepository privateMessageRepository;
 
     @MessageMapping("/chat/general")
     @SendTo("/topic/chat/general")
@@ -74,10 +79,27 @@ public class WebSocketController {
     @MessageMapping("/chat/private")
     public void sendPrivateMessage(PrivateMessage privateMessage, Principal principal) {
         String roomName = privateMessage.getRoomName();
+        privateMessage.setTimestamp(LocalDateTime.now()); // Añadir la marca de tiempo actual al mensaje
+        privateMessageRepository.save(privateMessage); // Guardar el mensaje en la base de datos
         simpMessagingTemplate.convertAndSend("/queue/chat/private/" + privateMessage.getRoomName(), privateMessage);
     }
+    @GetMapping("/chat/private/history/{recipient}")
+    public ResponseEntity<?> getPrivateChatHistory(@PathVariable String recipient, Principal principal) {
+        String currentUsername = principal.getName();
+        List<PrivateMessage> messages = privateMessageRepository.findChatHistory(currentUsername, recipient);
+        return ResponseEntity.ok(messages);
+    }
+  /*  @GetMapping("/privateMessages")
+    public List<PrivateMessage> getPrivateMessages(@RequestParam String senderId, @RequestParam String recipientId) {
+        return privateMessageRepository.findBySenderIdAndRecipientIdOrRecipientIdAndSenderIdOrderByTimestampAsc(
+                senderId, recipientId, recipientId, senderId);
+    }
 
-
+    @GetMapping("/chat/private/history/{roomName}")
+    public ResponseEntity<List<PrivateMessage>> getPrivateChatHistory(@PathVariable("roomName") String roomName) {
+        List<PrivateMessage> messages = privateMessageRepository.findByRoomNameOrderByTimestampAsc(roomName);
+        return ResponseEntity.ok(messages);
+    }*/
     @MessageMapping("/searchUsers")
     public void searchUsers(@Header("Authorization") String token, String searchTerm) throws InvalidJwtException {
         if (token != null && jwtUtils.validateToken(token)) {

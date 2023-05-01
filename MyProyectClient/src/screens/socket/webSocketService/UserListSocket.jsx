@@ -2,13 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import PrivateChat from "../privateChat/PrivateChat";
+import "./UserListSocket.css"
 
 const UserListSocket = () => {
   const [users, setUsers] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
   const idP = localStorage.getItem("idP");
   const [stompClient, setStompClient] = useState(null);
+  const [selectedFriend, setSelectedFriend] = useState(null);
 
+  const handleFriendClick = (friend) => {
+    setSelectedFriend(friend);
+  };
   const getUsers = async () => {
     try {
         const response = await axios.get("http://localhost:8081/mywebsocket/onlineFriends", {
@@ -94,26 +100,39 @@ const UserListSocket = () => {
   
   return (
     <div>
-    <h1>Lista de usuarios conectados</h1>
-    <button onClick={handleDisconnect}>Desconectar</button>
-    {users && users.length > 0 ? (
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.username}{" "}
-            {user.isOnline ? (
-              <span style={{ color: "green" }}>(online)</span>
-            ) : (
-              <span style={{ color: "red" }}>(offline)</span>
-            )}
-          </li>
-        ))}
-      </ul>
+     {selectedFriend ? (
+        <PrivateChat
+          selectedFriend={selectedFriend}
+          onClose={() => setSelectedFriend(null)}
+        />
     ) : (
-      <p>No hay usuarios conectados.</p>
-    )}
-  </div>
-);
-    }
+        <>
+          <h1>Lista de usuarios conectados</h1>
+          <button onClick={handleDisconnect}>Desconectar</button>
+          {users && users.length > 0 ? (
+            <ul>
+              {users.map((user) => (
+                <li
+                  key={user.id}
+                  onClick={() => handleFriendClick(user)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {user.username}{" "}
+                  {user.isOnline ? (
+                    <span style={{ color: "green" }}>(online)</span>
+                  ) : (
+                    <span style={{ color: "red" }}>(offline)</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No hay usuarios conectados.</p>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
 
 export default UserListSocket;

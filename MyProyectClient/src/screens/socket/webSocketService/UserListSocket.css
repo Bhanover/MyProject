@@ -1,0 +1,68 @@
+.userListSocketLS-container {
+    position: relative;
+  }
+  
+  .userListSocketLS-friend {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .privateChatPV-window {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 100;
+  }
+  
+  .privateChatPV-window-header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .privateChatPV-window-header button {
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .privateChatPV-window-content {
+    padding: 10px;
+    overflow-y: auto;
+    height: 80%;
+  }
+  
+  .privateChatPV-window-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .privateChatPV-message {
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  .privateChatPV-message.sender {
+    background-color: #f1f1f1;
+    float: left;
+    clear: both;
+  }
+  
+  .privateChatPV-message.recipient {
+    background-color: #007bff;
+    color: white;
+    float: right;
+    clear: both;
+  }

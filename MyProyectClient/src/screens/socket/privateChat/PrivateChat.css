@@ -1,0 +1,14 @@
+.chat-message {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+  
+  .chat-message.self {
+    background-color: #DCF8C6;
+    text-align: right;
+  }
+  
+  .chat-message.other {
+    background-color: #F1F0F0;
+  }
