@@ -68,6 +68,13 @@ h1 {
   max-height: 100%;
   object-fit: contain;
   background: black;
+  
+}
+.imgContainer{
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 30px;
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 50%, transparent 100%);
 }
 
 .gallery-item {
@@ -144,4 +151,34 @@ h1 {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+ 
+}
+
+.gallery-container > div {
+  background-color: red;
+  border-radius: 20px;
+  box-shadow: 3px 10px 13px;
+}
+
+@media screen and (max-width: 1200px) {
+  .gallery-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .gallery-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .gallery-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

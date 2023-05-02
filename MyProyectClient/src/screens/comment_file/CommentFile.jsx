@@ -26,7 +26,15 @@ const CommentFile = ({ fileId, postOwner, postDescription }) => {
     const [selectedEmoji, setSelectedEmoji] = useState('');
     const currentUserId = localStorage.getItem("idP");
     const [showEmojiPickerEdit, setShowEmojiPickerEdit] = useState(false);
-
+    const [dropdownCommentId, setDropdownCommentId] = useState(null);
+    const toggleDropdown = (commentId) => {
+      if (dropdownCommentId === commentId) {
+        setDropdownCommentId(null);
+      } else {
+        setDropdownCommentId(commentId);
+      }
+    };
+  
     const handleEmojiSelect = (emoji) => {
         setSelectedEmoji(emoji.native);
         setNewComment(newComment + emoji.native);
@@ -101,21 +109,21 @@ const handleUpdateComment = (commentId) => {
       console.log('No estás autorizado para eliminar este comentario');
     }
   };
- return (
-  <div className="comment-sectionC">
-    <h2>Comments</h2>
-    <div className="post-owner">{postOwner}</div>
-    <div className="post-description">{postDescription}</div>
-    <div className="comments-container">
-      <InView>
-        {({ inView, ref }) => (
-          <ul ref={ref}>
-            {comments.map((comment) => (
-              <li key={comment.id}>
-                <span className="username">{comment.username}</span> - {comment.text} -{' '}
-                <span className="creation-time">{comment.creationTime}</span>
-                {editingComment === comment.id ? (
-                  <>
+  return (
+    <div className="comment-sectionC">
+      <h2>Comments</h2>
+      <div className="post-owner">{postOwner}</div>
+      <div className="post-description">{postDescription}</div>
+      <div className="comments-container">
+        <InView>
+          {({ inView, ref }) => (
+            <ul ref={ref}>
+              {comments.map((comment) => (
+                <li key={comment.id}>
+                   {console.log(comment.authorUsername)}
+                  <span className="username">{comment.authorUsername}</span> {' '}
+                  {editingComment === comment.id ? (
+                    <>
                     <input
                       type="text"
                       value={editedCommentText}
@@ -125,15 +133,15 @@ const handleUpdateComment = (commentId) => {
                       }}
                     />
 
-                    <button onClick={() => setShowEmojiPickerEdit(!showEmojiPickerEdit)}>
-                      {showEmojiPickerEdit ? (
-                        'Close Emoji Picker'
-                      ) : (
-                        <FontAwesomeIcon icon={faSmile} />
-                      )}
-                    </button>
-                    {showEmojiPickerEdit && (
-                      <Picker
+<button onClick={() => setShowEmojiPickerEdit(!showEmojiPickerEdit)}>
+                        {showEmojiPickerEdit ? (
+                          'Close Emoji Picker'
+                        ) : (
+                          <FontAwesomeIcon icon={faSmile} />
+                        )}
+                      </button>
+                      {showEmojiPickerEdit && (
+                        <Picker
                         onEmojiSelect={handleEmojiSelectEdit}
                         native
                         data={data}
@@ -142,32 +150,63 @@ const handleUpdateComment = (commentId) => {
                     )}
                   </>
                 ) : (
-                  <span>{comment.text}</span>
+                  <>
+                    <span>{comment.text}</span> {' '}
+                    <span className="creation-time">{comment.creationTime}</span>
+                  </>
                 )}
                 {currentUserId == comment.authorId && (
-                  <button
-                    className="update"
-                    onClick={() =>
-                      editingComment === comment.id
-                        ? handleUpdateComment(comment.id)
-                        : handleEditComment(comment.id, comment.text)
-                    }
-                  >
-                    {editingComment === comment.id ? 'Save' : 'Update'}
-                  </button>
-                )}
-                {currentUserId == comment.authorId && (
-                  <button className="delete" onClick={() => handleDeleteComment(comment.id)}>
-                    Delete
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </InView>
-    </div>
-    <div className="comment-input-containerC">
+                    <>
+                      <button
+                        className="dropdown-toggle"
+                        onClick={() => toggleDropdown(comment.id)}
+                      >
+                        ...
+                      </button>
+                      {dropdownCommentId === comment.id && (
+                        <div
+                          className="dropdown-menu"
+                          style={{
+                            display: 'inline-block',
+                            position: 'absolute',
+                            backgroundColor: 'white',
+                            border: '1px solid #ccc',
+                            borderRadius: '10px',
+                            padding: '5px',
+                            width:'100px',
+                            height:'30px',
+                            zIndex: 1,
+                            right:'30px',
+                            top:'-10px'
+                          }}
+                        >
+                          <button
+                            className="update"
+                            onClick={() =>
+                              editingComment === comment.id
+                                ? handleUpdateComment(comment.id)
+                                : handleEditComment(comment.id, comment.text)
+                            }
+                          >
+                            {editingComment === comment.id ? 'Save' : 'Update'}
+                          </button>
+                          <button
+                            className="delete"
+                            onClick={() => handleDeleteComment(comment.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </InView>
+      </div>
+      <div className="comment-input-containerC">
       <input
         type="text"
         value={newComment}
@@ -177,14 +216,14 @@ const handleUpdateComment = (commentId) => {
         }}
       />
       <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-        {showEmojiPicker ? (
-          "Close Emoji Picker"
-        ) : (
-          <FontAwesomeIcon icon={faSmile} />
-        )}
-      </button>
-      {showEmojiPicker && (
-        <Picker
+          {showEmojiPicker ? (
+            "Close Emoji Picker"
+          ) : (
+            <FontAwesomeIcon icon={faSmile} />
+          )}
+        </button>
+        {showEmojiPicker && (
+          <Picker
           onEmojiSelect={handleEmojiSelect}
           native
           data={data}
@@ -198,9 +237,9 @@ const handleUpdateComment = (commentId) => {
           }}
         />
       )}
-     <button onClick={handleAddComment}>
-  <FontAwesomeIcon icon={faPaperPlane} />
-</button>
+      <button onClick={handleAddComment}>
+          <FontAwesomeIcon icon={faPaperPlane} />
+        </button>
     </div>
   </div>
 );

@@ -7,6 +7,26 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.comment-sectionC .dropdown-toggle {
+  font-size: 12px;
+  background-color: transparent;
+  color: #606770;
+  padding: 0;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.comment-sectionC .dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  z-index: 1;
+  margin-top: 5px;
+  margin-left: -5px;
+}
 .comment-sectionC h2 {
   font-size: 24px;
   font-weight: bold;

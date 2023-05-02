@@ -9,7 +9,8 @@
   height: 100%;
   background-color: rgba(7, 7, 7, 0.7);
   z-index: 9999;
-  overflow-y: auto;
+    font-family: 'DM Serif Display', serif;
+
 }
 
 .modal-contentM {
@@ -41,20 +42,9 @@
 
 .closeM {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 2%;
+  right: 2%;
   font-size: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: initial;
-  color: white;
-}
-
-.set-profile-pictureM {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   background-color: initial;
@@ -71,23 +61,17 @@
   position: relative;
   width: 60%;
   height: auto;
- }
+}
 
 .image-containerM > img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
-  
+  object-fit: contain;
 }
 
 .comments-containerM {
   width: 35%;
   margin-left: 5%;
-}
-
-.delete-buttonM {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
 }
 
 .comment-sectionM {
@@ -99,12 +83,56 @@
   overflow-y: auto;
 }
 
-/* Estilos responsive */
+.options-iconM {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
 
+.options-dropdownM {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1;
+ 
+}
+
+.delete-buttonM,
+.set-profile-pictureM {
+  display: block;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  padding: 10px 10px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  text-decoration: none;
+  color: black;
+  font-family: 'DM Serif Display', serif;
+  border-radius: 30px;
+
+}
+
+.delete-buttonM:hover,
+.set-profile-pictureM:hover {
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+  font-weight: 900;
+
+}
+/* Estilos responsive */
 @media (max-width: 767px) {
   .image-containerM {
     width: 100%;
- 
   }
 
   .comments-containerM {
@@ -121,7 +149,6 @@
   .image-containerM {
     width: 100%;
   }
-
   .comments-containerM {
     width: 100%;
     margin-left: 0;
@@ -130,8 +157,4 @@
   .image-containerM > img {
     height: 200px;
   }
-}
-
-.modal-open {
-  overflow: hidden;
 }

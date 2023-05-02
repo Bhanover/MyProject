@@ -4,7 +4,7 @@ import "../user_images/UserImages.css";
 import VideoModal from '../video_modal/VideoModal';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
+import "./UserVideos.css"
 const UserVideos = (props) => {
   const [videoUrls, setVideoUrls] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
@@ -86,7 +86,7 @@ const UserVideos = (props) => {
   Eliminar video
 </button>*/
 return (
-  <div>
+  <div className='videoContainer'>
     <h1>Mis videos</h1>
     <div className="gallery-container">
       {videosToDisplay.map((url, index) => (

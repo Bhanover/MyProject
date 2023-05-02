@@ -23,6 +23,7 @@ import UserContent from './screens/user_feed/UserContent'
 import Friendship from './screens/friendship/Friendship'
 import FriendsPrincipal from './screens/friendship/FriendsPrincipal'
 import UserAllContent from './screens/user_all_content/UserAllContent'
+import ExperiencePage from './screens/experience_page/ExperiencePage'
 
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
       <Route path='/profilePage/:userId' element={<ProfilePage />}></Route>
       <Route path='/publicationList/:userId' element={<PublicationList />}></Route>
       <Route path='/userContent'element={<UserContent />}></Route>
+      <Route path='/experience' element={<ExperiencePage />}></Route>
+
     </Route>
     <Route path='/privateChat' element={<PrivateChat />}></Route>
     <Route path='/userList' element={<UserListComponent />}></Route>
@@ -52,7 +55,7 @@ function App() {
     <Route path='/friendsP' element={<FriendsPrincipal />}></Route>
     <Route path='/UserAllContent' element={<UserAllContent />}></Route>
     <Route path='/userSearch' element={<UserSearch />}></Route>
-
+ 
   </Routes>
 
   );

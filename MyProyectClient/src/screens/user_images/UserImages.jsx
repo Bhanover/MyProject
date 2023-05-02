@@ -12,6 +12,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0); // Agrega este estado
 
+
   useEffect(() => {
     fetchUserImages();
   }, []);
@@ -25,6 +26,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
       });
   
       setImageUrls(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error('Error al establecer la foto de perfil:', error.response.data);
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
@@ -51,11 +53,14 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     }
   };
   
-  const handleOpenImageModal = (url, fileId) => { // Añade el argumento 'index'
+  const handleOpenImageModal = (url, fileId, index) => {
     setSelectedFileId(fileId);
     setSelectedImage(url.url);
+    setSelectedImageIndex(index);
     setShowImageModal(true);
+  
   };
+  
   const handleCloseImageModal = () => {
     setSelectedImage(null);
     setSelectedFileId(null);
@@ -85,27 +90,27 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
             key={index}
             className="gallery-item"
           >
-            <img
-            src={url.url}
-            alt={`Imagen del usuario ${index}`}
-            onClick={() => handleOpenImageModal(url, url.imageId, index)}
-            className="thumbnail"
-          />
-
+     <img
+  src={url.url}
+  alt={`Imagen del usuario ${index}`}
+  onClick={() => handleOpenImageModal(url, url.imageId, index, url.description, url.creationTime)} // Modifica esta línea
+  className="thumbnail"
+/>
           </div>
         ))}
       </div>
       {showImageModal && (
-  <ImageModal
-    selectedImages={imageUrls}
-    selectedFileIds={imageUrls.map((image) => image.imageId)}
-    fileId={selectedFileId}
-    onClose={handleCloseImageModal}
-    userId={props.userId}
-    onDelete={deleteImage}
-    onSetProfilePicture={setProfilePicture}
-    selectedImageIndex={selectedImageIndex} // Agrega esta línea
-  />
+ <ImageModal
+ selectedImages={imageUrls}
+ selectedFileIds={imageUrls.map((image) => image.imageId)}
+ fileId={selectedFileId}
+ onClose={handleCloseImageModal}
+ selectedImage={selectedImage} // Cambia esto
+ userId={props.userId}
+ onDelete={deleteImage}
+ onSetProfilePicture={setProfilePicture}
+ selectedImageIndex={selectedImageIndex}
+/>
 )}
     </div>
   );

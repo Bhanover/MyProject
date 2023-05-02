@@ -71,7 +71,7 @@ function PrivateChat({ selectedFriend, onClose }) {
   };
   useEffect(() => {
     if (minimized) {
-      setUnreadMessages((prevUnreadMessages) => prevUnreadMessages + 1);
+  setUnreadMessages((prevUnreadMessages) => prevUnreadMessages + 1);
     }
   }, [privateMessages]);
   const fetchPrivateMessages = async () => {

@@ -2,28 +2,34 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import TopBar from "../top_bar/TopBar";
+import LeftBar from "../left_bar/LeftBar";
+import "./Container.css";
 
-const Container = () =>{
-    const [loggedIn,setLoggedIn] = useState("");
+const Container = () => {
+  const [loggedIn, setLoggedIn] = useState("");
 
-    useEffect(() => {
-        if(localStorage.getItem("sessionToken") != null ){
-            setLoggedIn(true);
-        }
-    },[]);
+  useEffect(() => {
+    if (localStorage.getItem("sessionToken") != null) {
+      setLoggedIn(true);
+    }
+  }, []);
 
-    return (
-        <div>
-            <TopBar loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-            <Outlet  loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
+  return (
+    <div className="container">
+      <TopBar loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+      <div className="container-main">
+        <div className="leftBar-wrapper">
+          <LeftBar />
         </div>
-    );
-
-
-}
+        <div className="content">
+          <Outlet loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Container;
-
 
 /*useEffect es un hook de React que se utiliza para ejecutar efectos 
 secundarios en componentes. Un efecto secundario es cualquier cambio 
