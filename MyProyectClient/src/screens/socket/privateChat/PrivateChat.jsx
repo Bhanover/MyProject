@@ -14,6 +14,8 @@ function PrivateChat({ selectedFriend, onClose }) {
   const stompClientRef = useRef(null);
   const [userInfo, setUserInfo] = useState({});
   const [roomName, setRoomName] = useState(null);
+  const [minimized, setMinimized] = useState(false);
+  const [unreadMessages, setUnreadMessages] = useState(0);
 
   const jwtToken = localStorage.getItem("jwtToken");
   const userId = localStorage.getItem("idP");
@@ -67,7 +69,11 @@ function PrivateChat({ selectedFriend, onClose }) {
       loadChatHistory();
     });
   };
-
+  useEffect(() => {
+    if (minimized) {
+      setUnreadMessages((prevUnreadMessages) => prevUnreadMessages + 1);
+    }
+  }, [privateMessages]);
   const fetchPrivateMessages = async () => {
     try {
       const response = await axios.get(`http://localhost:8081/mywebsocket/privateMessages?senderId=${currentUser}&recipientId=${recipient}`, {
@@ -124,29 +130,45 @@ function PrivateChat({ selectedFriend, onClose }) {
       setMessage("");
     }
   };
-  
   return (
-    <div>
-      {connected ? (
-        <div>
-          <h2>Private chat with {recipient}</h2>
-          <button
-            onClick={() => {
-              disconnect();
-              onClose();
-            }}
-          >
-            Cerrar chat
-          </button>
-          <button onClick={disconnect}>Disconnect</button>
-          <div>
+    <>
+     {minimized ? (
+    <div
+      className="chat-window minimized-chat"
+      onClick={() => {
+        setMinimized(false);
+        setUnreadMessages(0); // Restablece el recuento de mensajes no leídos
+      }}
+    >
+      {recipient.charAt(0)}
+      {unreadMessages > 0 && <span className="unread-count">{unreadMessages}</span>}
+    </div>
+  ) : (
+        <div className="chat-window">
+          <div className="chat-header">
+            <span>Private chat with {recipient}</span>
+            <div>
+              <span
+                className="minimize-button"
+                onClick={() => setMinimized(true)}
+              >
+                -
+              </span>
+              <span className="close-button" onClick={() => { onClose(); disconnect(); }}>
+  &times;
+</span>
+            </div>
+          </div>
+          <div className="chat-content">
             {privateMessages.map((message, index) => (
               <p key={index}>
-                {message.sender}: {message.content}
+                <span className={message.sender === currentUser ? "sender" : "receiver"}>
+                  {message.sender}: {message.content}
+                </span>
               </p>
             ))}
           </div>
-          <div>
+          <div className="input-wrapper">
             <input
               type="text"
               value={message}
@@ -155,24 +177,9 @@ function PrivateChat({ selectedFriend, onClose }) {
             <button onClick={enviarMensajePrivado}>Send</button>
           </div>
         </div>
-      ) : (
-        <div>
-          <h2>Connect to private chat</h2>
-          <div>
-            <label htmlFor="recipient">Recipient:</label>
-            <input
-              type="text"
-              id="recipient"
-              value={recipient}
-              onChange={(e) => setRecipient(e.target.value)}
-            />
-          </div>
-          <button onClick={connect}>Connect</button>
-        </div>
       )}
-    </div>
+    </>
   );
-  
-  }
-  
-  export default PrivateChat;
+}
+
+export default PrivateChat;

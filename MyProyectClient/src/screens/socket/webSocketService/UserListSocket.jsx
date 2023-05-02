@@ -12,8 +12,13 @@ const UserListSocket = () => {
   const [stompClient, setStompClient] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
 
-  const handleFriendClick = (friend) => {
-    setSelectedFriend(friend);
+  const [chatWindows, setChatWindows] = useState([]);
+
+  const handleFriendClick = (user) => {
+    if (chatWindows.some((chat) => chat.id === user.id)) {
+      return;
+    }
+    setChatWindows([...chatWindows, user]);
   };
   const getUsers = async () => {
     try {
@@ -99,40 +104,38 @@ const UserListSocket = () => {
   };
   
   return (
-    <div>
-     {selectedFriend ? (
-        <PrivateChat
-          selectedFriend={selectedFriend}
-          onClose={() => setSelectedFriend(null)}
-        />
-    ) : (
-        <>
-          <h1>Lista de usuarios conectados</h1>
-          <button onClick={handleDisconnect}>Desconectar</button>
-          {users && users.length > 0 ? (
-            <ul>
-              {users.map((user) => (
-                <li
-                  key={user.id}
-                  onClick={() => handleFriendClick(user)}
-                  style={{ cursor: "pointer" }}
-                >
-                  {user.username}{" "}
-                  {user.isOnline ? (
-                    <span style={{ color: "green" }}>(online)</span>
-                  ) : (
-                    <span style={{ color: "red" }}>(offline)</span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No hay usuarios conectados.</p>
-          )}
-        </>
+    <div className="user-list-container">
+      <h1>Lista de usuarios conectados</h1>
+      <button onClick={handleDisconnect}>Desconectar</button>
+      {users && users.length > 0 ? (
+        <ul>
+          {users.map((user) => (
+            <li
+              key={user.id}
+              onClick={() => handleFriendClick(user)}
+              className="user"
+            >
+              {user.username}{" "}
+              <span
+                className="online-status"
+                style={{ backgroundColor: user.isOnline ? "green" : "red" }}
+              ></span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No hay usuarios conectados.</p>
       )}
-    </div>
-  );
-};
-
-export default UserListSocket;
+      {chatWindows.map((user) => (
+        <PrivateChat
+          key={user.id}
+          selectedFriend={user}
+          onClose={() =>
+            setChatWindows(chatWindows.filter((chat) => chat.id !== user.id))
+        }
+      />
+    ))}
+  </div>
+);
+  }
+  export default UserListSocket;

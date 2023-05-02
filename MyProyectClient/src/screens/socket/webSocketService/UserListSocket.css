@@ -1,68 +1,33 @@
-.userListSocketLS-container {
-    position: relative;
+.user-list-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ccc;
   }
   
-  .userListSocketLS-friend {
+  .user {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  
-  .privateChatPV-window {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 300px;
-    height: 400px;
-    border: 1px solid #ccc;
     background-color: #fff;
-    z-index: 100;
-  }
-  
-  .privateChatPV-window-header {
-    background-color: #f1f1f1;
     padding: 10px;
-    cursor: move;
-    z-index: 10;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .privateChatPV-window-header button {
-    float: right;
-    font-size: 18px;
-    font-weight: bold;
-    background: none;
-    border: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
     cursor: pointer;
   }
   
-  .privateChatPV-window-content {
-    padding: 10px;
-    overflow-y: auto;
-    height: 80%;
+  .user:hover {
+    background-color: #eee;
   }
   
-  .privateChatPV-window-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+  .online-status {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
   }
   
-  .privateChatPV-message {
-    padding: 5px;
-    border-radius: 5px;
-  }
-  
-  .privateChatPV-message.sender {
-    background-color: #f1f1f1;
-    float: left;
-    clear: both;
-  }
-  
-  .privateChatPV-message.recipient {
-    background-color: #007bff;
-    color: white;
-    float: right;
-    clear: both;
-  }
