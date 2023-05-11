@@ -1,8 +1,6 @@
 package com.billy.spring.project.service;
 
-import com.billy.spring.project.models.FileDB;
-import com.billy.spring.project.models.ImageInfo;
-import com.billy.spring.project.models.User;
+
 import com.billy.spring.project.repository.FileDBRepository;
 import com.billy.spring.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -62,14 +62,15 @@ const CommentPublication = ({ publicationId, userId}) => {
   };
 
   const handleCreateComment = async () => {
+    
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/publications/${publicationId}/comments`,
-        newCommentText,
-        {
-          headers: { Authorization: "Bearer " + jwtToken },
-        }
-      );
+  `${API_BASE_URL}/publications/${publicationId}/comments`,
+  { commentText: newCommentText },
+  {
+    headers: { Authorization: "Bearer " + jwtToken },
+  }
+);
       setComments([
         ...comments,
         { ...response.data, authorProfileImage: userInfo.profileImage },
@@ -82,6 +83,7 @@ const CommentPublication = ({ publicationId, userId}) => {
   };
 
   const handleUpdateComment = async (commentId, updatedText) => {
+    
     try {
       await axios.put(`${API_BASE_URL}/comments/${commentId}`, { commentText: updatedText }, {
         headers: { 'Authorization': 'Bearer ' + jwtToken },
@@ -115,36 +117,47 @@ const CommentPublication = ({ publicationId, userId}) => {
     return date.toLocaleDateString('es-ES', options);
   };
   const toggleProfileMenu = (commentId) => {
-    setProfileMenuCommentId(profileMenuCommentId === commentId ? null : commentId);
+    if (profileMenuCommentId === commentId) {
+      setProfileMenuCommentId(null);
+    } else {
+      setProfileMenuCommentId(commentId);
+    }
+  };
+  const closeProfileMenu = () => {
+    setProfileMenuCommentId(null);
   };
   return (
-    <div className="comments-sectionCP">
+    <div className="comments-sectionCP" onClick={closeProfileMenu}>
       <h2>Comentarios</h2>
       <div className="comments-listCP">
         <ul>
           {comments.map((comment) => (
             <li key={comment.id} className="commentCP">
               <div className="comment-userCP">
-              <img
+                <Link to={`/profilePage/${comment.authorId}`}>
+                  <img
                     className="profile-imageCP"
                     src={comment.authorProfileImage}
                     alt="Profile"
-                    onClick={() => toggleProfileMenu(comment.id)}
                   />
-                {profileMenuCommentId === comment.id && (
-              <div className="profile-menu">
-                <Link to={`/profilePage/${comment.authorId}`}>Ver perfil</Link>
-              </div>
-              )}
+                </Link>
                 <p>{comment.authorUsername}</p>
               </div>
               <div className="comment-contentCP">
                 {editingComment === comment.id ? (
-                  <input
-                    type="text"
-                    value={editingCommentText}
-                    onChange={(e) => setEditingCommentText(e.target.value)}
-                  />
+                  <form onSubmit={(e) => {
+  e.preventDefault();
+  handleUpdateComment(comment.id, editingCommentText);
+  setEditingComment(null); // Agrega esta línea
+}}>
+
+                    <input
+                      type="text"
+                      value={editingCommentText}
+                      onChange={(e) => setEditingCommentText(e.target.value)}
+                    />
+                    <button type="submit">Guardar</button>
+                  </form>
                 ) : (
                   <p>{comment.text}</p>
                 )}
@@ -153,41 +166,88 @@ const CommentPublication = ({ publicationId, userId}) => {
                 </span>
               </div>
               {comment.authorId == currentUserId && (
-                <>
-                  {editingComment === comment.id ? (
-                    <>
-                      <button onClick={() => handleUpdateComment(comment.id, editingCommentText)}>Guardar</button>
-                      <button onClick={() => setEditingComment(null)}>Cancelar</button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => {
-                          setEditingComment(comment.id);
-                          setEditingCommentText(comment.text);
-                        }}
-                      >
-                        Editar
-                      </button>
-                      <button onClick={() => handleDeleteComment(comment.id)}>Eliminar</button>
-                    </>
+                <div className="comment-optionsCP">
+                  <button
+                    className="options-buttonCP"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleProfileMenu(comment.id);
+                    }}
+                  >
+                    <i className="fas fa-ellipsis-v"></i>
+                  </button>
+                  {profileMenuCommentId === comment.id && (
+                    <div
+                      className={`dropdown-menuCP ${
+                        profileMenuCommentId === comment.id ? "show" : ""
+                      }`}
+                    >
+                      {editingComment === comment.id ? (
+                        <>
+                          <div
+                            className="dropdown-itemCP"
+                            onClick={() =>
+                              handleUpdateComment(comment.id, editingCommentText)
+                            }
+                          >
+                            Guardar
+                          </div>
+                          <div
+                            className="dropdown-itemCP"
+                            onClick={() => setEditingComment(null)}
+                          >
+                            Cancelar
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div
+                            className="dropdown-itemCP"
+                            onClick={() => {
+                              setEditingComment(comment.id);
+                              setEditingCommentText(comment.text);
+                            }}
+                          >
+                            Editar
+                          </div>
+                          <div
+                            className="dropdown-itemCP"
+                            onClick={() => handleDeleteComment(comment.id)}
+                          >
+                            Eliminar
+                          </div>
+                          <Link
+                            className="dropdown-itemCP"
+                            to={`/profilePage/${comment.authorId}`}
+                          >
+                            Ver perfil
+                          </Link>
+                        </>
+                      )}
+                    </div>
                   )}
-                </>
+                </div>
               )}
             </li>
           ))}
         </ul>
       </div>
       <div className="new-commentCP">
-        <input
-          type="text"
-          value={newCommentText}
-          onChange={(e) => setNewCommentText(e.target.value)}
-          placeholder="Escribe tu comentario"
-        />
-        <button onClick={handleCreateComment}>Comentar</button>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          handleCreateComment();
+        }}>
+          <input
+            type="text"
+            value={newCommentText}
+            onChange={(e) => setNewCommentText(e.target.value)}
+            placeholder="Escribe tu comentario"
+          />
+          <button type="submit">Comentar</button>
+        </form>
       </div>
     </div>
   );
-                      }
+};
+
 export default CommentPublication;

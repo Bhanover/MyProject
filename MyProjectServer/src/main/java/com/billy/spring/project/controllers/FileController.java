@@ -3,7 +3,6 @@ package com.billy.spring.project.controllers;
 
 import com.billy.spring.project.exeption.ResourceNotFoundException;
 import com.billy.spring.project.models.FileDB;
-import com.billy.spring.project.models.ImageInfo;
 import com.billy.spring.project.models.User;
 import com.billy.spring.project.payload.response.ResponseFile;
 import com.billy.spring.project.payload.response.ResponseMessage;

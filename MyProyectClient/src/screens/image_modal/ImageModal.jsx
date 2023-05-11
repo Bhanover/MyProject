@@ -14,6 +14,7 @@ const ImageModal = ({
   onDelete,
   onSetProfilePicture,
   selectedImageIndex,
+  
 
 }) => {
   console.log('selectedImages:', selectedImages);
@@ -26,10 +27,14 @@ const ImageModal = ({
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  const handleOptionsClick = () => {
+  const handleOptionsClick = (event) => {
+    event.preventDefault(); // Añade esta línea para prevenir el comportamiento predeterminado del navegador
     setDropdownVisible(!dropdownVisible);
   };
-
+  const handleSetProfilePicture = () => {
+    onSetProfilePicture(currentFileId);
+    onClose()
+  }
 
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -55,8 +60,10 @@ const ImageModal = ({
           {selectedImages.map((image, index) => (
             <div key={index} className="image-comments-wrapperM">
               <div className="image-containerM">
-                <i className="fa fa-ellipsis-h options-iconM" onClick={handleOptionsClick}></i>
-                {dropdownVisible && (
+              <i
+  className="fa fa-ellipsis-h options-iconM"
+  onClick={(event) => handleOptionsClick(event)}
+></i>                {dropdownVisible && (
                   <div className="options-dropdownM">
                     <button
                       className="delete-buttonM"
@@ -72,19 +79,21 @@ const ImageModal = ({
                 <img src={image.url} alt="" />
               </div>
               <div className="comments-containerM">
-                {console.log("esto es el id", currentFileId)}
-  
+                <div className="reactionM" >
+                <Reaction   key={currentFileId} fileId={currentFileId} />
+
+                </div>
+   
                 <div className="comment-sectionM">
                 <CommentFile
   fileId={currentFileId}
-  postOwner={userInfo.username}
+  postOwner={image.username}
   postDescription={
     selectedImages.find((image) => image.imageId === currentFileId)
       ?.description || "Descripción de la foto o video"
   }
 />
-                  <Reaction key={currentFileId} fileId={currentFileId} />
-                </div>
+                 </div>
               </div>
             </div>
           ))}

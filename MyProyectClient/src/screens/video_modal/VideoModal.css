@@ -7,10 +7,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(7, 7, 7, 0.7);
+  background: linear-gradient(to bottom,#3c5a7f, #c7c6c6, #3d7bbd, transparent 100% ) ;
   z-index: 9999;
-  overflow-y: auto;
-}
+  font-family: 'DM Serif Display', serif;
+ }
 
 .modal-contentV {
   display: flex;
@@ -41,15 +41,32 @@
 
 .closeV {
   position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 30px;
+  height: 30px;
+  width: 30px;
+  top: 2%;
+  right: 2%;
+  font-size: 20px;
   font-weight: bold;
   cursor: pointer;
   background-color: initial;
   color: white;
+  background: linear-gradient(to bottom, rgb(163, 163, 163) 0%, transparent 100%);
+  padding: 2px;
+  border-radius: 100%;
+  border: none;
 }
+.closeV:hover {
+  background: linear-gradient(to bottom, rgb(236, 236, 236) 0%, transparent 100%);
 
+}
+.options-dropdownV {
+  user-select: none; /* Añade esta línea para evitar la selección de texto */
+}
+.options-iconV{
+  top: 30px;
+  right: 30px;
+  position: absolute;
+}
 .video-comments-wrapperV {
   display: flex;
   flex-wrap: wrap;
@@ -60,12 +77,20 @@
   position: relative;
   width: 60%;
   height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, rgb(236, 236, 236,0.5) 100%, transparent 100%);
+  border-radius: 30px;
+  padding: 30px;
 }
 
 .video-containerV > video {
-  width: 100%;
+  max-width: 100%;
   height: auto;
+  object-fit: contain;
 }
+
 .comments-containerV {
   width: 35%;
   margin-left: 5%;
@@ -73,23 +98,46 @@
 
 .delete-buttonV {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  top: 20px;
+  right: 60px;
+  font-size: 16px;
+  padding: 10px;
+  background: linear-gradient(to bottom, rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  font-family: 'DM Serif Display', serif;
+}
+
+.delete-buttonV:hover {
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+  font-weight: 900;
 }
 
 .comment-sectionV {
   margin-top: 10px;
-  background-color: #ffffff;
   padding: 10px;
   border-radius: 5px;
   height: auto;
-  overflow-y: auto;
+}
+
+.carousel.carousel-slider .control-arrow:hover {
+  background: linear-gradient(to bottom,#3c5a7f, #040404, #3d7bbd ) ;
+}
+.carousel.carousel-slider .control-arrow {
+  top: 45%;
+  color: #1b1a1a;
+  font-size: 26px;
+  bottom: 45%;
+  margin-top: 0;
+  padding: 5px;
+  border-radius: 40px;
 }
 
 /* Estilos responsive */
-
-
-
 
 @media (max-width: 767px) {
   .video-containerV {
@@ -102,25 +150,26 @@
     margin-top: 20px;
   }
   .video-containerV > video {
-    height: 200px;
+    max-height: 40vh;
+    padding: 10px;
   }
 }
 
 @media (max-width: 479px) {
   .video-containerV {
     width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .comments-containerV {
     width: 100%;
     margin-left: 0;
-    margin-top: 20px;
   }
   .video-containerV > video {
-    height: 200px;
+    max-height: 50vh;
+    padding: 10px;
   }
-}
-
-.modal-open {
-  overflow: hidden;
 }

@@ -91,7 +91,7 @@
         {showUserImages && (
           <div className="modal" onClick={handleCloseModal}>
             <div className="modal-content" onClick={handleContainerClick}>
-              <div className="modal-close" onClick={handleCloseModal}>
+              <div className="modal-closeU" onClick={handleCloseModal}>
                 &times;
               </div>
               <div className="gallery-wrapper">

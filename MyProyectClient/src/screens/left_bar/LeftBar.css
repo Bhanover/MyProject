@@ -1,7 +1,6 @@
 .icon-containerLB{
     display: flex;
     flex-direction: column;
-    background-color: red;
     position: fixed;
     width: 50px;
     height: 100%;

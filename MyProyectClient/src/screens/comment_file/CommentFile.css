@@ -1,12 +1,13 @@
 .comment-sectionC {
-  font-family: Arial, sans-serif;
-  max-width: 100%; /* Asegúrese de que el contenedor principal tenga un ancho máximo del 100% */
+  max-width: 100%;
   margin: 0 auto;
-  padding: 16px; /* Agregue un padding al contenedor principal para darle espacio al contenido */
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 100%, transparent 100%);
+  border-radius: 30px;
+  box-shadow: 2px 8px 12px rgba(44, 43, 43, 1);
+  overflow-y: auto;
 }
+
 .comment-sectionC .dropdown-toggle {
   font-size: 12px;
   background-color: transparent;
@@ -19,7 +20,7 @@
 .comment-sectionC .dropdown-menu {
   display: none;
   position: absolute;
-  background-color: white;
+  background-color: rgb(128, 81, 81);
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 5px;
@@ -27,6 +28,7 @@
   margin-top: 5px;
   margin-left: -5px;
 }
+
 .comment-sectionC h2 {
   font-size: 24px;
   font-weight: bold;
@@ -64,6 +66,24 @@
   margin-right: 10px;
 }
 
+.comment-sectionC li img {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.carousel .slide img{
+  width: auto  !important;
+  height: auto  !important;
+  
+}
+
+ 
+.carousel .slide .comment-sectionC li > img{
+  height: 30px  !important;
+  width: 30px !important;
+}
 .comment-sectionC li .username {
   font-weight: bold;
   margin-right: 5px;
@@ -78,21 +98,32 @@
 .comment-sectionC input[type="text"] {
   width: 100%;
   padding: 8px 12px;
-  border-radius: 18px;
+  border-radius: 15px;
   border: 1px solid #ced4da;
   margin-top: 10px;
-  background-color: #97dbf7;
+  background: linear-gradient(to bottom, rgb(182, 182, 182) 0%, transparent 100%);
+
 }
 
-.comment-sectionC button {
-  background-color: #1877f2;
-  color: #fff;
-  font-weight: bold;
+.comment-sectionC input[type="text"]:hover{
+  background: linear-gradient(to bottom, rgb(236, 236, 236) 0%, transparent 100%);
+}
 
+.comment-sectionC input[type="text"]:active{
+  background: linear-gradient(to bottom, rgb(236, 236, 236) 0%, transparent 100%);
+}
+ 
+.comment-sectionC button {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  align-items: center;
   border-radius: 4px;
   border: none;
   cursor: pointer;
   height: auto;
+  font-size: 25px;
+  color: black;
  
 }
 
@@ -102,7 +133,11 @@
   overflow-y: auto;
   
 }
+.comments-container li{
+  box-shadow: 2px 8px 12px rgba(44, 43, 43, 0.5);
 
+}
+ 
 .comment-sectionC .update,
 .comment-sectionC .delete {
   font-size: 12px;
@@ -119,7 +154,10 @@
   right: auto;
   left: 5px;
 }
-
+.svg-inline--fa{
+  width: 30px;
+  
+}
 .comment-input-containerC {
   height: 50px;
   bottom: 20px;
@@ -130,9 +168,9 @@
   margin: auto;
   padding: 3px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
 }
 /* Ajustes responsivos para dispositivos con ancho menor o igual a 1024px */
@@ -149,7 +187,7 @@
 /* Ajustes responsivos para dispositivos con ancho menor o igual a 767px */
 @media (max-width: 767px) {
   .comment-sectionC .comments-container {
-    height: 140px; /* Reduzca aún más la altura del contenedor de comentarios */
+    height: 70px; /* Valor reducido a la mitad */
   }
 
   .comment-sectionC input[type="text"] {
@@ -164,6 +202,10 @@
 }
 @media (max-width: 767px) {
   .comment-input-containerC {
-    height: 40px; /* Aumenta la altura del contenedor de entrada de comentario */
+    height: 20px; /* Aumenta la altura del contenedor de entrada de comentario */
+    padding: 5px;
+  }
+  .comment-sectionC {
+    margin-top: -30px;
   }
 }

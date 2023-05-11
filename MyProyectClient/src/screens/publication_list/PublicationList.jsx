@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CommentPublication from "../comment_publication/CommentPublication"
 import "./PublicationList.css"
+import Reaction from '../reaction/Reaction';
+import { Link } from 'react-router-dom';
 const API_BASE_URL = 'http://localhost:8081/api/auth';
 
 const PublicationList = (props) => {
@@ -11,23 +13,43 @@ const PublicationList = (props) => {
   const [newContent, setNewContent] = useState("");
   const [editingPublicationId, setEditingPublicationId] = useState(null);
   const [editingContent, setEditingContent] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  const handleOptionsClick = (event) => {
+    event.preventDefault(); // Añade esta línea para prevenir el comportamiento predeterminado del navegador
+    setDropdownVisible(!dropdownVisible);
+  };
   useEffect(() => {
     fetchPublications();
   }, []);
 
   const fetchPublications = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/${props.userId}/publications`, {
-        headers: { 'Authorization': 'Bearer ' + jwtToken },
-      });
-      setPublications(response.data);
-      console.log(response.data)
-    } catch (error) {
-      console.error('Error al obtener las publicaciones:', error);
-      throw new Error('Error al obtener las publicaciones. Inténtalo de nuevo.');
-    }
-  };
+  try {
+    const response = await axios.get(`${API_BASE_URL}/${props.userId}/publications`, {
+      headers: { 'Authorization': 'Bearer ' + jwtToken },
+    });
+    
+    const fetchedPublications = await Promise.all(
+      response.data.map(async (publication) => {
+        const authorResponse = await axios.get(`${API_BASE_URL}/user/${publication.userId}/info`, {
+          headers: { Authorization: `Bearer ${jwtToken}` },
+        });
+
+        return {
+          ...publication,
+          authorProfileImage: authorResponse.data.profileImage,
+        };
+      })
+    );
+
+    setPublications(fetchedPublications);
+    console.log(fetchedPublications);
+  } catch (error) {
+    console.error('Error al obtener las publicaciones:', error);
+    throw new Error('Error al obtener las publicaciones. Inténtalo de nuevo.');
+  }
+};
+
 
   const createPublication = async (publicationDTO) => {
     try {
@@ -66,16 +88,18 @@ const PublicationList = (props) => {
       throw new Error('Error al actualizar la publicación. Inténtalo de nuevo.');
     }
   };
+
+  
   return (
     <div className="publication-listPL">
       <h2>Lista de Publicaciones</h2>
       
       <div className="new-publication-form">
-        <h3>Crear nueva publicación</h3>
-        <form onSubmit={(event) => {
-          event.preventDefault();
-          createPublication({ content: newContent });
-        }}>
+      <form onSubmit={(event) => {
+  event.preventDefault();
+  createPublication({ content: newContent });
+  setNewContent(''); // Agrega esta línea para limpiar el contenido del input
+}}>
           <input
            placeholder="Contenido"
            value={newContent}
@@ -85,19 +109,33 @@ const PublicationList = (props) => {
         </form>
       </div>
       <div className="publicationsPL">
-        {publications.map((publication) => (
-          <div key={publication.id} className="publicationPL">
-            <h3>{publication.title}</h3>
-            <p>{publication.content}</p>
+      {publications.map((publication) => (
+  <div key={publication.id} className="publicationPL">
+    <div className="publication-authorPL">
+      <Link to={`/profilePage/${publication.userId}`}>
+        <img
+          className="profile-imagePL"
+          src={publication.authorProfileImage}
+          alt="Profile"
+        />
+      </Link>
+    </div>
+    <p>{publication.content}</p>
+            <div className="reactionPL">
+            <Reaction publicationId={publication.id}  />
+            </div>
+ 
             <span className="publication-datePL">
               Publicado el {new Date(publication.creationTime).toLocaleDateString('es-ES')}
-            </span>
+             </span>
+          
             {editingPublicationId === publication.id ? (
               <form onSubmit={(event) => {
                 event.preventDefault();
                 updatePublication(publication.id, { content: editingContent });
                 setEditingPublicationId(null);
               }}>
+                
                 <input
                   placeholder="Contenido"
                   value={editingContent}
@@ -106,20 +144,33 @@ const PublicationList = (props) => {
                 <button type="submit">Guardar</button>
                 <button onClick={() => setEditingPublicationId(null)}>Cancelar</button>
               </form>
+              
             ) : (
-              <>
-                <button onClick={() => deletePublication(publication.id)}>Eliminar</button>
-                <button
-                  onClick={() => {
-                    setEditingContent(publication.content);
-                    setEditingPublicationId(publication.id);
-                  }}
-                >
-                  Actualizar
-                </button>
-              </>
+              <div className="options-container">          
+  <button className="options-button"  onClick={(event) => handleOptionsClick(event)}>
+    <i className="fas fa-ellipsis-v"></i>
+    <div className="dropdown-menu">
+      <div
+        className="dropdown-item"
+        onClick={() => deletePublication(publication.id)}
+      >
+        Eliminar
+      </div>
+      <div
+        className="dropdown-item"
+        onClick={() => {
+          setEditingContent(publication.content);
+          setEditingPublicationId(publication.id);
+        }}
+      >
+        Actualizar
+      </div>
+    </div>
+  </button>
+</div>
             )}
             <CommentPublication publicationId={publication.id} userId={props.userId} />
+ 
           </div>
         ))}
       </div>

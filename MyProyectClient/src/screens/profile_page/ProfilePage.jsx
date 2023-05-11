@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
   const currentUserId = localStorage.getItem("idP");
-
+ 
   const handleProfileImageUpdate = (newProfileImage) => {
     setProfileImage(newProfileImage);
     setProfileImageUpdated((prev) => !prev);

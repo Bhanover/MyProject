@@ -61,16 +61,27 @@
     
   }
   
-  .modal-close {
-    color: #ccc;
+  .modal-closeU {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
+    top: 2%;
+    right: 3%;
+    font-size: 25px;
     font-weight: bold;
     cursor: pointer;
+    background: linear-gradient(to bottom, rgb(163, 163, 163) 0%, transparent 100%);
+    padding: 2px;
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  
+  .modal-closeU:hover {
+    background: linear-gradient(to bottom, rgb(236, 236, 236) 0%, transparent 100%);
+
+  }
   .modal-content img {
     width: 100%;
     height: 100%;

@@ -16,8 +16,15 @@ const UserContent = ({ userId }) => {
   const [selectedFileId, setSelectedFileId] = useState(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
-
+  const [showOptions, setShowOptions] = useState({});
+  const handleOptionsClick = (itemId) => {
+    setShowOptions((prevState) => ({
+      ...prevState,
+      [itemId]: !prevState[itemId],
+    }));
+  };
   const handleOpenVideoModal = (url, fileId) => {
+
     const videoIndex = content
       .filter((item) => item.contentType && item.contentType.startsWith("video/"))
       .findIndex((item) => item.id === fileId);
@@ -40,7 +47,10 @@ const UserContent = ({ userId }) => {
   useEffect(() => {
     fetchUserContent();
   }, [userId]);
-
+  const handleFormSubmit = (e, publicationId) => {
+    e.preventDefault();
+    handleSaveButtonClick(publicationId);
+  };
 
   const setProfilePicture = async (imageId) => {
     try {
@@ -139,6 +149,7 @@ const UserContent = ({ userId }) => {
   const handleSaveButtonClick = (publicationId) => {
     updatePublication(publicationId, updatedContent);
     setEditing(null);
+    setUpdatedContent(""); 
   };
   return (
     <div className="usercontent-containerCT">
@@ -146,6 +157,28 @@ const UserContent = ({ userId }) => {
       <ul className="usercontent-listCT">
         {content.map((item, index) => (
           <li key={item.id} className="usercontent-itemCT">
+            {/* Añade el ícono de opciones */}
+            <i
+              className="fas fa-ellipsis-v"
+              onClick={() => handleOptionsClick(item.id)}
+            ></i>
+  
+            {/* Envuelve las opciones en un div y controla su visibilidad con el estado showOptions */}
+            {showOptions[item.id] && (
+              <div className="options-container">
+                {item.entityType === "publication" && (
+                  <>
+                    <button onClick={() => deletePublication(item.id)}>Eliminar</button>
+                    <button onClick={() => handleEditButtonClick(item.id)}>Editar publicación</button>
+                  </>
+                )}
+                {(item.contentType && item.contentType.startsWith("image/")) ||
+                (item.contentType && item.contentType.startsWith("video/")) ? (
+                  <button onClick={() => deleteFile(item.id)}>Eliminar</button>
+                ) : null}
+              </div>
+            )}
+  
             {item.contentType && item.contentType.startsWith("image/") && (
               <div className="usercontent-image-containerCT">
                 <p className="usercontent-descriptionCT">{item.description}</p>
@@ -155,12 +188,6 @@ const UserContent = ({ userId }) => {
                   className="usercontent-imageCT"
                   onClick={() => handleOpenImageModal(item.url, item.id)}
                 />
-                <button
-                  className="usercontent-delete-image-btnCT"
-                  onClick={() => deleteFile(item.id)}
-                >
-                  Eliminar imagen
-                </button>
               </div>
             )}
             {item.contentType && item.contentType.startsWith("video/") && (
@@ -187,68 +214,74 @@ const UserContent = ({ userId }) => {
                     }}
                   />
                 )}
-                <button
-                  className="usercontent-delete-video-btnCT"
-                  onClick={() => deleteFile(item.id)}
-                >
-                  Eliminar video
-                </button>
               </div>
             )}
-           {item.entityType === "publication" && (
-  <div className="usercontent-publication-containerCP">
-    <h3>{item.title}</h3>
-    <p>{item.content}</p>
-    <span className="usercontent-publication-dateCP">
-      Publicado el {new Date(item.creationTime).toLocaleDateString("es-ES")}
-    </span>
-    <button onClick={() => deletePublication(item.id)}>Eliminar</button>
-    <button onClick={() => handleEditButtonClick(item.id)}>Editar publicación</button>
-    {editing === item.id && (
-      <input
-        type="text"
-        defaultValue={item.content}
-        className="usercontent-edit-inputCP"
-        onChange={(e) => setUpdatedContent(e.target.value)}
-        placeholder="Actualizar contenido"
-      />
-    )}
-    {editing === item.id ? (
-      <button className="usercontent-save-btnCP" onClick={() => handleSaveButtonClick(item.id)}>
-        Guardar
-      </button>
-    ) : null}
-    <CommentPublication publicationId={item.id} userId={userId} />
-  </div>
-)}
-
-        </li>
-      ))}
-    </ul>
-    {showImageModal && (
-      <ImageModal
-        selectedImages={content.filter(
-          (item) => item.contentType && item.contentType.startsWith("image/")
+              {item.entityType === "publication" && (
+              <div className="usercontent-publication-containerCP">
+                <h3>{item.title}</h3>
+                <p>{item.content}</p>
+                <span className="usercontent-publication-dateCP">
+                  Publicado el {new Date(item.creationTime).toLocaleDateString("es-ES")}
+                </span>
+                {editing === item.id && (
+                  <form onSubmit={(e) => handleFormSubmit(e, item.id)}>
+                    <input
+                      type="text"
+                      value={updatedContent}
+                      className="usercontent-edit-inputCP"
+                      onChange={(e) => setUpdatedContent(e.target.value)}
+                      placeholder="Actualizar contenido"
+                      
+                    />
+                    <button type="submit" className="usercontent-save-btnCP">
+                      Guardar
+                    </button>
+                  </form>
+                )}
+                <CommentPublication publicationId={item.id} userId={userId} />
+              </div>
+            )}
+  
+          </li>
+        ))}
+      </ul>
+      {showImageModal && (
+        <ImageModal
+          selectedImages={content.filter(
+            (item) => item.contentType && item.contentType.startsWith("image/")
+          )}
+          selectedFileIds={content
+            .filter((item) => item.contentType && item.contentType.startsWith("image/"))
+            .map((item) => item.id)}
+            fileId={selectedFileId}
+            onClose={handleCloseImageModal}
+            userId={userId}
+            onDelete={(fileId) => {
+              deleteFile(fileId);
+              setShowImageModal(false);
+            }}
+            onSetProfilePicture={setProfilePicture}
+            selectedImageIndex={selectedImageIndex}
+          />
         )}
-        selectedFileIds={content
-          .filter((item) => item.contentType && item.contentType.startsWith("image/"))
-          .map((item) => item.id)}
-        fileId={selectedFileId}
-        onClose={handleCloseImageModal}
-        userId={userId}
-        onDelete={(fileId) => {
-          deleteFile(fileId);
-          setShowImageModal(false);
-        }}
-        onSetProfilePicture={setProfilePicture}
-        selectedImageIndex={selectedImageIndex}
-      />
-    )}
-  </div>
-
-);
+        {showVideoModal && (
+          <VideoModal
+            videos={content.filter(
+              (item) => item.contentType && item.contentType.startsWith("video/")
+            )}
+            selectedVideoIndex={selectedVideoIndex}
+            onClose={() => setShowVideoModal(false)}
+            userId={userId}
+            onDelete={(fileId) => {
+              deleteFile(fileId);
+              setShowVideoModal(false);
+            }}
+          />
+        )}
+      </div>
+    );
       }
-export default UserContent;
+export default UserContent
 
 /*      {item.entityType === "publication" && (
               <div className="usercontent-publication-containerCT">

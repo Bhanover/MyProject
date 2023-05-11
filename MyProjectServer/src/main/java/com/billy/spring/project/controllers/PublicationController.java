@@ -18,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -36,15 +38,33 @@ public class PublicationController {
 
          User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
  */
-    @GetMapping("/{id}/publications")
+   /* @GetMapping("/{id}/publications")
     public ResponseEntity<List<Publication>> getPublications(@PathVariable Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
         List<Publication> publications = publicationService.getPublicationsByUser(user);
         System.out.println("Publicaciones encontradas: " + publications.size()); // Agrega esta línea
         return new ResponseEntity<>(publications, HttpStatus.OK);
-    }
+    }*/
+    @GetMapping("/{id}/publications")
+    public ResponseEntity<List<Map<String, Object>>> getPublications(@PathVariable Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
+        List<Publication> publications = publicationService.getPublicationsByUser(user);
+        System.out.println("Publicaciones encontradas: " + publications.size());
+
+        // Convertir las publicaciones en un Map<String, Object>
+        List<Map<String, Object>> publicationMaps = publications.stream().map(publication -> {
+            Map<String, Object> publicationMap = new HashMap<>();
+            publicationMap.put("id", publication.getId());
+            publicationMap.put("content", publication.getContent());
+            publicationMap.put("creationTime", publication.getCreationTime());
+            publicationMap.put("userId", publication.getUser().getId());
+            return publicationMap;
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(publicationMaps, HttpStatus.OK);
+    }
     @PostMapping("/publication")
     public ResponseEntity<Publication> createPublication(@RequestBody PublicationDTO publicationDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -79,3 +99,8 @@ public class PublicationController {
 
 
 }
+   /* @PreAuthorize("#id == principal.id")
+    @GetMapping("/{id}/publications")
+    public ResponseEntity<List<Map<String, Object>>> getPublications(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // Resto del código
+    }*/

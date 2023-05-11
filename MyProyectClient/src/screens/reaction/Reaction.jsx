@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import "./Reaction.css"
 const Reaction = ({ fileId, publicationId }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
@@ -67,11 +67,11 @@ const Reaction = ({ fileId, publicationId }) => {
   return (
     <div className="reaction-container">
       <button className="like-button" onClick={() => handleReaction('LIKE')}>
-        Like
+        <i className="fa fa-thumbs-up" aria-hidden="true"></i> 
       </button>
       <span>{likeCount}</span>
       <button className="dislike-button" onClick={() => handleReaction('DISLIKE')}>
-        Dislike
+        <i className="fa fa-thumbs-down" aria-hidden="true"></i> 
       </button>
       <span>{dislikeCount}</span>
     </div>

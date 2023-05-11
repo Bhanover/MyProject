@@ -44,40 +44,56 @@ const CommentFile = ({ fileId, postOwner, postDescription }) => {
       setEditedCommentText(editedCommentText + emoji.native);
     };
   
-  useEffect(() => {
-    api
-      .get(`/files/${fileId}/comments`)
-      .then((response) => setComments(response.data))
-      .catch((error) => console.error(error));
-  }, [fileId]);
-
-  const handleAddComment = () => {
-    api
+    const fetchComments = async () => {
+      try {
+        const response = await api.get(`/files/${fileId}/comments`);
+    
+        const fetchedComments = await Promise.all(
+          response.data.map(async (comment) => {
+            const authorResponse = await api.get(`/user/${comment.authorId}/info`);
+    
+            return {
+              ...comment,
+              authorProfileImage: authorResponse.data.profileImage, // Asegúrate de agregar esta línea
+            };
+          })
+        );
+    
+        setComments(fetchedComments);
+      } catch (error) {
+        console.error('Error al obtener los comentarios:', error);
+      }
+    };
+    useEffect(() => {
+      fetchComments();
+    }, [fileId]);
+    const handleAddComment = (e) => {
+      e.preventDefault(); 
+      api
         .post(`/files/${fileId}/comments`, newComment, {
-            headers: {
-                'Content-Type': 'text/plain',
-            },
+          headers: {
+            'Content-Type': 'text/plain',
+          },
         })
-        .then(() => api.get(`/files/${fileId}/comments`))
-        .then((response) => setComments(response.data))
+        .then(() => {
+          fetchComments(); // Reemplaza la llamada a api.get con fetchComments
+          setNewComment(''); // Agrega esta línea para vaciar el input después de enviar un comentario
+        })
         .catch((error) => console.error(error));
-};
-
-const handleUpdateComment = (commentId) => {
-    api
-      .put(`/comments/${commentId}`, editedCommentText, {
-        headers: {
-          'Content-Type': 'text/plain',
-        },
-      })
-      .then(() => api.get(`/files/${fileId}/comments`))
-      .then((response) => {
-        setComments(response.data);
-        setEditingComment(null);
-        setEditedCommentText('');
-      })
-      .catch((error) => console.error(error));
-  };
+    };
+    const handleUpdateComment = (commentId) => {
+      api
+        .put(`/comments/${commentId}`, editedCommentText, {
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+        })
+        .then(() => {
+          fetchComments(); // Reemplaza la llamada a api.get con fetchComments
+          setEditingComment(null); // Agrega esta línea para ocultar el panel de edición después de actualizar el comentario
+        })
+        .catch((error) => console.error(error));
+    };
   const handleEditComment = (commentId, commentText) => {
     // Buscar el comentario a editar
     const comment = comments.find((c) => c.id === commentId);
@@ -121,7 +137,7 @@ const handleUpdateComment = (commentId) => {
               {comments.map((comment) => (
                 <li key={comment.id}>
                    {console.log(comment.authorUsername)}
-                  <span className="username">{comment.authorUsername}</span> {' '}
+                   <img className="profile-imageCF" src={comment.authorProfileImage} alt="Profile" />
                   {editingComment === comment.id ? (
                     <>
                     <input
