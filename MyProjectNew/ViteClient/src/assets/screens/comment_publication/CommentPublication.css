@@ -1,0 +1,247 @@
+.comments-sectionCP {
+  display: flex;
+  flex-direction: column;
+  max-height: 350px;
+  width: 100%;
+  height:auto;
+  box-shadow: none;
+
+  word-wrap: break-word;
+  word-break: break-word;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  padding: 20px;
+
+  margin-top: 20px;
+}
+.comments-sectionCP h2{
+  border-bottom: 1px rgb(185, 185, 185) solid;
+  padding: 15px;
+}
+.comment-optionsCP {
+  position: relative;
+  
+}
+
+.options-buttonCP {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  color: #333;
+  background-color: red;
+ } 
+
+.dropdown-menuCP {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  right: 30px;
+  width: 100%;
+  border: 1px solid #ccc;
+  top: 15px;
+  background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
+
+}
+
+.dropdown-menuCP.show {
+  border: none;
+  font-size: 12px;
+  padding: 4px;
+  cursor: pointer;
+  width: 130px;
+  text-decoration: none;
+  color: black;
+  background-color: white ;
+ 
+
+  
+}
+.dropdown-menuCP.show > div {
+  background-color: rgb(240, 237, 237) ;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdown-menuCP.show > div:hover {
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+}
+
+.dropdown-itemCP {
+  cursor: pointer;
+}
+
+.dropdown-itemCP:hover {
+  background: #f0f0f0;
+}
+
+
+.new-commentCP{
+  display: flex;
+  width: 100%;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+  background-color: white;  
+  border-radius: 8px;
+
+}
+.new-commentCP > form{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+ .new-commentCP  input{
+  background-color: white;
+  width: 80%;
+  height: 40px;
+  padding: 10px;
+  border-radius: 9px;
+  border: none;
+  margin-right: 10px;
+  border: 1px rgb(185, 185, 185) solid;
+}
+.new-commentCP  button{
+  width: 20%;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: white;
+  height: 40px;
+  border: none;
+  border: 1px rgb(185, 185, 185) solid;
+
+
+}
+.new-publication-formPL  button:hover{
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+}
+
+
+.comments-listCP {
+  overflow: auto;
+  height: auto;
+  max-height: 185px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;  
+
+}
+.comments-listCP > ul li{
+   position: relative;
+  background-color: #e9ebf0;
+  width: 100%;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: flex-start;
+  padding: 5px;
+  margin-bottom: 10px;
+  position: relative;
+  word-wrap: break-word;
+  word-break: break-word;
+  border-radius: 10px;
+
+}
+.comments-listCP > ul li .comment-dateCP {
+  position: absolute;
+  font-size: 9px;
+  color: #111111;
+  bottom: 5px;
+  right: 2%;
+}
+.comments-listCP > ul li .usernameCP{
+  position: absolute;
+  margin-right: 5px;
+  font-size:12px;
+  top: 7px;
+  left: 45px;
+  font-weight: bolder;
+  z-index: 1;
+}
+.comments-listCP > ul li .commentTextCP{
+  font-size: 12px;
+  color: rgb(99, 99, 99);
+  margin-top: 20px;
+}
+.comment-optionsCP  {
+  position: absolute;
+  padding: 0;
+  cursor: pointer;
+  right:3%;
+  font-size: 10px;
+}
+.comment-contentCP {
+  width: 90%;
+
+}
+.comment-contentCP form{
+position: relative;
+display: flex;
+}
+.comment-contentCP form input{
+  border-radius: 5px;
+  padding: 2px;
+  z-index: 9;
+  width: 80%;
+
+}
+.comment-contentCP form button{
+  border: 1px solid rgb(177, 177, 177);
+  padding: 2px;
+  border-radius: 5px;
+  width:20%;
+
+}
+.comments-listCP::-webkit-scrollbar {
+  width: 8px;
+  
+}
+
+.comments-listCP::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.comments-listCP::-webkit-scrollbar-thumb {
+  background-color: rgba(44, 43, 43, 0.5);
+  border-radius: 10px;
+}
+.commentCP {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+ }
+
+.comment-userCP {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.profile-imageCP {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+
+.commentCP button {
+  margin-left: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

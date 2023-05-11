@@ -1,0 +1,86 @@
+.user-profileUP {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;  
+    margin-top: 50px;
+   
+  }
+  .gallery-wrapperUP {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: linear-gradient(to bottom,#c6cfda, #c7c6c6, #3d7bbd, transparent 100% ) ;
+    border-radius: 30px;
+  }
+  
+  .profile-image-containerUP {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid black;
+    overflow: hidden;
+    
+    
+  }
+  
+  .profile-imageUP {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .user-infoUP {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+  }
+  .user-infoUP > p{
+    margin-top: 20px;
+
+  }
+
+  .modalUP {
+
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .modal-contentUP {
+    margin: auto;
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    height: 80%;
+    max-height: 800px;
+  }
+
+  
+  .modal-closeUP {
+    position: absolute;
+    top: 2%;
+    right: 3%;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(to bottom, rgb(163, 163, 163) 0%, transparent 100%);
+    padding: 2px;
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

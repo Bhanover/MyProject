@@ -1,0 +1,22 @@
+.experiencePageEXP {
+    display: flex;
+    position: relative;
+    left: 0;
+    height: 600px;
+  }
+  
+  .mainEXP {
+    width: 75%;
+    height: 1500px;
+  }
+  
+  .user-list-containerEXP {
+    width: 25%;
+    
+  }
+  .leftEXP {
+    width: 20%;
+    position: relative;
+    margin-left: 50px;
+   
+}

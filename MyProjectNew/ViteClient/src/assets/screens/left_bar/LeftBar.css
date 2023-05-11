@@ -1,0 +1,37 @@
+.icon-containerLB{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 50px;
+    height: 100%;
+    z-index: 999;
+    align-items: center;
+    justify-content:center;
+    background: linear-gradient( #0c4870,rgb(255, 255, 255,0.5) ) ;
+    background-size: 100%  300%;
+    animation: fondo 8s ease-in-out infinite;
+    font-family: 'DM Serif Display', serif;
+
+}
+@keyframes fondo {
+    0% {
+        background-position: 0 40%;
+    }
+    50% {
+      background-position: 0 100%;
+    }
+    100% {
+        background-position: 0 40%;
+    }
+  }  @keyframes slideFromTop {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+.icon-containerLB >i {
+    margin-top: 70px;
+    cursor: pointer;
+}

@@ -1,0 +1,16 @@
+.containerCT {
+    display: flex;
+    flex-direction: column;
+        
+  }
+  
+ 
+  .container-mainCT{
+    padding-top: 100px;
+    padding-left:50px;
+
+   }
+
+   .leftBar-wrapperCT{
+    padding-left:150px;
+   }

@@ -1,0 +1,213 @@
+.usercontent-containerCT {
+    width: 100%;
+    margin: auto;
+    padding: 30px;
+
+  }
+  
+  .usercontent-listCT {
+    list-style-type: none;
+    padding: 0;
+    }
+  
+  .usercontent-itemCT {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 2px 8px 12px rgba(44, 43, 43, 1);
+
+    
+  }
+
+
+  .profile-imageCT{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    
+   }
+  .optionsCT{
+    position: absolute;
+    right: 4%;
+    top:5%;
+  }
+ .options-containerCT{
+    position: absolute;
+    right:7%;
+    top: 6%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
+    padding: 4px;
+    
+
+ }
+ .options-containerCT > button{
+  border: none;
+  font-size: 12px;
+  padding: 8px;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  color: black;
+ }
+ .options-containerCT > button:hover{
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+ }
+  .usercontent-image-containerCT,
+  .usercontent-video-containerCT {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #d5dadf;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+ 
+  .usercontent-imageCT,
+  .usercontent-videoCT {
+    height: auto;
+    max-width: 500px;
+    max-height: 500px;
+    width: auto;
+    cursor: pointer;
+    object-fit: cover;
+  }
+  .usercontent-publication-containerCT{
+    background-color: #f8f9fa;
+    padding: 20px;
+
+  }
+  .container-userCT{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+   
+  }
+
+  .usercontent-containerCT .infoUserCF > .profile-usernameCF{
+    position: absolute;
+    margin-top: 8px;
+    font-size: 12px;
+    left: 14%;
+    font-weight: bolder;
+  } 
+  .usercontent-containerCT  .commentFileCT  .comment-sectionCF .infoUserCF  .profile-usernameCF{
+    position: absolute;
+    margin-top: 8px;
+    font-size: 12px;
+    left: 45px;
+    font-weight: bolder;
+  } 
+  .profile-usernameCT{
+    font-size: 15px;
+    
+  }
+  .usercontent-publication-containerCT h3 {
+    color: #007bff;
+    margin-bottom: 0;
+  }
+  
+  .usercontent-publication-containerCT p {
+    margin-bottom: 10px;
+   }
+  .usercontent-descriptionCT {
+    display: block;
+    width: 100%;
+    font-size: 0.9rem;
+    text-align: left;
+    margin-bottom: 15px;
+    padding: 10px;
+    color: #030303;
+    border-bottom: 1px solid rgb(194, 177, 177);
+  }
+  .usercontent-publication-containerCT > .reactionCT{
+    padding-top: 10px;
+    padding-bottom: 10px;
+   
+  }
+  
+  .usercontent-publication-dateCT {
+    color: #777;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+  }
+  .commentFileCT{
+    position: relative;
+    width: 100%;
+    max-height: 260px;
+    height:auto;
+    padding-bottom: 10px;
+
+  }
+  
+  .usercontent-itemCT  .commentFileCT  > .comment-sectionCF {
+    position: relative;
+    max-height: 250px;
+    width: 100%;
+    text-align: center;
+    height:auto;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+  } 
+
+  .reactionCT{
+    padding: 30px;
+  }
+  .usercontent-itemCT  .commentFileCT  > .comment-sectionCF  .dropdown-toggle {
+    top: 10px;
+    right:  20px;
+  }
+  .usercontent-itemCT .commentFileCT > .comment-sectionCF > .comment-infoCF {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 15px;
+    width: 100%;
+    border-bottom: 1px rgb(185, 185, 185) solid;
+  }
+  .usercontent-itemCT .commentFileCT > .comment-sectionCF > .comment-infoCF > .post-ownerCF,
+  .usercontent-itemCT .commentFileCT > .comment-sectionCF > .comment-infoCF > .postImageCF,
+  .usercontent-itemCT .commentFileCT > .comment-sectionCF > .comment-infoCF > .post-descriptionCF {
+  display: none;
+}
+
+  .usercontent-itemCT  .commentFileCT > .comment-sectionCF > .comments-containerCF {
+    height: auto;
+    max-height: 145px;
+    width: 100%;
+    background-color: white;
+  } 
+  .usercontent-itemCT  .commentFileCT > .comment-sectionCF > .comment-input-containerCF{
+    position: absolute;
+ 
+  }
+
+  .usercontent-itemCT  .commentFileCT > .comment-sectionCF input[type="text"] {
+
+    border-radius: 5px;
+    background: white;
+    border: 1px rgb(185, 185, 185) solid;
+     
+
+}
+
+
+
+
+  @media (max-width: 768px) {
+    .usercontent-publication-containerCP {
+      width: 90%;
+    }
+  }
+  

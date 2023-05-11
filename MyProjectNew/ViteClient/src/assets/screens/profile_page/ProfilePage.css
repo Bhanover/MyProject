@@ -1,0 +1,94 @@
+.grid-containerPG {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto; /* Asegurarse de que el contenedor ocupe toda la altura de la pantalla */
+    margin: auto;
+    background-color: #fdfbfb;    box-shadow: 5px 5px 5px black;
+   
+  }
+  
+  .containerPG {
+    width: 75%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 5px 9px 15px black;
+    position: relative;
+    overflow: hidden;
+    background-color: white;
+  }
+  
+ 
+  .detailsPG{
+    width: 100%;
+    margin: auto;
+  }
+  .grid-containerPG > .imgContainerUI{
+    width: 75%;
+    margin-top: 20px;
+    box-shadow: 3px 5px 8px black;
+
+  }
+  .grid-containerPG > .publication-listPL {
+      width: 80%;
+      margin-top: 20px;
+
+  }
+  .grid-containerPG >.usercontent-containerCT {
+    width: 80%;
+    margin-top: 10px;
+  }
+  .grid-containerPG > .friendsPrincipalFP{
+    width: 75%;
+    margin-top: 20px;
+    
+  }
+  .content-switchPG{
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    box-shadow: 5px 5px 12px  black;
+    margin-top: 20px;
+    border-radius: 10px;
+    background: linear-gradient(#ffffff,rgb(179, 178, 178) ) ;
+    position: relative;
+   }
+  .content-switchPG > a{
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    color: black;
+    font-family: 'DM Serif Display', serif;
+   }
+
+.content-switchPG > a:hover{
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+}
+
+
+@keyframes fondo {
+  0% {
+      background-position: 0 40%;
+  }
+  50% {
+    background-position: 0 100%;
+  }
+  100% {
+      background-position: 0 40%;
+  }
+}  @keyframes slideFromTop {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

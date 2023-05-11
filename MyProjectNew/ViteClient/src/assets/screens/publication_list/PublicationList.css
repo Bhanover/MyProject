@@ -1,0 +1,147 @@
+.publication-listPL {
+   
+  width: 100%;
+  height: auto;
+  padding: 30px;
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, transparent 100%);
+  border-radius: 10px;
+  margin: auto;
+}
+
+.publicationPL {
+  position: relative;
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, transparent 100%);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px 5px rgb(119, 119, 119);
+}
+.publication-authorPL {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-imagePL {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.new-publication-formPL{
+  display: flex;
+  width: 100%;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+  background-color: white;  
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px 5px rgb(119, 119, 119);
+
+}
+.new-publication-formPL > form{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+.new-publication-formPL  input{
+  background-color: white;
+  width: 80%;
+  height: 40px;
+  padding: 10px;
+  border-radius: 9px;
+  border: none;
+  margin-right: 10px;
+  border: 1px rgb(185, 185, 185) solid;
+}
+.new-publication-formPL  button{
+  width: 20%;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: white;
+  height: 40px;
+  border: none;
+  border: 1px rgb(185, 185, 185) solid;
+
+
+}
+.new-publication-formPL  button:hover{
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+}
+ 
+.publicationPL h3 {
+  color: #007bff;
+  margin-top: 0;
+}
+
+.publicationPL p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.publication-datePL {
+  color: #777;
+  font-size: 14px;
+  margin-top: 10px;
+  display: block;
+}
+
+.publication-userPL img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.options-buttonPL {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.dropdown-menuPL {
+  background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
+  border-radius: 10px;
+  display: none;
+  min-width: 150px;
+  padding: 4px 0;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 1000;
+}
+
+.dropdown-itemPL {
+  color: #212529;
+  cursor: pointer;
+  display: block;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 8px 16px;
+  text-align: inherit;
+  white-space: nowrap;
+}
+
+.dropdown-itemPL:hover {
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: #16181b;
+  text-decoration: none;
+  border-radius: 10px;
+
+}
+
+.options-buttonPL:focus .dropdown-menuPL {
+  display: block;
+}

@@ -1,0 +1,369 @@
+.comment-sectionCF  {
+  position: relative;
+  background-color: white;  
+  border-radius: 5px;
+  box-shadow: 2px 8px 12px rgba(44, 43, 43, 1);
+  max-height: 560px;
+  height: 560px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+ }
+
+.comment-sectionCF .dropdown-toggle {
+  position: absolute;
+  background-color: transparent;
+  color: #84888f;
+  padding: 0;
+  margin-left: 5px;
+  cursor: pointer;
+  right: 5%;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.comment-sectionCF .dropdown-toggle:hover{
+  background-color: rgb(219, 217, 217);
+  
+
+}
+
+.comment-sectionCF .updateCF,
+.comment-sectionCF .deleteCF,.comment-sectionCF .cancelCF {
+  display: block;
+  border: none;
+  font-size: 12px;
+  padding: 8px;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  color: black;
+  
+ 
+}
+.emoji-picker-container > button{
+  background-color: transparent;
+}
+.comment-sectionCF .emoji-picker-container {
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+}
+.comment-sectionCF .updateCF:hover,
+.comment-sectionCF .deleteCF:hover,.comment-sectionCF .cancelCF:hover {
+  background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+  color: white;
+
+}
+.optionsContainerCF{
+  position: absolute;
+  font-size: 5px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  right: 15%;
+  background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  padding: 4px;
+  top: 40px;
+ }
+
+ .pickerContainerCF > div{
+  position: relative;
+
+ }
+ .pickerContainerCF > div > em-emoji-picker{
+  position: absolute;
+  top: 20px;
+  left: -330px;
+  height: 300px;
+  z-index: 99999;
+ }
+.pickerContainer-commentsCF > div{
+  position: relative;
+}
+
+
+.pickerContainer-commentsCF> div > em-emoji-picker{
+  position: absolute;
+  top: -320px;
+  left: -350px;
+  height: 300px;
+  z-index: 99999;
+}
+.comment-infoCF h2,.post-ownerCF  ,.postImageCF ,.post-descriptionCF  { 
+  margin-bottom: 10px;
+  padding: 2px;
+}
+
+.postImageCF{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.comment-sectionCF ul {
+  list-style-type: none;
+  padding: 0;
+  width:100%;
+  height: auto;
+   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.comment-sectionCF li {
+  
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: flex-start;
+  padding: 5px;
+  margin-bottom: 10px;
+  position: relative;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+.carousel .slide img{
+  width: initial;
+}
+.carousel .slide {
+  background-color: transparent;
+  width: 100%;
+  height: 600px;
+}
+.infoUserCF{
+  display: flex;
+  flex-direction: column;
+}
+.infoUserCF > .profile-imageCF {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+ }
+ .infoUserCF > .profile-usernameCF{
+  position: absolute;
+  margin-top: 8px;
+  font-size: 12px;
+  left: 45px;
+  font-weight: bolder;
+
+ }
+.comment-sectionCF ul li{
+  position: relative;
+  margin: auto;
+  width: 100%;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  
+
+}
+.comment-sectionCF li .username {
+  font-weight: bolder;
+  margin-right: 5px;
+}
+
+.comment-sectionCF li > .creation-textCF {
+  font-size: 12px;
+  color: rgb(92, 92, 92);
+  margin-top: 25px;
+  margin-left: 10px;
+  text-align: left;
+}
+.comment-sectionCF li .creation-timeCF {
+  position: absolute;
+  font-size: 9px;
+  color: #111111;
+  bottom: 5px;
+  right: 2%;
+}
+
+.comment-sectionCF input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 15px;
+  border: 1px solid #ced4da;
+  background: linear-gradient(to bottom, rgb(170, 169, 169) 0% , rgb(231, 230, 230) 100%);
+  z-index: 99;
+}
+
+.comment-sectionC input[type="text"]:hover{
+  background: linear-gradient(to bottom, rgb(236, 236, 236) 0%, transparent 100%);
+}
+
+.comment-sectionC input[type="text"]:active{
+  background: linear-gradient(to bottom, rgb(236, 236, 236) 0%, transparent 100%);
+}
+ 
+.comment-sectionCF button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  height: auto;
+  
+ 
+}
+
+.comment-sectionCF .comments-containerCF {
+  width: 95%;
+  height: auto;
+  height: 100%;
+  
+}
+.comment-sectionCF > .comments-containerCF{
+  margin: auto;
+}
+.comments-containerCF{
+  padding: 20px;
+  background-color:  rgb(209, 209, 209);
+  border-radius: 5px;
+  height: 100%;
+  width: auto;
+  overflow-y: auto; 
+  max-height: 550px;
+
+
+ }
+
+.comments-containerCF li{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #e9ebf0;
+  border-radius: 10px;
+}
+ 
+ 
+ 
+
+ 
+.svg-inline--fa{
+  width: 20px;
+  height: 20px;
+  
+
+}
+
+.comments-containerCF::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comments-containerCF::-webkit-scrollbar-track {
+  background-color: rgba(182, 182, 182, 0.5);
+  border-radius: 10px;
+}
+
+.comments-containerCF::-webkit-scrollbar-thumb {
+  background-color: rgba(44, 43, 43, 0.5);
+  border-radius: 10px;
+}
+.comment-input-containerCF {
+  background-color: white;  
+
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   gap: 10px;
+  position: absolute;
+  width: 100%;
+  bottom: -6%;
+}
+.comment-input-containerCF > form{
+  display: flex;
+  width: 100%;
+}
+.comment-input-containerCF > form button{
+  margin-left: 10px;
+  background-color: transparent;
+}
+/* Ajustes responsivos para dispositivos con ancho menor o igual a 1024px */
+@media (max-width: 1024px) {
+  .comment-sectionC .comments-container {
+    height: 320px; /* Reduzca la altura del contenedor de comentarios */
+  }
+
+  .comment-sectionC input[type="text"] {
+    width: 100%;
+  }
+}
+
+/* Ajustes responsivos para dispositivos con ancho menor o igual a 767px */
+@media (max-width: 767px) {
+  .comment-sectionC .comments-container {
+    height: 100px; /* Valor reducido a la mitad */
+  }
+ 
+  .comment-sectionC input[type="text"] {
+    width: 100%;
+    height: 100%;
+  }
+ 
+  .comment-sectionC{
+    width: 100%;
+  }
+
+  .comment-sectionC button {
+    display: block;
+    margin-top: 10px;
+    margin-left: 0;
+  }
+
+}
+@media (max-width: 767px) {
+  .comment-input-containerC {
+    height: 20px; /* Aumenta la altura del contenedor de entrada de comentario */
+    padding: 5px;
+  }
+  
+  .comment-sectionC {
+    margin-top: -30px;
+  }
+
+
+}
+@media (max-width:600px) {
+  .comment-sectionC {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+@media (max-width:500px) {
+  .comment-sectionC {
+    height: 100%;
+    width: 100%;
+ 
+  }
+  
+.comment-sectionC .post-owner {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.comment-sectionC .post-description {
+  font-size: 14px;
+  color: #606770;
+  margin-bottom: 15px;
+}
+ 
+
+
+}
