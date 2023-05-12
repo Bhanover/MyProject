@@ -5,6 +5,7 @@ import AcceptFriendship from "./AccepFriendship";
 import RejectFriendship from "./RejectFriendship";
 import RemoveFriend from "./RemoveFriend";
 import "./FriendsList.css";
+
 function FriendsList({ friends, fetchFriends, userId }) {
   const loggedInUserId = localStorage.getItem("idP");
 
@@ -15,11 +16,10 @@ function FriendsList({ friends, fetchFriends, userId }) {
       <ul>
         {friends.map((friend, index) => (
           <li key={`${friend.id}-${index}`}>
-            
-             <img 
-            
-                  src={friend.url} alt="profileImage">
-                </img>
+            <img 
+          src={friend.url} // Simplemente utiliza la URL proporcionada por el servidor
+          alt="profileImage">
+        </img>
             {friend.username}{" "}
             {console.log({friend})}
             {loggedInUserId === userId && (

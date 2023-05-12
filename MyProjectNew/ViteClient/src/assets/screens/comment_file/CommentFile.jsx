@@ -141,7 +141,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
             
             <li key={comment.id}>
               <div className='infoUserCF'> 
-              <img className="profile-imageCF" src={profileImage || comment.authorProfileImage} alt="Profile" />
+              <img className="profile-imageCF" src={ comment.authorProfileImage  || profileImage } alt="Profile" />
               <p className="profile-usernameCF">{comment.authorUsername}</p>
               </div>
               {editingComment === comment.id ? (

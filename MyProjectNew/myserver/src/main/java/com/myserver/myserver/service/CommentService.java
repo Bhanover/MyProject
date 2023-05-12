@@ -30,6 +30,8 @@ public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+    final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
+
     public ResponseEntity<?> addCommentToFile(String fileId, String commentText, Principal principal) {
         User currentUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User", "username", principal.getName()));
         FileDB file = fileDBRepository.findById(fileId).orElseThrow(() -> new ResourceNotFoundException("File", "id", fileId));
@@ -51,7 +53,7 @@ public class CommentService {
         // Convierte la lista de comentarios a una lista de CommentResponse
         List<CommentResponse> commentResponses = comments.stream().map(comment -> {
             User author = comment.getUser();
-            String authorProfileImage = author.getProfileImage() != null ? author.getProfileImage().getUrl() : ""; // Obtenga la URL de la imagen de perfil del autor
+            String authorProfileImage = author.getProfileImage() != null ? author.getProfileImage().getUrl() : defaultImageUrl;
             return new CommentResponse(comment.getId(), comment.getText(), comment.getCreationTime(), author.getUsername(), author.getId(), authorProfileImage); // Incluya la URL en la instancia de CommentResponse
         }).collect(Collectors.toList());
         return commentResponses;

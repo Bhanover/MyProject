@@ -17,9 +17,11 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> findByUser(@Param("user") User user);
 
 
-    @Query("SELECT new map(p.id as id, p.content as content, p.creationTime as creationTime, 'publication' as entityType, p.user.id as userId, p.user.username as username, COALESCE(p.user.profileImage.url, '') as profileImage) " +
-            "FROM Publication p " +
+    @Query("SELECT new map(p.id as id, p.content as content, p.creationTime as creationTime, 'publication' as entityType, p.user.id as userId, p.user.username as username, COALESCE(p.user.profileImage.url, :defaultImageUrl) as profileImage) " +
+            "FROM Publication p LEFT JOIN p.user.profileImage " + // Agrega LEFT JOIN aquí
             "WHERE p.user = :user")
-    List<Map<String, Object>> findPublicationsByUser(User user);
+    List<Map<String, Object>> findPublicationsByUser(User user, @Param("defaultImageUrl") String defaultImageUrl);
+
+
 
 }

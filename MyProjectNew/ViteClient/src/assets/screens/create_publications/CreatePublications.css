@@ -1,3 +1,51 @@
 .createPublicationsCRP{
+    position: relative;
     display: flex;
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 3px 5px 6px 5px rgb(175, 173, 173);
 }
+.createPublicationsCRP  form{
+    display: flex;
+    
+}
+.createPublicationsCRP > div input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(223, 220, 220);
+
+
+}
+.createPublicationsCRP form > button{
+    padding: 10px;
+    width: 30%;
+    border-radius: 5px;
+    border: 1px solid rgb(223, 220, 220);
+
+
+}
+.createPublicationsCRP .createPublicationUploadCRP > .upload-button{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid rgb(223, 220, 220);
+    padding: 10px;
+}
+
+.createPublicationsCRP > div{
+    width: 100%;
+     
+}
+
+.createPublicationsCRP > div:last-child{
+    width: 20%;
+}
+
+
+
+

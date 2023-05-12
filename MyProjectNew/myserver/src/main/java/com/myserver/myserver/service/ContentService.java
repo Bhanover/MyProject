@@ -43,6 +43,12 @@ public class ContentService {
             allContent.addAll(friendContent);
         }
 
+        // Obtenga el contenido del usuario actual
+        List<Map<String, Object>> currentUserContent = getCombinedUserContent(currentUser);
+
+        // Añadir el contenido del usuario actual a la lista allContent
+        allContent.addAll(currentUserContent);
+
         List<Map<String, Object>> combinedContent = allContent.stream()
                 .sorted((map1, map2) -> {
                     LocalDateTime dateTime1 = (LocalDateTime) map1.get("creationTime");
@@ -54,4 +60,5 @@ public class ContentService {
         // Retorna la lista completa
         return combinedContent;
     }
+
 }

@@ -110,7 +110,7 @@ const PublicationList = (props) => {
   <div key={publication.id} className="publicationPL">
     <div className="publication-authorPL">
       <Link to={`/profilePage/${publication.userId}`}>
-      <img className="profile-imagePL" src={profileImage || publication.profileImageUrl} alt="Profile" />
+      <img className="profile-imagePL" src={publication.profileImageUrl || profileImage    } alt="Profile" />
 
       </Link>
       

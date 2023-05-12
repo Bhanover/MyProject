@@ -5,6 +5,8 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import "./UploadFile.css";
 import ImageEditor from "../image_editor/ImageEditor";
+import { faSmile } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function UploadFile({ isOpen, onClose , onNewFile  }) {
   const [file, setFile] = useState(null);
@@ -67,8 +69,10 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
     } else if (fileType === "video") {
       formData.append("file", file);
     } else {
+      close();
+
       console.error("Invalid file type.");
-      return;
+       return;
     }
 
     axios
@@ -129,8 +133,8 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
             <video className="video-preview" src={src} controls />
           </div>
         )}
-        <div>
-          <label htmlFor="description">Description:</label>
+        <div className="pushUploadUF">
+          <label >Description:</label>
           <input
             type="text"
             id="description"
@@ -141,9 +145,10 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
             type="button"
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
           >
-            Emoji
+            <FontAwesomeIcon icon={faSmile} />
           </button>
-          
+          <button type="submit">Upload File</button>
+
           {showEmojiPicker && (
             <div className="pickerContainer">
   <Picker 
@@ -154,6 +159,7 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
     
   />
     </div>
+    
 )}
 
         </div>
@@ -162,8 +168,7 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
             <div className="loader">Cargando...</div>
           </div>
         )}
-        <button type="submit">Upload File</button>
-      </form>
+       </form>
     </div>
   );
 }

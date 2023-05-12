@@ -2,6 +2,7 @@ package com.myserver.myserver.service;
 
 
 import com.myserver.myserver.dto.PublicationDTO;
+import com.myserver.myserver.models.FileDB;
 import com.myserver.myserver.models.Publication;
 import com.myserver.myserver.models.User;
 import com.myserver.myserver.repository.PublicationRepository;
@@ -21,6 +22,8 @@ public class PublicationService {
     private PublicationRepository publicationRepository;
     @Autowired
     private UserRepository userRepository;
+    final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
+
 
     public Publication createPublication(PublicationDTO publicationDTO, User user) {
         Publication publication = new Publication();
@@ -43,7 +46,11 @@ public class PublicationService {
             publicationMap.put("creationTime", publication.getCreationTime());
             publicationMap.put("userId", publication.getUser().getId());
             publicationMap.put("username", publication.getUser().getUsername());
-            publicationMap.put("profileImageUrl", publication.getUser().getProfileImage().getUrl());
+
+            FileDB profileImage = publication.getUser().getProfileImage();
+            String profileImageUrl = profileImage != null ? profileImage.getUrl() : defaultImageUrl;
+            publicationMap.put("profileImageUrl", profileImageUrl);
+
             return publicationMap;
         }).collect(Collectors.toList());
 

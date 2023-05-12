@@ -20,7 +20,7 @@
 }
 
 .modal-contentIM {
-  width: auto;
+  width: 100%;
   max-width: 1200px;
   max-height: 92vh;
   overflow-y: auto;

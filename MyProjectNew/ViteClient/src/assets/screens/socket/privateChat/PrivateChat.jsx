@@ -173,8 +173,9 @@ function PrivateChat({ selectedFriend, onClose }) {
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              placeholder="Escribe algo"
             />
-            <button onClick={enviarMensajePrivado}>Send</button>
+            <button onClick={enviarMensajePrivado}>Enviar</button>
           </div>
         </div>
       )}

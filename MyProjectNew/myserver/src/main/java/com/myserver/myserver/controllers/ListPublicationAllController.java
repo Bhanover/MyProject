@@ -43,6 +43,7 @@ public class ListPublicationAllController {
     private PublicationService publicationService;
     @Autowired
     private PublicationRepository publicationRepository;
+    final String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
 
 
     @GetMapping("/{id}/content")
@@ -50,8 +51,8 @@ public class ListPublicationAllController {
     public List<Map<String, Object>> getUserContent(@PathVariable Long id) {
         // Recupera las imágenes, videos y publicaciones del usuario
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
-        List<Map<String, Object>> imagesAndVideos = fileDBRepository.findImagesAndVideosByUser(user);
-        List<Map<String, Object>> publications = publicationRepository.findPublicationsByUser(user);
+        List<Map<String, Object>> imagesAndVideos = fileDBRepository.findImagesAndVideosByUser(user, defaultImageUrl);
+        List<Map<String, Object>> publications = publicationRepository.findPublicationsByUser(user, defaultImageUrl);
 
         // Combina imágenes, videos y publicaciones en una sola lista y ordena por fecha de creación
         List<Map<String, Object>> combinedContent = Stream.concat(imagesAndVideos.stream(), publications.stream())

@@ -37,6 +37,7 @@ public class FileController {
     private Cloudinary cloudinary;
     @Autowired
     private JwtUtils jwtUtils;
+    final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam(value = "description", required = false) String description, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -58,7 +59,7 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         try {
-            List<Map<String, Object>> customData = fileDBRepository.findImagesByUserId(id);
+            List<Map<String, Object>> customData = fileDBRepository.findImagesByUserId(id, defaultImageUrl);
             return ResponseEntity.ok(customData);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -70,7 +71,7 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         try {
-            List<Map<String, Object>> customData = fileDBRepository.findVideosByUserId(id);
+            List<Map<String, Object>> customData = fileDBRepository.findVideosByUserId(id, defaultImageUrl);
             return ResponseEntity.ok(customData);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

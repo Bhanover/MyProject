@@ -116,7 +116,7 @@ const CommentPublication = ({ publicationId }) => {
                 <Link to={`/profilePage/${comment.authorId}`}>
                 <img
                 className="profile-imageCP"
-                src={profileImage || comment.authorProfileImage}
+                src={comment.authorProfileImage || profileImage  }
                 alt="Profile"
               />
 

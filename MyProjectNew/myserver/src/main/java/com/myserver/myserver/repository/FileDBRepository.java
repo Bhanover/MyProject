@@ -12,13 +12,13 @@ import java.util.Map;
 
 @Repository
 public interface FileDBRepository extends JpaRepository<FileDB, String> {
-    @Query("SELECT new map(f.id as imageId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId, u.username as username, COALESCE(p.url, '') as profileImage) FROM FileDB f JOIN f.user u LEFT JOIN u.profileImage p WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
-    List<Map<String, Object>> findImagesByUserId(@Param("userId") Long userId);
-    @Query("SELECT new map(f.id as videoId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId, u.username as username, COALESCE(p.url, '') as profileImage) FROM FileDB f JOIN f.user u LEFT JOIN u.profileImage p WHERE u.id = :userId AND f.contentType LIKE 'video/%'")
-    List<Map<String, Object>> findVideosByUserId(@Param("userId") Long userId);
+    @Query("SELECT new map(f.id as imageId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId, u.username as username, COALESCE(p.url, :defaultImageUrl) as profileImage) FROM FileDB f JOIN f.user u LEFT JOIN u.profileImage p WHERE u.id = :userId AND f.contentType LIKE 'image/%'")
+    List<Map<String, Object>> findImagesByUserId(@Param("userId") Long userId, @Param("defaultImageUrl") String defaultImageUrl);
+    @Query("SELECT new map(f.id as videoId, f.url as url, f.description as description, f.creationTime as creationTime, u.id as userId, u.username as username, COALESCE(p.url, :defaultImageUrl) as profileImage) FROM FileDB f JOIN f.user u LEFT JOIN u.profileImage p WHERE u.id = :userId AND f.contentType LIKE 'video/%'")
+    List<Map<String, Object>> findVideosByUserId(@Param("userId") Long userId, @Param("defaultImageUrl") String defaultImageUrl);
 
-    @Query("SELECT new map(f.id as id, f.filename as name, f.url as url, f.contentType as contentType, f.description as description, f.creationTime as creationTime, 'file' as entityType, u.id as userId, u.username as username, COALESCE(p.url, '') as profileImage) " +
+    @Query("SELECT new map(f.id as id, f.filename as name, f.url as url, f.contentType as contentType, f.description as description, f.creationTime as creationTime, 'file' as entityType, u.id as userId, u.username as username, COALESCE(p.url, :defaultImageUrl) as profileImage) " +
             "FROM FileDB f JOIN f.user u LEFT JOIN u.profileImage p " +
             "WHERE f.user = :user AND (f.contentType LIKE 'image/%' OR f.contentType LIKE 'video/%')")
-    List<Map<String, Object>> findImagesAndVideosByUser(User user);
+    List<Map<String, Object>> findImagesAndVideosByUser(User user, @Param("defaultImageUrl") String defaultImageUrl);
 }

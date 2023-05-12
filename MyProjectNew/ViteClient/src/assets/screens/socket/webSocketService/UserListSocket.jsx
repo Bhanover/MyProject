@@ -102,11 +102,11 @@ const UserListSocket = () => {
       stompClient.disconnect();
     }
   };
-  
+  //<button onClick={handleDisconnect}>Desconectar</button>
   return (
     <div className="user-list-container">
-      <h1>Lista de usuarios conectados</h1>
-      <button onClick={handleDisconnect}>Desconectar</button>
+      <h1>Contactos</h1>
+ 
       {users && users.length > 0 ? (
         <ul>
           {users.map((user) => (

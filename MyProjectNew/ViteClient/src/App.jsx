@@ -17,6 +17,7 @@ import ExperiencePage from './assets/screens/experience_page/ExperiencePage';
 import { Navigate } from 'react-router-dom';
 import LoginPage from './assets/screens/login_page/LoginPage';
 import CreatePublications from './assets/screens/create_publications/CreatePublications';
+import SearchChat from './assets/screens/socket/searchChat/SearchChat';
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
         <Route path="/" element={<ExperiencePage />}></Route>
         </Route>
         <Route path="/loginPage" element={<LoginPage />}></Route>
-
+        <Route path='/searchChat' element={<SearchChat />}></Route>
       </Routes>
     </ProfileImageProvider>
   );

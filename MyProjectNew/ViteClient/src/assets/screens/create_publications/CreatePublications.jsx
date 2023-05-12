@@ -29,7 +29,7 @@ const CreatePublications= ({ onNewPublication }) =>  {
     
 
     return(<div className="createPublicationsCRP">
-        <div className="new-publication-formPL">
+        <div className="new-publication-formCRP">
       <form onSubmit={(event) => {
           event.preventDefault();
           createPublication({ content: newContent });
@@ -41,11 +41,13 @@ const CreatePublications= ({ onNewPublication }) =>  {
            onChange={(event) => setNewContent(event.target.value)}
           />
           <button type="submit">Crear</button>
+          
         </form>
       </div>
-      <div> 
-          <button onClick={toggleUploadModal}>Abrir cargador de archivos</button>
-
+      <div className="createPublicationUploadCRP"> 
+      <button className="upload-button" onClick={toggleUploadModal}>
+    <i className="fas fa-cloud-upload-alt"></i>
+      </button>
     <UploadModal  isOpen={isUploadModalOpen} onClose={toggleUploadModal}>
     <UploadFile onNewFile={onNewPublication} />
     </UploadModal>

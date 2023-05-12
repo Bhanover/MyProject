@@ -3,16 +3,17 @@
     position: relative;
     left: 0;
     height: 600px;
-  }
+    width: 100%;
+   }
   
   .mainEXP {
-    width: 75%;
+    margin: auto;
+    width: 50%;
     height: 1500px;
   }
   
   .user-list-containerEXP {
     width: 25%;
-    
   }
   .leftEXP {
     width: 20%;

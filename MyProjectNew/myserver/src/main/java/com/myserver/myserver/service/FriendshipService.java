@@ -30,6 +30,9 @@ public class FriendshipService {
 
     @Autowired
     private UserRepository userRepository;
+
+      final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
+
     public Friendship getFriendshipStatus(Long userId, Long friendId) {
         return friendshipRepository.findByUserIdAndFriendIdOrFriendIdAndUserId(userId, friendId, userId, friendId)
                 .orElse(new Friendship(userId, friendId, null));
@@ -93,13 +96,17 @@ public class FriendshipService {
         List<Friendship> sentFriendships = friendshipRepository.findByUser(user);
         List<Friendship> receivedFriendships = friendshipRepository.findByFriend(user);
 
+        // Aquí, agrega la URL de la imagen por defecto.
+        String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
+
         List<FriendInfo> friends = new ArrayList<>();
         for (Friendship friendship : sentFriendships) {
-            friends.add(new FriendInfo(friendship.getFriend().getId(), friendship.getFriend().getProfileImage().getUrl(), friendship.getFriend().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId()));
+            String imageUrl = friendship.getFriend().getProfileImage() != null ? friendship.getFriend().getProfileImage().getUrl() : defaultImageUrl;
+            friends.add(new FriendInfo(friendship.getFriend().getId(), imageUrl, friendship.getFriend().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId()));
         }
         for (Friendship friendship : receivedFriendships) {
-            // Use friendship.getUser() instead of friendship.getFriend()
-            friends.add(new FriendInfo(friendship.getUser().getId(), friendship.getUser().getProfileImage().getUrl(), friendship.getUser().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId()));
+            String imageUrl = friendship.getUser().getProfileImage() != null ? friendship.getUser().getProfileImage().getUrl() : defaultImageUrl;
+            friends.add(new FriendInfo(friendship.getUser().getId(), imageUrl, friendship.getUser().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId()));
         }
 
         return friends;

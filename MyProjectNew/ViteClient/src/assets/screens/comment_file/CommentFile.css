@@ -52,14 +52,16 @@
 .emoji-picker-container > button{
   background-color: transparent;
 }
+.comment-sectionCF input[type="text"]{
+  position: relative;
+}
 .comment-sectionCF .emoji-picker-container {
   position: absolute;
   top: -8px;
-  right: 20px;
+  right: 40px;
   height: 100%;
   display: flex;
   align-items: center;
-  z-index: 9999;
 }
 .comment-sectionCF .updateCF:hover,
 .comment-sectionCF .deleteCF:hover,.comment-sectionCF .cancelCF:hover {
@@ -72,13 +74,12 @@
   font-size: 5px;
   display: flex;
   flex-direction: column;
-  z-index: 100;
   right: 15%;
   background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
   border: 1px solid #ccc;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   padding: 4px;
-  top: 40px;
+  top: 20px;
  }
 
  .pickerContainerCF > div{
@@ -150,6 +151,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .infoUserCF > .profile-imageCF {
   height: 30px;
   width: 30px;
@@ -198,7 +200,6 @@
   border-radius: 15px;
   border: 1px solid #ced4da;
   background: linear-gradient(to bottom, rgb(170, 169, 169) 0% , rgb(231, 230, 230) 100%);
-  z-index: 99;
 }
 
 .comment-sectionC input[type="text"]:hover{

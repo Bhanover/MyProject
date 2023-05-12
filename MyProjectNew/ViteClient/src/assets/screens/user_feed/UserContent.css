@@ -126,6 +126,8 @@
     padding: 10px;
     color: #030303;
     border-bottom: 1px solid rgb(194, 177, 177);
+    word-wrap: break-word;
+    word-break: break-word;
   }
   .usercontent-publication-containerCT > .reactionCT{
     padding-top: 10px;

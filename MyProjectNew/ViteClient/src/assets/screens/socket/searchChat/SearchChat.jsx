@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import axios from "axios";
+import PrivateChat from "../privateChat/PrivateChat";
+import "./SearchChat.css"
+import SocketTry from "../SocketTry";
 
 function SearchChat() {
   const [connected, setConnected] = useState(false);
@@ -13,7 +16,8 @@ function SearchChat() {
   const stompClientRef = useRef(null);
   const [userInfo, setUserInfo] = useState({});
   const [roomName, setRoomName] = useState(null);
-
+  const [minimized, setMinimized] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
   const jwtToken = localStorage.getItem("jwtToken");
   const userId = localStorage.getItem("idP");
   useEffect(() => {
@@ -86,45 +90,41 @@ function SearchChat() {
       setMessage("");
     }
   };
+
+  const handleConnect = () => {
+    if (recipient) {
+      setSelectedFriend({ username: recipient });
+    }
+  };
   return (
-    <div>
-      {connected ? (
-        <div>
-          <h2>Private chat with {recipient}</h2>
-          <button onClick={disconnect}>Disconnect</button>
-          <div>
-            {privateMessages.map((message, index) => (
-              <p key={index}>
-                {message.sender}: {message.content}
-              </p>
-            ))}
-          </div>
-          <div>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button onClick={enviarMensajePrivado}>Send</button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <h2>Connect to private chat</h2>
-          <div>
-            <label htmlFor="recipient">Recipient:</label>
-            <input
-              type="text"
-              id="recipient"
-              value={recipient}
-              onChange={(e) => setRecipient(e.target.value)}
-            />
-          </div>
-          <button onClick={connect}>Connect</button>
-        </div>
+    <div  >
+      {selectedFriend && (
+        <PrivateChat
+          selectedFriend={selectedFriend}
+          minimized={minimized}
+          setMinimized={setMinimized}
+          onClose={() => setSelectedFriend(null)}
+        />
       )}
+      <div className="searchChatSC">
+        <h1>Buscar usuario para chatear</h1>
+        <div>
+          <label htmlFor="recipient">Destinatario:</label>
+          <input
+            type="text"
+            id="recipient"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+          />
+        </div>
+        <button onClick={handleConnect}>Conectar</button>
+        <div>
+          <SocketTry />
+        </div>
+      </div>
     </div>
   );
-      }
+}
+
 
 export default SearchChat;

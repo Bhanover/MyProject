@@ -8,7 +8,9 @@
   .container-mainCT{
     padding-top: 100px;
     padding-left:50px;
+    overflow-y: auto;
 
+    
    }
 
    .leftBar-wrapperCT{

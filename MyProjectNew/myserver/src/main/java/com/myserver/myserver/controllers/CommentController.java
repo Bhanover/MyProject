@@ -35,6 +35,7 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private PublicationRepository publicationRepository;
+    final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
 
     @PostMapping("/files/{fileId}/comments")
     public ResponseEntity<?> addCommentToFile(@PathVariable("fileId") String fileId, @RequestBody String commentText, Principal principal) {
@@ -78,7 +79,7 @@ public class CommentController {
 
         List<CommentResponse> commentResponses = comments.stream().map(comment -> {
             User author = comment.getUser();
-            String authorProfileImage = author.getProfileImage() != null ? author.getProfileImage().getUrl() : ""; // Obtén la URL de la imagen de perfil del autor
+            String authorProfileImage = author.getProfileImage() != null ? author.getProfileImage().getUrl() : defaultImageUrl;
             return new CommentResponse(comment.getId(), comment.getText(), comment.getCreationTime(), author.getUsername(), author.getId(), authorProfileImage); // Incluye la URL en la instancia de CommentResponse
         }).collect(Collectors.toList());
         return ResponseEntity.ok(commentResponses);

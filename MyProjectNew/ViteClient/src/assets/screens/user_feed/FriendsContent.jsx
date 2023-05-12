@@ -30,7 +30,6 @@ const FriendsContent = () => {
   const [showOptions, setShowOptions] = useState({});
   const { profileImage, updateProfileImage } = useProfileImage();
   const userId = localStorage.getItem("idP");
-  const currentUserId = localStorage.getItem("");
 
   const handleOptionsClick = (itemId) => {
     setShowOptions((prevState) => ({
@@ -109,7 +108,6 @@ const FriendsContent = () => {
   };
   return (
     <div className="usercontent-containerCT">
-      <h2>User Content</h2>
       <CreatePublications onNewPublication={fetchUserContent} />
       <ul className="usercontent-listCT">
         {content.map((item, index) => (
@@ -126,7 +124,7 @@ const FriendsContent = () => {
 
           <p className="profile-usernameCT">{item.username}</p>
           </div>
-            {currentUserId == userId && (
+            {item.userId == userId && (
               <i
                 className="fas fa-ellipsis-v optionsCT"
                 onClick={() => handleOptionsClick(item.id)}

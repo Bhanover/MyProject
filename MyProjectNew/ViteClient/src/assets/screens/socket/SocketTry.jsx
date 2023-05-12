@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
 function SocketTry() {
     const [connected, setConnected] = useState(false);
     const [messages, setMessages] = useState([]);
@@ -12,12 +11,12 @@ function SocketTry() {
     const [userInfo, setUserInfo] = useState({});
 
    
-    const jwtToken = localStorage.getItem('jwtToken');
-  
+    const jwtToken = localStorage.getItem("jwtToken");
+    const userId = localStorage.getItem("idP");  
     useEffect(() => {
       const fetchUserInfo = async () => {
         try {
-          const response = await axios.get('http://localhost:8081/api/auth/user/info', {
+          const response = await axios.get(`http://localhost:8081/api/auth/user/${userId}/info`, {
             headers: {
               Authorization: 'Bearer ' + jwtToken
             }
