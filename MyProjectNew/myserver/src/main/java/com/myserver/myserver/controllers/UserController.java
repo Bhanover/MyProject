@@ -22,12 +22,16 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private FileDBRepository fileDBRepository;
+    final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
 
     @GetMapping("/user/{id}/info")
     public ResponseEntity<?> getUserInfo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
-            UserInfoResponse userInfoResponse = new UserInfoResponse(user);
+
+            // Pasar la URL de la imagen predeterminada al constructor de UserInfoResponse
+            UserInfoResponse userInfoResponse = new UserInfoResponse(user, defaultImageUrl);
+
             return ResponseEntity.ok(userInfoResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -5,7 +5,6 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile } from '@fortawesome/free-solid-svg-icons';
-import { InView } from 'react-intersection-observer';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useProfileImage } from "../../../ProfileImageContext";
 

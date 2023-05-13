@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import "./UserSearch.css"
 function UserSearch(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -11,6 +13,8 @@ function UserSearch(props) {
   const [stompClient, setStompClient] = useState(null);
   const debounceTimeout = useRef(null);
   const [displayCount, setDisplayCount] = useState(6);
+  const searchContainer = useRef(null);
+  const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
     const socket = new SockJS("http://localhost:8081/mywebsocket");
@@ -24,24 +28,28 @@ function UserSearch(props) {
           const data = JSON.parse(message.body);
           console.log("dentro de subscribe");
           setSearchResults(data);
-          setSearchError(data.results && data.results.length === 0);
+          setSearchError(data.length === 0);
         });
         setStompClient(stompClient);
       }
     );
     console.log("después de subscribe")
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
       if (stompClient && stompClient.connected) {
         stompClient.disconnect();
       }
     };
   }, []);
+  
   const handleShowMoreClick = () => {
     setDisplayCount(displayCount + 6);
   };
   const displayedResults = searchResults.slice(0, displayCount);
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
+    setShowResults(true);
     if (stompClient) {
       if (debounceTimeout.current) {
         clearTimeout(debounceTimeout.current);
@@ -71,17 +79,30 @@ function UserSearch(props) {
         JSON.stringify({ search_term: searchTerm })
       );
     }
-  };
+     setShowResults(true); // Añade esta línea
+  setSearchResults([]); // Limpia los resultados de búsqueda
 
+  };
+  const handleClickOutside = (event) => {
+    if (searchContainer.current && !searchContainer.current.contains(event.target)) {
+      setSearchTerm(""); // Limpia el término de búsqueda
+      setShowResults(false); // Oculta los resultados
+    }
+  };
   return (
-    <div>
+    <div className="userSearchUS" ref={searchContainer}>
+      <div className="userSearch-textUS"> 
       <input
         type="text"
         placeholder="Buscar por nombre o apodo"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <button onClick={handleSearchClick}>Buscar</button>
+      <button onClick={handleSearchClick}>          <FontAwesomeIcon icon={faSearch} />
+      </button>
+      </div>
+      <div className={`userSearch-infoUS${showResults ? " show" : ""}`}>
+
       {searchError ? (
         <p>Usuario no encontrado</p>
       ) : (
@@ -91,9 +112,11 @@ function UserSearch(props) {
           </div>
         ))
       )}
+      
       {searchResults.length > displayCount && (
         <button onClick={handleShowMoreClick}>Mostrar más</button>
       )}
+      </div>
     </div>
   );
 }

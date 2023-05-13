@@ -14,9 +14,9 @@
       'header centro'
       'footer footer ';
     width: 100%;
-    height: 750px;
+    height: 660px;
     background: linear-gradient(#5698ea, #6d889a,rgb(82, 79, 79),rgb(23, 22, 22) ) ;
-    font-family: 'DM Serif Display', serif;
+    font-family: Arial, Helvetica, sans-serif
      
   }
   .button-active {

@@ -1,47 +1,52 @@
 import "./TopBar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useRef, useState } from "react";
+import { faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 
-const TopBar =(props)=>{
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from 'react-router-dom';
+
+import UserSearch from "../socket/searchUser/UserSearch";
+import UserLogout from "../user_logout/UserLogout";
+
+const TopBar = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const toggleSearch = () => {
-    setShowSearch(!showSearch);
+  const handleLogoutClick = () => {
+    setLogoutOpen(true);
   };
 
   return (
     <div className="topBar">
-      <div> 
-        <div className="logoM">
-          <span>E</span>
-          <span>X</span>
-          <span>P</span>
-          <p>Ex<span className="primero"></span>erience</p>
-        </div>
-      </div> 
-      <div className={`buscador ${showSearch ? 'mobile' : ''}`}>
-        <input type="search"></input>
-        <div> 
-          <FontAwesomeIcon icon={faSearch} />
-        </div>
+      <div className="topBarExp">
+        <Link to={`/`}>
+          <div className="logoM">
+            <span>E</span>
+            <span>X</span>
+            <span>P</span>
+            <p>Ex<span className="primero"></span>erience</p>
+          </div>
+        </Link>
       </div>
-      <div className="buscador-icon" onClick={toggleSearch}>
-        <FontAwesomeIcon icon={faSearch} />
+      <div className="buscador">
+        <UserSearch />
       </div>
       <div className="iconT">
-        <div className="perfil" onClick={toggleMenu}></div>
+      <div className="perfil" onClick={toggleMenu}>
+  <FontAwesomeIcon icon={faUser} />
+</div>
         {menuOpen && (
           <div className="dropdown">
-            <button onClick={() => {}}>Cerrar sesión</button>
+            <button onClick={handleLogoutClick}>Cerrar sesión</button>
           </div>
         )}
       </div>
+      {logoutOpen && <UserLogout />}
     </div>
   );
 }

@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import "./SocketTry.css"
 function SocketTry() {
     const [connected, setConnected] = useState(false);
     const [messages, setMessages] = useState([]);
@@ -9,7 +12,10 @@ function SocketTry() {
     const [currentUser, setCurrentUser] = useState(null); // Nuevo estado para el usuario actual
     const stompClientRef = useRef(null);
     const [userInfo, setUserInfo] = useState({});
-
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      enviarMensaje();
+    };
    
     const jwtToken = localStorage.getItem("jwtToken");
     const userId = localStorage.getItem("idP");  
@@ -80,21 +86,12 @@ function SocketTry() {
     };
   
     return (
-        <div className="App">
+        <div className="socketTryST">
           {currentUser && connected ? (
             <div>
-              <h2>Connected to WebSocket server</h2>
-              <div>
-                <input
-                  type="text"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Enter your message"
-                />
-                <button onClick={enviarMensaje}>Send</button>
-              </div>
-              <div>
-                <h3>General chat</h3>
+              <h2>Conectado al Chat General</h2>
+              
+              <div className="socketTry-generalchatST">
                 <ul>
                   {messages.map((message, index) => (
                     <li key={index}>
@@ -103,14 +100,31 @@ function SocketTry() {
                     </li>
                   ))}
                 </ul>
+                
               </div>
-              <div>
-                <button onClick={disconnect}>Disconnect</button>
+              <div className="socketTry-generalAllST">
+          
+                <form onSubmit={handleSubmit} className="socketTry-generalinfoST">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Escribe algo..."
+          />
+          <button type="submit">
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </button>
+        </form>
+          
+
+              <div className="socketTry-disconnectST">
+                <button onClick={disconnect}>x</button>
               </div>
+             </div>
             </div>
           ) : (
-            <div>
-              <h2>Not connected to WebSocket server</h2>
+            <div className="socketTry-generalST">
+              <h3>Chat General</h3>
               <button onClick={connect}>Connect</button>
             </div>
           )}

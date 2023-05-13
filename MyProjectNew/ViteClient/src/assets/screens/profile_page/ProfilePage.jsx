@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import UserProfile from "../user_profile/UserProfile";
 import "./ProfilePage.css";
-import { useParams, Outlet } from "react-router-dom";
-import FriendsPrincipal from "../friendship/FriendsPrincipal";
-import PublicationList from "../publication_list/PublicationList";
-import UserContent from "../user_feed/UserContent";
-import UserVideos from "../user_videos/UserVideos";
-import FriendsContent from "../user_feed/FriendsContent";
+import { useParams, Outlet, useLocation } from "react-router-dom";
+
 import { Link } from 'react-router-dom';
 
 const ProfilePage = () => {
@@ -14,6 +10,11 @@ const ProfilePage = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
   const currentUserId = localStorage.getItem("idP");
+  const location = useLocation();
+
+  const isCurrentPath = (path) => {
+    return location.pathname === path;
+  };
 
   const handleProfileImageUpdate = (newProfileImage) => {
     setProfileImage(newProfileImage);
@@ -36,24 +37,39 @@ const ProfilePage = () => {
         <div></div>
         <div className="contentPG">
           <div className="content-switchPG">
-            <Link to={`/profilePage/${userId}/images`}>
-              Images
-            </Link>
-            <Link to={`/profilePage/${userId}/videos`}>
-              Videos
-            </Link>
-            <Link to={`/profilePage/${userId}/publications`}>
-              Publications
-            </Link>
-            <Link to={`/profilePage/${userId}/content`}>
-              Content
-            </Link>
-            <Link to={`/profilePage/${userId}/friends`}>
-              Friends
-            </Link>
-            <Link to={`/profilePage/${userId}/friendsContent`}>
-              Friends Content
-            </Link>
+          <Link
+  to={`/profilePage/${userId}/content`}
+  className={isCurrentPath(`/profilePage/${userId}/content`) ? "active" : ""}
+>
+  Content
+</Link>
+<Link
+  to={`/profilePage/${userId}/images`}
+  className={isCurrentPath(`/profilePage/${userId}/images`) ? "active" : ""}
+>
+  Images
+</Link>
+<Link
+  to={`/profilePage/${userId}/videos`}
+  className={isCurrentPath(`/profilePage/${userId}/videos`) ? "active" : ""}
+>
+  Videos
+</Link>
+<Link
+  to={`/profilePage/${userId}/publications`}
+  className={
+    isCurrentPath(`/profilePage/${userId}/publications`) ? "active" : ""
+  }
+>
+  Publications
+</Link>
+<Link
+  to={`/profilePage/${userId}/friends`}
+  className={isCurrentPath(`/profilePage/${userId}/friends`) ? "active" : ""}
+>
+  Friends
+</Link>
+
           </div>
           </div>
           </div>

@@ -90,7 +90,10 @@ function SearchChat() {
       setMessage("");
     }
   };
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleConnect();
+  };
   const handleConnect = () => {
     if (recipient) {
       setSelectedFriend({ username: recipient });
@@ -108,16 +111,19 @@ function SearchChat() {
       )}
       <div className="searchChatSC">
         <h1>Buscar usuario para chatear</h1>
-        <div>
-          <label htmlFor="recipient">Destinatario:</label>
-          <input
-            type="text"
-            id="recipient"
-            value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
-          />
-        </div>
-        <button onClick={handleConnect}>Conectar</button>
+        <form onSubmit={handleSubmit} className="searchChat-userSC">
+          <div>
+            <input
+              type="text"
+              id="recipient"
+              value={recipient}
+              onChange={(e) => setRecipient(e.target.value)}
+            />
+          </div>
+          <div>
+            <button type="submit">Buscar</button>
+          </div>
+        </form>
         <div>
           <SocketTry />
         </div>

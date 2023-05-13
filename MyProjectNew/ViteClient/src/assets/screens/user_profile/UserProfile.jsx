@@ -26,7 +26,7 @@ const UserProfile = ({ userId }) => {
       })
       .then((response) => {
         setUserInfo(response.data);
-        updateProfileImage(response.data.profileImage ? response.data.profileImage.url : defaultAvatar);
+        updateProfileImage(response.data.profileImageUrl || defaultAvatar); // Cambiar a userInfo.profileImageUrl
       })
       .catch((error) => {
         console.error(error);
@@ -37,7 +37,7 @@ const UserProfile = ({ userId }) => {
     if (currentUserId === userId) {
       setShowUserImages(true);
     } else {
-      setSelectedImage(userInfo.profileImage || defaultAvatar);
+      setSelectedImage(userInfo.profileImageUrl || defaultAvatar); // Cambiar a userInfo.profileImageUrl
     }
   };
 
@@ -68,7 +68,7 @@ const UserProfile = ({ userId }) => {
       )}
       <div className="profile-image-containerUP">
       <img
-          src={profileImage || (userInfo.profileImage ? userInfo.profileImage.url : defaultAvatar)}
+          src={userInfo.profileImageUrl || profileImage}  // Cambiar a userInfo.profileImageUrl
           alt="Profile"
           className="profile-imageUP"
           onClick={handleProfileImageClick}

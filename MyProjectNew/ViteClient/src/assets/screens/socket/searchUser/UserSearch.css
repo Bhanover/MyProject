@@ -1,0 +1,40 @@
+.userSearch-textUS {
+    display: flex;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.userSearchUS{
+    margin-left: 6%;
+    width: 70%;
+ }
+.userSearch-infoUS {
+    padding: 10px;
+    position: absolute;
+    width: 60%;
+    background-color: rgb(255, 255, 255);
+    max-height: 200px;
+    height: 100%;
+    overflow-y: auto;
+    border-radius: 10px;
+    border: 1px solid rgb(230, 230, 228);
+    display: none;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.userSearch-infoUS.show {
+    display: block;
+}
+
+.userSearch-infoUS > div {
+    border: 1px solid rgb(230, 230, 228);
+    padding: 5px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.userSearch-infoUS > div:hover {
+    background: linear-gradient( #0c4870,rgb(255, 255, 255,0.5) ) ;
+}

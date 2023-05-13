@@ -1,5 +1,5 @@
 .searchChatSC{
-    max-width: 250px;
+    max-width: 260px;
     width: 100%;
     padding: 30px;
     height: 100%;
@@ -11,3 +11,23 @@
     overflow: auto;
     position: fixed;
 }
+
+.searchChatSC h1{
+    font-size: 15px;
+    
+}
+
+.searchChat-userSC input,.searchChat-userSC button{
+    width: 100%;
+    padding: 3px;
+    border-radius: 5px;
+    border: 1px solid rgb(216, 214, 214);
+    margin-top: 10px;
+}
+
+.searchChat-userSC{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+

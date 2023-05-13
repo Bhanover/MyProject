@@ -2,7 +2,6 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import UserLogin from './assets/screens/user_login/UserLogin';
 import UserRegister from './assets/screens/user_register/UserRegister';
-import UserLogout from './assets/screens/user_logout/UserLogout';
 import UploadFile from './assets/screens/uploadFile/UploadFile';
 import ProfilePage from './assets/screens/profile_page/ProfilePage';
 import { ProfileImageProvider } from "./ProfileImageContext";
@@ -23,7 +22,6 @@ function App() {
   return (
     <ProfileImageProvider>
       <Routes>
-        <Route path="/logout" element={<UserLogout />} />
         <Route path="/login" element={<UserLogin />} ></Route>
         <Route path="/register" element={<UserRegister />}></Route>
         <Route path="/upload" element={<UploadFile />}></Route>

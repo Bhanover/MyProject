@@ -87,7 +87,7 @@ const UserLogout = () => {
         // Elimina las credenciales almacenadas y redirige al usuario
         localStorage.removeItem("idP");
         localStorage.removeItem("jwtToken");
-        navigate("/login");
+        navigate("/loginPage");
       } catch (error) {
         console.error("Error al cerrar sesión:", error);
       }

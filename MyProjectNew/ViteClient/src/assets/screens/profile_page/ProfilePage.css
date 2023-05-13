@@ -5,9 +5,14 @@
     height: auto; /* Asegurarse de que el contenedor ocupe toda la altura de la pantalla */
     margin: auto;
     background-color: #fdfbfb;    box-shadow: 5px 5px 5px black;
-   
+    font-family: Arial, Helvetica, sans-serif
   }
-  
+  .content-switchPG > a.active {
+    background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
+    color:white;
+    font-weight: bolder;
+
+  }
   .containerPG {
     width: 75%;
     margin: auto;
@@ -65,7 +70,8 @@
     text-decoration: none;
     border-radius: 10px;
     color: black;
-    font-family: 'DM Serif Display', serif;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
    }
 
 .content-switchPG > a:hover{
@@ -74,21 +80,3 @@
 }
 
 
-@keyframes fondo {
-  0% {
-      background-position: 0 40%;
-  }
-  50% {
-    background-position: 0 100%;
-  }
-  100% {
-      background-position: 0 40%;
-  }
-}  @keyframes slideFromTop {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
