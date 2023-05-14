@@ -16,3 +16,24 @@
    .leftBar-wrapperCT{
     padding-left:150px;
    }
+
+   @media screen and (max-width: 800px) {
+ 
+    .container-mainCT{
+      padding-top: 60px;
+      padding-left:50px;
+      overflow-y: auto;
+  
+      
+     }
+   }
+
+   @media screen and (max-width: 600px) {
+    .container-mainCT{
+      padding-top: 90px;
+      padding-left:60px;
+      overflow-y: auto;
+  
+      
+     }
+   }

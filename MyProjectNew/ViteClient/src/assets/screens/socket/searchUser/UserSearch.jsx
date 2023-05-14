@@ -89,6 +89,8 @@ function UserSearch(props) {
       setShowResults(false); // Oculta los resultados
     }
   };
+      /* <button onClick={handleSearchClick}>          <FontAwesomeIcon icon={faSearch} />
+      </button>*/
   return (
     <div className="userSearchUS" ref={searchContainer}>
       <div className="userSearch-textUS"> 
@@ -98,8 +100,7 @@ function UserSearch(props) {
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <button onClick={handleSearchClick}>          <FontAwesomeIcon icon={faSearch} />
-      </button>
+  
       </div>
       <div className={`userSearch-infoUS${showResults ? " show" : ""}`}>
 

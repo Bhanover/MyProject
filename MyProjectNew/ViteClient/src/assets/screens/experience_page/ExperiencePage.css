@@ -1,23 +1,132 @@
 .experiencePageEXP {
-    display: flex;
-    position: relative;
-    left: 0;
-    height: 600px;
-    width: 100%;
-   }
+  display: flex;
+  position: relative;
+  left: 0;
+  height: 600px;
+  width: 100%;
+}
+
+.mainEXP {
+  margin: auto;
+  width: 50%;
+  height: 1500px;
+}
+
+.user-list-containerEXP {
+  width: 25%;
+}
+
+.leftEXP {
+  width: 20%;
+  margin-left: 50px;
+  transition: all 0.3s ease;
   
+}
+
+@media (max-width: 1200px) {
+  .menuButton{
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    top: 155px;
+    left: 55px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: transparent;
+   border: none;
+  }
+  .menuButton:hover{
+    background-color: rgb(217, 218, 221);
+    cursor: pointer;
+  }
+  .leftEXP {
+    width: 0;
+    margin-left: 0;
+    overflow-x: hidden;
+    position: absolute;
+    background-color: white;
+    z-index: 999;
+    display: none; /* Agrega esta línea para ocultarlo por defecto */
+  }
+
+  .leftEXP.open {
+    width: 20%;
+    margin-left: 50px;
+    display: block; /* Agrega esta línea para que se muestre al hacer clic en el botón */
+  }
   .mainEXP {
     margin: auto;
-    width: 50%;
+    width: 70%;
     height: 1500px;
   }
   
   .user-list-containerEXP {
-    width: 25%;
-    
+    width: 30%;
   }
-  .leftEXP {
-    width: 20%;
-    margin-left: 50px;
+}
+
+@media (max-width: 800px) {
+  .menuButton{
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    top: 120px;
+    left: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     border-radius: 50%;
+  }
+ 
+  .user-list-containerEXP {
+    width: 0;
+    overflow-x: hidden;
+    position: absolute;
+    background-color: white;
+    z-index: 999;
+    display: none;
+    right: 0;
+
+  }  
+  .userListButton:hover{
+    background-color: rgb(217, 218, 221);
+    cursor: pointer;
+  }
+  .userListButton{
+    top:120px;
+    position: fixed;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    right: 17px;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: transparent;
+   border: none;
+   border-radius: 50%;
+
+  }
+  .mainEXP {
+    margin: auto;
+    width: 100%;
+  }
+  .user-list-containerEXP.open {
+    width: 25%;
+    display: block;
+   }
+   .user-list-containerEXP {
+    position: absolute;
+    right: 140px;
+  }
+}
+@media (max-width:600px) {
+  .menuButton{
+    display: none;
    
+  }
+  .userListButton{
+  display: none;
+  }
 }

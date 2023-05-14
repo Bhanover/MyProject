@@ -17,6 +17,7 @@ import { Navigate } from 'react-router-dom';
 import LoginPage from './assets/screens/login_page/LoginPage';
 import CreatePublications from './assets/screens/create_publications/CreatePublications';
 import SearchChat from './assets/screens/socket/searchChat/SearchChat';
+import ProtectedRoute from './PrivateRoute';
 
 function App() {
   return (
@@ -24,23 +25,25 @@ function App() {
       <Routes>
         <Route path="/login" element={<UserLogin />} ></Route>
         <Route path="/register" element={<UserRegister />}></Route>
-        <Route path="/upload" element={<UploadFile />}></Route>
+        <Route path="/upload" element={<ProtectedRoute component={UploadFile} />}></Route>
         <Route path="/" element={<Container />}>
-        <Route path="/profilePage/:userId" element={<ProfilePage />}>
-          <Route index element={<Navigate to="content" />} /> {/* Redirección por defecto */}
-          <Route path="images" element={<UserImages />} />
-          
-          <Route path="videos" element={<UserVideos />} />
-          <Route path="publications" element={<PublicationList />} />
-          <Route path="content" element={<UserContent />} />
-          <Route path="friends" element={<FriendsPrincipal />} />
+          <Route
+            path="/profilePage/:userId"
+            element={<ProtectedRoute component={ProfilePage} />}
+          >
+            <Route index element={<Navigate to="content" />} /> {/* Redirección por defecto */}
+            <Route path="images" element={<UserImages />} />
+            <Route path="videos" element={<UserVideos />} />
+            <Route path="publications" element={<PublicationList />} />
+            <Route path="content" element={<UserContent />} />
+            <Route path="friends" element={<FriendsPrincipal />} />
           </Route>
           <Route path="friendsContent" element={<FriendsContent />} />
-          <Route path='/createPublications' element={<CreatePublications />}></Route>
-        <Route path="/" element={<ExperiencePage />}></Route>
+          <Route path='/createPublications' element={<ProtectedRoute component={CreatePublications} />}></Route>
+          <Route path="/" element={<ProtectedRoute component={ExperiencePage} />}></Route>
         </Route>
         <Route path="/loginPage" element={<LoginPage />}></Route>
-        <Route path='/searchChat' element={<SearchChat />}></Route>
+        <Route path='/searchChat' element={<ProtectedRoute component={SearchChat} />}></Route>
       </Routes>
     </ProfileImageProvider>
   );

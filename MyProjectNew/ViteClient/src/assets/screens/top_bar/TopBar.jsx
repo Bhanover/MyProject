@@ -21,6 +21,28 @@ const TopBar = (props) => {
     setLogoutOpen(true);
   };
 
+  const handleSearchClick = () => {
+    if (window.innerWidth < 800) {
+      setShowSearch(!showSearch);
+    }
+  };
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      if (window.innerWidth >=800) {
+        setShowSearch(true);
+      } else {
+        setShowSearch(false);
+      }
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
   return (
     <div className="topBar">
       <div className="topBarExp">
@@ -33,13 +55,20 @@ const TopBar = (props) => {
           </div>
         </Link>
       </div>
-      <div className="buscador">
-        <UserSearch />
+      <div className={`buscador ${showSearch ? 'expanded' : ''}`}>
+        {showSearch && (
+          <UserSearch />
+        )}
+        {window.innerWidth < 800 && (
+          <button onClick={handleSearchClick}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        )}
       </div>
-      <div className="iconT">
-      <div className="perfil" onClick={toggleMenu}>
-  <FontAwesomeIcon icon={faUser} />
-</div>
+      <div className={`iconT ${showSearch ? 'hidden' : ''}`}>
+        <div className="perfil" onClick={toggleMenu}>
+          <FontAwesomeIcon icon={faUser} />
+        </div>
         {menuOpen && (
           <div className="dropdown">
             <button onClick={handleLogoutClick}>Cerrar sesión</button>
@@ -52,8 +81,6 @@ const TopBar = (props) => {
 }
 
 export default TopBar;
-
-
 /*
     const doLogout = () => {
         sendLogoutRequest();

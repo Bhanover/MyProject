@@ -3,6 +3,7 @@ import "./LeftBar.css";
 import { Link, useLocation } from 'react-router-dom';
 import axios from "axios";
 import { useProfileImage } from "../../../ProfileImageContext";
+import { useNavigate } from "react-router-dom";
 
 const LeftBar = () => {
   const currentUserId = localStorage.getItem("idP");
@@ -11,8 +12,13 @@ const LeftBar = () => {
   const { profileImage, updateProfileImage } = useProfileImage();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!jwtToken || !currentUserId) {
+      navigate('/loginPage');
+      return;
+    }
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(`http://localhost:8081/api/auth/user/${currentUserId}/info`, {
@@ -24,11 +30,10 @@ const LeftBar = () => {
         updateProfileImage(response.data.profileImageUrl);
       } catch (error) {
         console.error('Error al obtener la información del usuario:', error.response.data);
-        alert('Error al obtener la información del usuario. Inténtalo de nuevo.');
       }
     };
     fetchUserInfo();
-  }, [jwtToken, updateProfileImage]);
+  }, [jwtToken, updateProfileImage, currentUserId, navigate]);
 
  
 

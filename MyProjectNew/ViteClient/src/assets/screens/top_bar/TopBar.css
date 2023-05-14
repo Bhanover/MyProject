@@ -6,6 +6,8 @@
   font-size: 40px;
   font-weight: 900;
   text-shadow: white -5px 0px;
+  top: 2px;
+
 }
 
 .logoM span:nth-child(2) {
@@ -13,7 +15,7 @@
   position: relative;
   color: black;
   font-size: 40px;
-  top: 10px;
+  top: 15px;
   left: -5px;
   text-shadow: white -5px 0px;
 }
@@ -36,7 +38,7 @@
   position: relative;
   left: -48px;
   top: -19px;
-  letter-spacing: 10px;
+  letter-spacing: 0.5em;
   color: white;
 }
  
@@ -71,6 +73,7 @@
  }
  .topBarExp{
   width: 20%;
+  font-size: 1em;
  }
 .topBarExp > a{
   text-decoration: none;
@@ -171,5 +174,150 @@
   }
   100% {
     transform: translateX(0);
+  }
+}
+.userSearchUS + button{
+  display: none;
+  
+}
+@media screen and (max-width: 800px) {
+  .topBar > .buscador .userSearch-textUS > input{
+    padding: 5px;
+    width: 100%;
+  }
+  
+  .userSearchUS + button{
+    display: block;
+  }
+  .logoM span:nth-child(1) {
+    color: black;
+    font-weight: 600;
+    text-shadow: white -5px 0px;
+    font-size: 30px;
+    bottom:2px;
+
+  }
+  
+  .logoM span:nth-child(2) {
+    font-weight: 900;
+    position: relative;
+    color: black;
+    font-size: 30px;
+    margin-top: 120px;
+    text-shadow: white -5px 0px;
+  }
+  
+  .logoM span:nth-child(3) {
+    font-weight: 900;
+    position: relative;
+    color: black;
+    font-size: 30px;
+    top: 28px;
+    left: -40px;
+    text-shadow: white -5px 0px;
+  }
+  
+  .logoM > p > .primero {
+    position: relative;
+
+  }
+  .logoM{
+    padding-top: 10px;
+  }
+  .logoM > p {
+    position: relative;
+    letter-spacing: 5px;
+    color: white;
+    margin-top: 5px;
+    margin-left: 8px;
+
+  }
+  .topBar{
+    padding-left: initial;
+    padding-right: 20px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+  }
+  .topBarExp {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    padding: 5px;
+  }
+
+  .topBar > .buscador {
+    width: 30%;
+    display: flex;
+    height: 100%;
+    justify-content: flex-start;
+  }
+  .topBar > .buscador > button{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgb(243, 249, 253);
+    border: none;
+    color: rgb(78, 78, 78);
+    margin-left: 10px;
+  }
+
+  .topBar .iconT {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    padding: 0;
+    height: 100%;
+  }
+  .topBar > .buscador.expanded {
+    width: 100%;
+  }
+  
+  .topBar .iconT.hidden {
+    display: none;
+ 
+  }
+  
+.topBar  .iconT > .perfil{
+ 
+  width: 30px;
+  background-color: rgb(0, 0, 0);
+  height:30px;
+  border-radius: 50%;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ color: white;
+
+}
+.topBar  .iconT {
+
+  font-size: 20px;
+
+}
+}
+ 
+@media screen and (max-width: 475px) {
+  .topBar {
+    padding-left: 50px;
+    width: 100%;
+  }
+  .topBarExp {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    padding: 5px;
+  }
+  .topBar > .buscador.expanded {
+    width: 100%;
+  }
+  
+  .topBar .iconT.hidden {
+    display: none;
   }
 }

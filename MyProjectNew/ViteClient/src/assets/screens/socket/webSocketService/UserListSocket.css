@@ -10,7 +10,7 @@
     max-height: 500px;
     overflow: auto;
     position: fixed;
-
+    background-color: white;
   }
   
   .user {
@@ -38,4 +38,19 @@
     border-radius: 50%;
   }
    
+  @media screen and (max-width:990px) {
+    .user-list-container {
+      max-width: 250px;
+      width: 100%;
+      padding: 30px;
+      height: 100%;
+      border: 1px solid rgb(216, 214, 214);
+      margin-top: 30px;
+      border-radius: 5px;
+      font-family: Arial, Helvetica, sans-serif;
+      max-height: 500px;
+      overflow: auto;
+      position: fixed;
   
+    }
+  }

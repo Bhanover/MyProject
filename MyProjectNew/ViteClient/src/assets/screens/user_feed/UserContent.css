@@ -68,14 +68,16 @@
     background-color: #d5dadf;
     border-radius: 5px;
     margin-bottom: 10px;
+    position: relative;
   }
  
   .usercontent-imageCT,
   .usercontent-videoCT {
-    height: auto;
-    max-width: 500px;
-    max-height: 500px;
-    width: auto;
+    position:relative;
+    height:auto;
+    max-width: 300px;
+    max-height: 300px;
+    width:100%;
     cursor: pointer;
     object-fit: cover;
   }
@@ -90,14 +92,14 @@
     padding: 20px;
    
   }
-
+/*
   .usercontent-containerCT .infoUserCF > .profile-usernameCF{
     position: absolute;
     margin-top: 8px;
     font-size: 12px;
     left: 14%;
     font-weight: bolder;
-  } 
+  } */
   .usercontent-containerCT  .commentFileCT  .comment-sectionCF .infoUserCF  .profile-usernameCF{
     position: absolute;
     margin-top: 8px;
@@ -213,3 +215,12 @@
     }
   }
   
+
+  @media  screen and (max-width: 600px) {
+
+   
+    .usercontent-containerCT {
+      padding: 0px;
+  
+    }
+  }

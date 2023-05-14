@@ -6,7 +6,7 @@
     align-items: center;
 }
 .userSearchUS{
-    margin-left: 6%;
+    margin-left: 12%;
     width: 70%;
  }
 .userSearch-infoUS {
@@ -38,3 +38,6 @@
 .userSearch-infoUS > div:hover {
     background: linear-gradient( #0c4870,rgb(255, 255, 255,0.5) ) ;
 }
+
+
+

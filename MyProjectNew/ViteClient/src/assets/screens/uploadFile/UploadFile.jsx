@@ -147,7 +147,9 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
           >
             <FontAwesomeIcon icon={faSmile} />
           </button>
-          <button type="submit">Upload File</button>
+          <button type="submit" disabled={!file}>
+  Upload File
+</button>
 
           {showEmojiPicker && (
             <div className="pickerContainer">
@@ -165,7 +167,7 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
         </div>
         {uploading && (
           <div className="loader-container">
-            <div className="loader">Cargando...</div>
+            <div className="loader"></div>
           </div>
         )}
        </form>
