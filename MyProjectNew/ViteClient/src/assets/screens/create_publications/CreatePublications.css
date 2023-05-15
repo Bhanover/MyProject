@@ -28,7 +28,7 @@
     border-radius: 5px;
     border: 1px solid rgb(223, 220, 220);
 
-
+    cursor: pointer;
 }
 .createPublicationsCRP .createPublicationUploadCRP > .upload-button{
     width: 100%;

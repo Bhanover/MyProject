@@ -1,0 +1,27 @@
+.friendsShipFDS button{
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid rgb(184, 178, 178);
+
+}
+.friendsShipFDS button:hover{
+    background-color: black;
+    color: white;
+}
+.friendsShipFDS {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.friendsShipFDS button:disabled{
+    cursor: not-allowed;
+    color: inherit; /* O el color que quieras cuando está deshabilitado */
+    background: inherit; /* O el fondo que quieras cuando está deshabilitado */
+}
+
+.friendsShipFDS button:disabled:hover{
+    background-color: inherit; /* O el fondo que quieras cuando está deshabilitado */
+    color: inherit; /* O el color que quieras cuando está deshabilitado */
+}

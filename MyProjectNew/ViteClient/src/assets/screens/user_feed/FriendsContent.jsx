@@ -16,7 +16,8 @@ import {
 import Reaction from "../reaction/Reaction";
 import { useParams } from "react-router-dom";
 import CommentFile from "../comment_file/CommentFile";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 const FriendsContent = () => {
   const [content, setContent] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
@@ -135,67 +136,74 @@ const FriendsContent = () => {
               <div className="options-containerCT">
                 {item.entityType === "publication" && (
                   <>
-                    <button onClick={() => deletePublication(item.id)}>Eliminar</button>
-                    <button onClick={() => handleEditButtonClick(item.id)}>Editar publicación</button>
+                    <button onClick={() => deletePublication(item.id)}>Delete</button>
+                    <button onClick={() => handleEditButtonClick(item.id)}>edit post</button>
                   </>
                 )}
                 {(item.contentType && item.contentType.startsWith("image/")) ||
                 (item.contentType && item.contentType.startsWith("video/")) ? (
-                  <button onClick={() => deleteFile(item.id)}>Eliminar</button>
+                  <button onClick={() => deleteFile(item.id)}>Delete</button>
                 ) : null}
               </div>
             )}
   
-                  {item.contentType && item.contentType.startsWith("image/") && (
-                  <div className="usercontent-image-containerCT">
-                    <p className="usercontent-descriptionCT">{item.description}</p>
-                    <img
-                      src={item.url}
-                      alt={item.filename}
-                      className="usercontent-imageCT"
-                      onClick={() => handleOpenImageModal(item.url, item.id)}
-                    />
-                    <div className="reactionCT">
-                    <Reaction fileId={item.id} entityType="image" />
-                    </div>
-                    <div className="commentFileCT" >
-                    <CommentFile  fileId={item.id} postOwner={item.owner} postDescription={item.description} postImage={item.url} />
-                    </div>
-                  </div>
-                )}
+                          {item.contentType && item.contentType.startsWith("image/") && (
+              <div className="usercontent-image-containerCT">
+                <p className="usercontent-descriptionCT">{item.description}</p>
+                <img
+                  src={item.url}
+                  alt={item.filename}
+                  className="usercontent-imageCT"
+                  onClick={() => handleOpenImageModal(item.url, item.id)}
+                />
+                <span className="usercontent-publication-dateCT">
+                  posted on  {new Date(item.creationTime).toLocaleDateString("es-ES")}
+                </span>
+                <div className="reactionCT">
+                  <Reaction fileId={item.id} entityType="image" />
+                </div>
+                <div className="commentFileCT" >
+                  <CommentFile  fileId={item.id} postOwner={item.owner} postDescription={item.description} postImage={item.url} />
+                </div>
+              </div>
+            )}
 
-                    {item.contentType && item.contentType.startsWith("video/") && (
-                  <div className="usercontent-video-containerCT">
-                    <video
-                      src={item.url}
-                      alt={item.filename}
-                      className="usercontent-videoCT"
-                      controls={false}
-                      onClick={() => handleOpenVideoModal(item.url, item.id)}
-                    />
-                    {showVideoModal && (
-                      <VideoModal
-                        videos={content.filter(
-                          (item) =>
-                            item.contentType && item.contentType.startsWith("video/")
-                        )}
-                        selectedVideoIndex={selectedVideoIndex}
-                        onClose={() => setShowVideoModal(false)}
-                        userId={userId}
-                        onDelete={(fileId) => {
-                          deleteFile(fileId);
-                          setShowVideoModal(false);
-                        }}
-                      />
+            {item.contentType && item.contentType.startsWith("video/") && (
+              <div className="usercontent-video-containerCT">
+                <video
+                  src={item.url}
+                  alt={item.filename}
+                  className="usercontent-videoCT"
+                  controls={false}
+                  onClick={() => handleOpenVideoModal(item.url, item.id)}
+                />
+                <span className="usercontent-publication-dateCT">
+                  posted on  {new Date(item.creationTime).toLocaleDateString("es-ES")}
+                </span>
+                {showVideoModal && (
+                  <VideoModal
+                    videos={content.filter(
+                      (item) =>
+                        item.contentType && item.contentType.startsWith("video/")
                     )}
-                     <div className="reactionCT"> 
-                    <Reaction fileId={item.id} entityType="video" />
-                    </div>
-                    <div className="commentFileCT" >
-                    <CommentFile className="commentFileCT" fileId={item.id} postOwner={item.owner} postDescription={item.description} postImage={item.url} />
-                    </div>
-                  </div>
+                    selectedVideoIndex={selectedVideoIndex}
+                    onClose={() => setShowVideoModal(false)}
+                    userId={userId}
+                    onDelete={(fileId) => {
+                      deleteFile(fileId);
+                      setShowVideoModal(false);
+                    }}
+                  />
                 )}
+                <div className="reactionCT"> 
+                  <Reaction fileId={item.id} entityType="video" />
+                </div>
+                <div className="commentFileCT" >
+                  <CommentFile className="commentFileCT" fileId={item.id} postOwner={item.owner} postDescription={item.description} postImage={item.url} />
+                </div>
+              </div>
+)}
+
 
             {item.entityType === "publication" && (
               <div className="usercontent-publication-containerCT">
@@ -205,7 +213,7 @@ const FriendsContent = () => {
                     <Reaction  publicationId={item.id}  />
                 </div>
                 <span className="usercontent-publication-dateCT">
-                  Publicado el {new Date(item.creationTime).toLocaleDateString("es-ES")}
+                posted on  {new Date(item.creationTime).toLocaleDateString("es-ES")}
                 </span>
                 {editing === item.id && (
                   <form onSubmit={(e) => handleFormSubmit(e, item.id)}>
@@ -217,8 +225,17 @@ const FriendsContent = () => {
                       placeholder="Actualizar contenido"
                     />
                     <button type="submit" className="usercontent-save-btnCP">
-                      Guardar
+                    <FontAwesomeIcon icon={faSave} /> 
                     </button>
+                    <button className="usercontent-save-btnCP"
+                   type="button"
+                   onClick={() => {
+                    setUpdatedContent("");
+                    setEditing(null);
+                  }}
+                 >
+                   <FontAwesomeIcon icon={faTimes} />
+                 </button>
                   </form>
                 )}
                 <CommentPublication publicationId={item.id} userId={userId} />

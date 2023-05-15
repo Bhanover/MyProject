@@ -126,7 +126,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
   return (
     <div className="comment-sectionCF">
       <div className="comment-infoCF">
-      <h2>Comentarios</h2>
+      <h2>Comments</h2>
       <img className="postImageCF" src={profileImage || postImage}  alt="Profile" />
 
       <div className="post-ownerCF">{postOwner}
@@ -173,7 +173,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
               ) : (
                 <>
                   <p className="creation-textCF">{comment.text}</p> {' '}
-                  <p className="creation-timeCF">Comentado el {formatDate(comment.createdAt)}</p>
+                  <p className="creation-timeCF">commented on  {formatDate(comment.createdAt)}</p>
                 </>
               )}
               {currentUserId == comment.authorId && (
@@ -195,7 +195,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
                             : handleEditComment(comment.id, comment.text)
                         }
                       >
-                        {editingComment === comment.id ? 'Guardar' : 'Editar Comentario'}
+                        {editingComment === comment.id ? 'Save' : 'Update Comment'}
                       </button>
                       {editingComment === comment.id && (
                   <button
@@ -205,14 +205,14 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
                       setEditingComment(null);
                     }}
                   >
-                    Cancelar
+                    Cancel
                   </button>
                 )}
                       <button
                         className="deleteCF"
                         onClick={() => handleDeleteComment(comment.id)}
                       >
-                        Eliminar Comentario
+                        Delete Comment
                       </button>
                     </div>
                   )}
@@ -229,7 +229,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
         onSubmit={handleAddComment} // Agregue el método handleAddComment al evento onSubmit del formulario
       >
          <input
-          placeholder="Escribe tu comentario"
+          placeholder="write your comment"
 
           type="text"
           value={newComment}

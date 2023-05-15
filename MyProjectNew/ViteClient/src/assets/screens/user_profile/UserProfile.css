@@ -84,3 +84,10 @@
     justify-content: center;
     align-items: center;
   }
+  @media (max-width: 700px) {
+    .profile-image-containerUP {
+      width: 200px;
+      height: 200px;
+      
+    }
+  }

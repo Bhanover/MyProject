@@ -15,7 +15,8 @@ import {
 import Reaction from "../reaction/Reaction";
 import { useParams } from "react-router-dom";
 import CommentFile from "../comment_file/CommentFile";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 const UserContent = () => {
   const [content, setContent] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
@@ -31,7 +32,8 @@ const UserContent = () => {
   const { userId } = useParams();
   const currentUserId = localStorage.getItem("idP");
 
-  const handleOptionsClick = (itemId) => {
+  const handleOptionsClick = (itemId,e) => {
+    e.preventDefault();
     setShowOptions((prevState) => ({
       ...prevState,
       [itemId]: !prevState[itemId],
@@ -109,7 +111,6 @@ const UserContent = () => {
   };
   return (
     <div className="usercontent-containerCT">
-      <h2>User Content</h2>
       <CreatePublications onNewPublication={fetchUserContent} />
       <ul className="usercontent-listCT">
         {content.map((item, index) => (
@@ -129,7 +130,7 @@ const UserContent = () => {
             {currentUserId == userId && (
               <i
                 className="fas fa-ellipsis-v optionsCT"
-                onClick={() => handleOptionsClick(item.id)}
+                onClick={(e) => handleOptionsClick(item.id,e)}
               ></i>
             )}
               
@@ -137,13 +138,13 @@ const UserContent = () => {
               <div className="options-containerCT">
                 {item.entityType === "publication" && (
                   <>
-                    <button onClick={() => deletePublication(item.id)}>Eliminar</button>
-                    <button onClick={() => handleEditButtonClick(item.id)}>Editar publicación</button>
+                    <button onClick={() => deletePublication(item.id)}>Delete</button>
+                    <button onClick={() => handleEditButtonClick(item.id)}>Update post</button>
                   </>
                 )}
                 {(item.contentType && item.contentType.startsWith("image/")) ||
                 (item.contentType && item.contentType.startsWith("video/")) ? (
-                  <button onClick={() => deleteFile(item.id)}>Eliminar</button>
+                  <button onClick={() => deleteFile(item.id)}>Delete</button>
                 ) : null}
               </div>
             )}
@@ -207,21 +208,30 @@ const UserContent = () => {
                     <Reaction  publicationId={item.id}  />
                 </div>
                 <span className="usercontent-publication-dateCT">
-                  Publicado el {new Date(item.creationTime).toLocaleDateString("es-ES")}
+                posted on {new Date(item.creationTime).toLocaleDateString("es-ES")}
                 </span>
                 {editing === item.id && (
                   <form onSubmit={(e) => handleFormSubmit(e, item.id)}>
-                    <input
-                      type="text"
-                      value={updatedContent}
-                      className="usercontent-edit-inputCT"
-                      onChange={(e) => setUpdatedContent(e.target.value)}
-                      placeholder="Actualizar contenido"
-                    />
-                    <button type="submit" className="usercontent-save-btnCP">
-                      Guardar
-                    </button>
-                  </form>
+                  <input
+                    type="text"
+                    value={updatedContent}
+                    className="usercontent-edit-inputCT"
+                    onChange={(e) => setUpdatedContent(e.target.value)}
+                    placeholder="Actualizar contenido"
+                  />
+                  <button type="submit" className="usercontent-save-btnCP">
+                  <FontAwesomeIcon icon={faSave} /> 
+                  </button>
+                  <button className="usercontent-save-btnCP"
+                 type="button"
+                 onClick={() => {
+                  setUpdatedContent("");
+                  setEditing(null);
+                }}
+               >
+                 <FontAwesomeIcon icon={faTimes} />
+               </button>
+                </form>
                 )}
                 <CommentPublication publicationId={item.id} userId={userId} />
               </div>

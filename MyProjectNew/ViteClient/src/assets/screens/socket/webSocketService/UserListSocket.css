@@ -10,7 +10,8 @@
     max-height: 500px;
     overflow: auto;
     position: fixed;
-    background-color: white;
+    background: linear-gradient( rgb(167, 167, 167) ,#4f99ca,rgb(172, 169, 169) ) ;
+
   }
   
   .user {
@@ -24,7 +25,7 @@
     cursor: pointer;
     border: 1px solid rgb(216, 214, 214);
     margin-top: 10px;
-
+    background-color: white;
   }
   
   .user:hover {

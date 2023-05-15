@@ -2,7 +2,6 @@
     width: 100%;
     margin: auto;
     padding: 30px;
-
   }
   
   .usercontent-listCT {
@@ -17,9 +16,7 @@
     padding: 30px;
     margin-bottom: 20px;
     box-shadow: 2px 8px 12px rgba(44, 43, 43, 1);
-
-    
-  }
+   }
 
 
   .profile-imageCT{
@@ -34,11 +31,12 @@
     position: absolute;
     right: 4%;
     top:5%;
+    cursor: pointer;
   }
  .options-containerCT{
     position: absolute;
     right:7%;
-    top: 6%;
+    top: 7%;
     display: flex;
     flex-direction: column;
     background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
@@ -54,6 +52,8 @@
   width: 100%;
   text-decoration: none;
   color: black;
+  background-color: white;
+
  }
  .options-containerCT > button:hover{
   background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
@@ -65,12 +65,21 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #d5dadf;
+    background-color: #ffffff;
     border-radius: 5px;
     margin-bottom: 10px;
     position: relative;
   }
- 
+  .usercontent-edit-inputCT{
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .usercontent-save-btnCP{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
   .usercontent-imageCT,
   .usercontent-videoCT {
     position:relative;
@@ -92,6 +101,10 @@
     padding: 20px;
    
   }
+  .usercontent-publication-containerCT > form{
+    display: flex;
+    width: 100%;
+  }
 /*
   .usercontent-containerCT .infoUserCF > .profile-usernameCF{
     position: absolute;
@@ -112,7 +125,6 @@
     
   }
   .usercontent-publication-containerCT h3 {
-    color: #007bff;
     margin-bottom: 0;
   }
   
@@ -185,7 +197,7 @@
   .usercontent-itemCT .commentFileCT > .comment-sectionCF > .comment-infoCF > .post-descriptionCF {
   display: none;
 }
-
+ 
   .usercontent-itemCT  .commentFileCT > .comment-sectionCF > .comments-containerCF {
     height: auto;
     max-height: 145px;
@@ -202,7 +214,7 @@
     border-radius: 5px;
     background: white;
     border: 1px rgb(185, 185, 185) solid;
-     
+     width: 100%;
 
 }
 
@@ -213,14 +225,29 @@
     .usercontent-publication-containerCP {
       width: 90%;
     }
+    .usercontent-itemCT {
+      padding: 0;
+    }
   }
   
 
   @media  screen and (max-width: 600px) {
 
-   
+    .optionsCT{
+      position: absolute;
+      right: 7%;
+      top:3%;
+      cursor: pointer;
+    }
     .usercontent-containerCT {
       padding: 0px;
   
+    }
+    .usercontent-itemCT .commentFileCT > .comment-sectionCF input[type="text"]  {
+      width: 80%;
+    }
+    .usercontent-itemCT .commentFileCT > .comment-sectionCF{
+      width: 100%;
+      padding: 15px;
     }
   }

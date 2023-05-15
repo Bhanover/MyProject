@@ -49,7 +49,7 @@ const UserVideos = (props) => {
 
   return (
     <div className='imgContainerUI'>
-      <h1>Mis videos</h1>
+      <h1>Videos</h1>
       <div className="gallery-containerUI">
         {videoUrls.map((url, index) => (
           <div key={index} className="gallery-itemUI">

@@ -8,6 +8,10 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
  }
 
 .image-containerUI img {
@@ -34,18 +38,14 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
-
-  
-  
 }
-
 .gallery-itemUI {
   position: relative;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   width: 200px;
   height: 200px;
-  
+
 }
 
 .thumbnailUI {
@@ -54,11 +54,18 @@
   object-fit: cover;
   transition: transform 0.3s ease;
   border-radius: 10px;
-
- }
+}
 
 .gallery-itemUI:hover .thumbnailUI {
   transform: scale(1.05);
 }
+@media (max-width: 700px) {
+  .imgContainerUI{
 
+    display: grid;
+    margin: auto;
+    justify-content: center;
+  }
+ }
 
+ 

@@ -80,6 +80,7 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   padding: 4px;
   top: 20px;
+  z-index: 1;
  }
 
  .pickerContainerCF > div{
@@ -110,8 +111,20 @@
   padding: 2px;
   word-wrap: break-word;
   word-break: break-word;
+  font-family: Arial, Helvetica, sans-serif;
 }
-
+.comment-infoCF h2{
+  font-size: 20px;
+}
+.post-ownerCF{
+  font-weight: bolder;
+}
+.post-descriptionCF{
+  position: relative;
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
 .postImageCF{
   width: 40px;
   height: 40px;
@@ -152,7 +165,7 @@
 .infoUserCF{
   display: flex;
   flex-direction: column;
-}
+ }
 
 .infoUserCF > .profile-imageCF {
   height: 30px;
@@ -165,13 +178,12 @@
   font-size: 12px;
   left: 45px;
   font-weight: bolder;
-
- }
+  }
 .comment-sectionCF ul li{
   position: relative;
   margin: auto;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
   padding-bottom: 20px;
   
 
@@ -250,10 +262,14 @@
   height: 100%;
   background-color: #e9ebf0;
   border-radius: 10px;
+  padding-right: 65px;
 }
  
  
+.comments-containerCF li input{
+ background-color: red;
  
+}
 
  
 .svg-inline--fa{
@@ -318,7 +334,6 @@
     word-break: break-word;
   }
   .comment-infoCF{
-    height: 50%;
     width: 100%;
   }
 }

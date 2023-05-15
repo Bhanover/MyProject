@@ -35,7 +35,7 @@
 
   }
   .grid-containerPG > .publication-listPL {
-      width: 80%;
+      width: 75%;
       margin-top: 20px;
 
   }
@@ -45,7 +45,7 @@
   }
   .grid-containerPG > .friendsPrincipalFP{
     width: 75%;
-    margin-top: 10px;
+    margin-top: 20px;
     
   }
   .content-switchPG{
@@ -59,7 +59,7 @@
     border-radius: 10px;
     background: linear-gradient(#ffffff,rgb(179, 178, 178) ) ;
     position: relative;
-   }
+    }
   .content-switchPG > a{
    
     display: flex;
@@ -78,5 +78,75 @@
   background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
   color: white;
 }
+.loader {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
 
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #0c0c0c; /* Blue */
+  border-radius: 50%;
+ 
+  animation: spin 2s linear infinite;
+}
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 700px) {
+  .content-switchPG{
+    display: flex;
+    flex-direction: column;
+  }
+  .content-switchPG > a.active {
+    
+    width: 100%;
+  }
+  .content-switchPG > a:hover {
+    width: 100%;
+    
+  }
+  .containerPG{
+    width: 100%;
+
+  }
+  .grid-containerPG > .publication-listPL {
+    width: 100%;
+    padding: 0;
+  }
+  .grid-containerPG{
+    padding: 0;
+  }
+  .grid-containerPG >.usercontent-containerCT {
+    padding: 0;
+    width: 100%;
+  }
+  .grid-containerPG > .friendsPrincipalFP{
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .grid-containerPG > .imgContainerUI{
+    width: 100%;
+  }
+  .containerPG{
+    width: 100%;
+
+  }
+  .grid-containerPG > .publication-listPL {
+    width: 100%;
+    padding: 0;
+  }
+  .grid-containerPG{
+    padding: 0;
+  }
+}
+ 

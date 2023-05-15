@@ -5,7 +5,8 @@ import "./PublicationList.css"
 import Reaction from '../reaction/Reaction';
 import { Link } from 'react-router-dom';
 import { useProfileImage } from '../../../ProfileImageContext';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 const API_BASE_URL = 'http://localhost:8081/api/auth';
 import { useParams } from "react-router-dom";
 
@@ -15,16 +16,18 @@ const PublicationList = (props) => {
   const [newContent, setNewContent] = useState("");
   const [editingPublicationId, setEditingPublicationId] = useState(null);
   const [editingContent, setEditingContent] = useState("");
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(null);
   const { userId } = useParams();
   const { profileImage } = useProfileImage();
 
   const currentUserId = localStorage.getItem("idP");
 
-  const handleOptionsClick = (event) => {
-    event.preventDefault(); 
-    
-    setDropdownVisible(!dropdownVisible);
+  const handleOptionsClick = (publicationId) => {
+    if (dropdownVisible === publicationId) {
+      setDropdownVisible(null);
+    } else {
+      setDropdownVisible(publicationId);
+    }
   };
   useEffect(() => {
     fetchPublications();
@@ -89,7 +92,7 @@ const PublicationList = (props) => {
   
   return (
     <div className="publication-listPL">
-      <h2>Lista de Publicaciones</h2>
+      <h2>Publications</h2>
       
       <div className="new-publication-formPL">
       <form onSubmit={(event) => {
@@ -113,7 +116,7 @@ const PublicationList = (props) => {
       <img className="profile-imagePL" src={publication.profileImageUrl || profileImage    } alt="Profile" />
 
       </Link>
-      
+      <p>{publication.username}</p>
     </div>
     <p>{publication.content}</p>
             
@@ -121,52 +124,58 @@ const PublicationList = (props) => {
          
  
             <span className="publication-datePL">
-              Publicado el {new Date(publication.creationTime).toLocaleDateString('es-ES')}
+            posted on {new Date(publication.creationTime).toLocaleDateString('es-ES')}
              </span>
           
-            {editingPublicationId === publication.id ? (
-              <form onSubmit={(event) => {
-                event.preventDefault();
-                updatePublication(publication.id, { content: editingContent });
-                setEditingPublicationId(null);
-              }}>
-                
-                <input
-                  placeholder="ContenidoPL"
-                  value={editingContent}
-                  onChange={(event) => setEditingContent(event.target.value)}
-                />
-                <button type="submit">Guardar</button>
-                <button onClick={() => setEditingPublicationId(null)}>Cancelar</button>
-              </form>
-              
-            ) : (
+             {editingPublicationId === publication.id ? (
+    <form onSubmit={(event) => {
+      event.preventDefault();
+      updatePublication(publication.id, { content: editingContent });
+      setEditingPublicationId(null);
+    }}>
+      
+      <input
+        placeholder="ContenidoPL"
+        value={editingContent}
+        onChange={(event) => setEditingContent(event.target.value)}
+      />
+      <button type="submit"><FontAwesomeIcon icon={faSave} /></button>
+      <button onClick={() => setEditingPublicationId(null)}><FontAwesomeIcon icon={faTimes} /></button>
+    </form>
+    
+  ) : (
                     <div className="options-containerPL">          
         {publication.userId == currentUserId && (
-                <button
-                  className="options-buttonPL"
-                  onClick={(event) => handleOptionsClick(event)}
-                >
-                  <i className="fas fa-ellipsis-v"></i>
-                  <div className="dropdown-menuPL">
-                    <div
-                      className="dropdown-itemPL"
-                      onClick={() => deletePublication(publication.id)}
-                    >
-                      Eliminar
-                    </div>
-                    <div
-                      className="dropdown-itemPL"
-                      onClick={() => {
-                        setEditingContent(publication.content);
-                        setEditingPublicationId(publication.id);
-                      }}
-                    >
-                      Actualizar
-                    </div>
-                  </div>
-                </button>
-              )}
+  <button
+    className="options-buttonPL"
+    onClick={() => handleOptionsClick(publication.id)}
+  >
+    <i className="fas fa-ellipsis-v"></i>
+    {dropdownVisible === publication.id && (
+      <div className="dropdown-menuPL">
+        <div
+  className="dropdown-itemPL"
+  onClick={(event) => {
+    event.stopPropagation();
+    deletePublication(publication.id);
+  }}
+>
+  Delete
+</div>
+<div
+  className="dropdown-itemPL"
+  onClick={(event) => {
+    event.stopPropagation();
+    setEditingContent(publication.content);
+    setEditingPublicationId(publication.id);
+  }}
+>
+  Update post
+</div>
+      </div>
+    )}
+  </button>
+)}
             </div>
           )}
             <CommentPublication publicationId={publication.id} userId={userId} />

@@ -3,7 +3,9 @@ import axios from 'axios';
 import "./CommentPublication.css";
 import { Link } from 'react-router-dom';
 import { useProfileImage } from '../../../ProfileImageContext';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 const API_BASE_URL = 'http://localhost:8081/api/auth';
 
 const CommentPublication = ({ publicationId }) => {
@@ -107,7 +109,7 @@ const CommentPublication = ({ publicationId }) => {
 
   return (
     <div className="comments-sectionCP" onClick={closeProfileMenu}>
-      <h2>Comentarios</h2>
+      <h2>Comments</h2>
       <div className="comments-listCP">
         <ul>
           {comments.map((comment) => (
@@ -125,33 +127,35 @@ const CommentPublication = ({ publicationId }) => {
               </div>
               <div className="comment-contentCP">
                 {editingComment === comment.id ? (
-                   <form
-                   onSubmit={(e) => {
-                     e.preventDefault();
-                     handleUpdateComment(comment.id, editingCommentText);
+                 <form
+                 onSubmit={(e) => {
+                   e.preventDefault();
+                   handleUpdateComment(comment.id, editingCommentText);
+                   setEditingComment(null);
+                 }}
+               >
+                 <input
+                   type="text"
+                   value={editingCommentText}
+                   onChange={(e) => setEditingCommentText(e.target.value)}
+                 />
+                 <button type="submit">
+                   <FontAwesomeIcon icon={faSave} /> 
+                 </button>
+                 <button
+                   type="button"
+                   onClick={() => {
                      setEditingComment(null);
                    }}
                  >
-                   <input
-                     type="text"
-                     value={editingCommentText}
-                     onChange={(e) => setEditingCommentText(e.target.value)}
-                   />
-                   <button type="submit">Guardar</button>
-                   <button
-                     type="button"
-                     onClick={() => {
-                       setEditingComment(null);
-                     }}
-                   >
-                     Cancelar
-                   </button>
-                 </form>
+                   <FontAwesomeIcon icon={faTimes} />
+                 </button>
+               </form>
                 ) : (
                   <p className='commentTextCP'>{comment.text}</p>
                 )}
                 <span className="comment-dateCP">
-                  Comentado el {formatDate(comment.createdAt)}
+                commented on  {formatDate(comment.createdAt)}
                 </span>
               </div>
               {comment.authorId == currentUserId && (
@@ -177,13 +181,13 @@ const CommentPublication = ({ publicationId }) => {
                               setEditingCommentText(comment.text);
                             }}
                           >
-                            Editar Comentario
+                            Update Comment
                           </div>
                           <div
                             className="dropdown-itemCP"
                             onClick={() => handleDeleteComment(comment.id)}
                           >
-                            Eliminar Comentario
+                            Delete Comment
                           </div> 
                           
                         </>
@@ -205,9 +209,11 @@ const CommentPublication = ({ publicationId }) => {
             type="text"
             value={newCommentText}
             onChange={(e) => setNewCommentText(e.target.value)}
-            placeholder="Escribe tu comentario"
+            placeholder="write your comment
+            "
           />
-          <button type="submit">Comentar</button>
+          <button type="submit">          <FontAwesomeIcon icon={faPaperPlane} />
+</button>
         </form>
       </div>
     </div>

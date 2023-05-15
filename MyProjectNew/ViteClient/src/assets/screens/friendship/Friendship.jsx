@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import "./Friendship.css";
 function Friendship({ friendId, updateFriends, disabled }) {
   const [friendshipStatus, setFriendshipStatus] = useState(null);
   const [sentRequest, setSentRequest] = useState(null);
@@ -61,8 +61,7 @@ function Friendship({ friendId, updateFriends, disabled }) {
   }, [friendId]);
 
   return (
-    <div>
-      <h2>Friendship</h2>
+    <div className="friendsShipFDS">
       {friendshipStatus === null && (
         <button onClick={sendFriendRequest} disabled={disabled}>
           Send Request

@@ -3,9 +3,9 @@
   width: 100%;
   height: auto;
   padding: 30px;
-  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, transparent 100%);
-  border-radius: 10px;
+background-color: white;  border-radius: 10px;
   margin: auto;
+  box-shadow: 3px 5px 8px black;
 }
 
 .publicationPL {
@@ -23,7 +23,11 @@
   align-items: center;
   margin-bottom: 10px;
 }
+.publicationPL> p{
+  width: 100%;
+  overflow-wrap: break-word;
 
+}
 .profile-imagePL {
   width: 40px;
   height: 40px;
@@ -74,7 +78,12 @@
   background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
   color: white;
 }
- 
+.publication-listPL > h2{
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
 .publicationPL h3 {
   color: #007bff;
   margin-top: 0;
@@ -84,7 +93,22 @@
   font-size: 18px;
   margin-bottom: 10px;
 }
+.publicationPL > form {
+  display: flex;
+}
+.publicationPL > form input{
+  width: 100%;
+  border-radius: 5px;
+  padding: 3px;
+  border: 1px solid rgb(180, 177, 177);
+}
 
+.publicationPL > form button{
+  width: 5%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 .publication-datePL {
   color: #777;
   font-size: 14px;
@@ -109,18 +133,23 @@
   padding: 0;
   width: 20px;
   height: 20px;
-}
+  border-radius: 50%;
 
+}
+.options-buttonPL:hover {
+  background-color: #dfe2e6;
+  border-radius: 50%;
+}
 .dropdown-menuPL {
-  background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
   border-radius: 10px;
   display: none;
   min-width: 150px;
-  padding: 4px 0;
+  padding: 5px;
   position: absolute;
   right: 0;
-  top: 100%;
-  z-index: 1000;
+  top: 30px;
+    background: linear-gradient(rgb(217, 217, 217), #6d889a, #cfd9e6, rgba(77, 167, 209, 0.5));
+
 }
 
 .dropdown-itemPL {
@@ -129,16 +158,23 @@
   display: block;
   font-weight: 400;
   line-height: 1.5;
-  padding: 8px 16px;
   text-align: inherit;
   white-space: nowrap;
+  
+  border: none;
+  font-size: 12px;
+  padding: 8px;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  color: black;background-color: rgb(255, 255, 255);
 }
 
 .dropdown-itemPL:hover {
   background: linear-gradient(to bottom, rgb(34, 34, 34) 0%, transparent 100%);
   color: #16181b;
   text-decoration: none;
-  border-radius: 10px;
+  color: white;
 
 }
 

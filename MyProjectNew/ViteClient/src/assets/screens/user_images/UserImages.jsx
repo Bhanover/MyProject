@@ -55,7 +55,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   };
   return (
     <div className="imgContainerUI">
-      <h1>Mis imágenes</h1>
+      <h1>Images</h1>
       <div className="gallery-containerUI">
         {imageUrls.map((url, index) => (
           <div

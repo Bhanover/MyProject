@@ -4,7 +4,7 @@ function AcceptedFriendsList({ friends }) {
 
     return (
       <div className="accepted-FriendsListAFL">
-        <h2>Accepted Friends List</h2>
+        <h2>Friends</h2>
         <div className="accepted-FriendsList-containerAFL"> 
         <ul>
           {friends

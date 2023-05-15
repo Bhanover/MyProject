@@ -4,17 +4,58 @@
     padding: 20px;
     box-shadow: 4px 8px 12px rgba(0, 0, 0);
     border-radius: 15px;
- }
+}
 
 .friends-Principal-containerFP{
     display: flex;
+    flex-direction: row;
     height: 500px;
-
 }
+
 .friends-Principal-containerFP > div {
     width: 50%;
     padding: 20px;
 }
+
+@media screen and (max-width: 800px) {
+    .friends-Principal-containerFP{
+        flex-direction: column;
+    }
+
+    .friends-Principal-containerFP > div {
+        width: 100%;
+    }
+}
+
+.friendsPrincipalFP ul{ 
+    position: relative;
+    list-style-type: none;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.friendsPrincipalFP ul li{ 
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding: 10px;
+    border:1px solid rgb(197, 191, 191);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.friendsPrincipalFP img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.friendsPrincipalFP li button{
+    margin-left: 20px;
+}
+
 .friendsPrincipalFP ul{ 
     position: relative;
     list-style-type: none;
@@ -30,7 +71,7 @@
     border:1px solid rgb(197, 191, 191);
     border-radius: 10px;
     margin-bottom: 10px;
-
+    width: 100%;
 }
 .friendsPrincipalFP img{
     width: 30px;
