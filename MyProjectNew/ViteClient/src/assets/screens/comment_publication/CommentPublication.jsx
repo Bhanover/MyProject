@@ -17,17 +17,22 @@ const CommentPublication = ({ publicationId }) => {
   const [editingCommentText, setEditingCommentText] = useState('');
   const [profileMenuCommentId, setProfileMenuCommentId] = useState(null);
   const { profileImage } = useProfileImage();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchComments();
   }, []);
 
   const fetchComments = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get(`${API_BASE_URL}/publications/${publicationId}/comments`, {
         headers: { 'Authorization': 'Bearer ' + jwtToken },
       });
       setComments(response.data);
+      setLoading(false);
+
     } catch (error) {
       console.error('Error al obtener las publicaciones:', error);
       throw new Error('Error al obtener las publicaciones. Inténtalo de nuevo.');
@@ -35,6 +40,7 @@ const CommentPublication = ({ publicationId }) => {
   };
 
   const handleCreateComment = async () => {
+    
     try {
       const response = await axios.post(
         `${API_BASE_URL}/publications/${publicationId}/comments`,
@@ -109,6 +115,12 @@ const CommentPublication = ({ publicationId }) => {
 
   return (
     <div className="comments-sectionCP" onClick={closeProfileMenu}>
+        {loading ? (
+    
+    <div className="spinner"></div>
+ 
+  ) : (
+    <> 
       <h2>Comments</h2>
       <div className="comments-listCP">
         <ul>
@@ -216,6 +228,8 @@ const CommentPublication = ({ publicationId }) => {
 </button>
         </form>
       </div>
+      </>
+  )}
     </div>
   );
 };

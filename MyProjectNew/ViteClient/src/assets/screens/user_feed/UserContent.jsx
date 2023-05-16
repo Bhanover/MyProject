@@ -31,6 +31,7 @@ const UserContent = () => {
   const { profileImage, updateProfileImage } = useProfileImage();
   const { userId } = useParams();
   const currentUserId = localStorage.getItem("idP");
+  const [loading, setLoading] = useState(true);
 
   const handleOptionsClick = (itemId,e) => {
     e.preventDefault();
@@ -72,7 +73,9 @@ const UserContent = () => {
   };
 
   useEffect(() => {
+ 
     fetchUserContent();
+ 
   }, [userId]);
 
   const handleFormSubmit = (e, publicationId) => {
@@ -81,8 +84,12 @@ const UserContent = () => {
   };
 
   const fetchUserContent = async () => {
+    setLoading(true);
+
     const data = await getUserContent(userId);
     setContent(data);
+    setLoading(false);
+
   };
 
   const updatePublication = async (publicationId, updatedContent) => {
@@ -111,6 +118,12 @@ const UserContent = () => {
   };
   return (
     <div className="usercontent-containerCT">
+     {loading ? (
+      <div className="loader-container">
+        <div className="loader"></div>
+        </div>
+      ) : (
+        <>
       <CreatePublications onNewPublication={fetchUserContent} />
       <ul className="usercontent-listCT">
         {content.map((item, index) => (
@@ -119,10 +132,10 @@ const UserContent = () => {
         <Link to={`/profilePage/${item.userId}`}>
 
         <img
-  className="profile-imageCT"
-  src={item.profileImage || profileImage  }
-  alt="Profile"
-/>
+        className="profile-imageCT"
+        src={item.profileImage || profileImage  }
+        alt="Profile"
+      />
                 </Link>
 
           <p className="profile-usernameCT">{item.username}</p>
@@ -275,6 +288,8 @@ const UserContent = () => {
 
           />
         )}
+          </>
+      )}
       </div>
     );
       }

@@ -167,9 +167,14 @@
   flex-direction: column;
  }
 
+ .infoUserCF img{
+  width: 20px;
+  height: 20px;
+ }
+
 .infoUserCF > .profile-imageCF {
-  height: 30px;
-  width: 30px;
+  height: 30px !important;
+  width: 30px !important;
   border-radius: 50%;
  }
  .infoUserCF > .profile-usernameCF{

@@ -10,8 +10,11 @@ const FriendsPrincipal = () => {
   const [friends, setFriends] = useState([]);
   const { userId } = useParams();
   const currentUserId = localStorage.getItem("idP");
+  const [loading, setLoading] = useState(true);
 
   const fetchFriends = useCallback(async () => {
+    setLoading(true);
+
     try {
       const jwtToken = localStorage.getItem("jwtToken");
       const config = {
@@ -22,6 +25,8 @@ const FriendsPrincipal = () => {
       const response = await axios.get(`http://localhost:8081/api/auth/${userId}/friends`, config);
       setFriends(response.data);
       console.log("esto es el get ", response.data);
+      setLoading(false);
+
       return response.data;
     } catch (error) {
       console.error(error);
@@ -34,6 +39,14 @@ const FriendsPrincipal = () => {
 
   return (
     <div className="friendsPrincipalFP">
+          {loading ? (
+    
+    <div className="loader-container">
+    <div className="loader"></div>
+    </div>
+ 
+  ) : (
+    <> 
       <div  className="friends-Principal-containerFP"> 
       <div>
         <AcceptedFriendsList friends={friends} />
@@ -45,6 +58,8 @@ const FriendsPrincipal = () => {
         </div>
          
       </div>
+      </>
+  )}
     </div>
   );
 };

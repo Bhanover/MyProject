@@ -15,6 +15,7 @@ public class FriendInfo {
 
     private boolean pending;
     private Long friendshipId;
+    private Long requesterId;
 
 
 }

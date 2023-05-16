@@ -14,38 +14,37 @@ function FriendsList({ friends, fetchFriends, userId }) {
        <h2>Friends List</h2>
        <div className="accepted-FriendsList-containerAFL"> 
       <ul>
-        {friends.map((friend, index) => (
-          <li key={`${friend.id}-${index}`}>
-            <img 
-          src={friend.url} // Simplemente utiliza la URL proporcionada por el servidor
-          alt="profileImage">
-        </img>
-            {friend.username}{" "}
-            {console.log({friend})}
-            {loggedInUserId === userId && (
-              <>
-                {!friend.pending && (
-                  <RemoveFriend
-                    friendshipId={friend.friendshipId}
-                    updateFriends={fetchFriends}
-                  />
-                )}
-                {friend.pending && (
-                  <>
-                    <AcceptFriendship
-                      friendshipId={friend.friendshipId}
-                      updateFriends={fetchFriends}
-                    />
-                    <RejectFriendship
-                      friendshipId={friend.friendshipId}
-                      updateFriends={fetchFriends}
-                    />
-                  </>
-                )}
-              </>
+      {friends.map((friend, index) => (
+  <li key={`${friend.id}-${index}`}>
+    <img src={friend.url} alt="profileImage"></img>
+    {friend.username}{" "}
+    {console.log({friend})}
+    {loggedInUserId == userId && (
+      <>
+        {!friend.pending && (
+          <RemoveFriend
+            friendshipId={friend.friendshipId}
+            updateFriends={fetchFriends}
+          />
+        )}
+        {friend.pending && (
+          <>
+            {friend.requesterId != loggedInUserId && (
+              <AcceptFriendship
+                friendshipId={friend.friendshipId}
+                updateFriends={fetchFriends}
+              />
             )}
-          </li>
-        ))}
+            <RejectFriendship
+              friendshipId={friend.friendshipId}
+              updateFriends={fetchFriends}
+            />
+          </>
+        )}
+      </>
+    )}
+  </li>
+))}
       </ul>
       </div>
     </div>

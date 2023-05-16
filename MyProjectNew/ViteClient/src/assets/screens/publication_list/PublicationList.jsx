@@ -19,6 +19,7 @@ const PublicationList = (props) => {
   const [dropdownVisible, setDropdownVisible] = useState(null);
   const { userId } = useParams();
   const { profileImage } = useProfileImage();
+  const [loading, setLoading] = useState(true);
 
   const currentUserId = localStorage.getItem("idP");
 
@@ -34,6 +35,8 @@ const PublicationList = (props) => {
   }, []);
 
   const fetchPublications = async () => {
+    setLoading(true);
+
   try {
     const response = await axios.get(`${API_BASE_URL}/${userId}/publications`, {
       headers: { 'Authorization': 'Bearer ' + jwtToken },
@@ -42,6 +45,8 @@ const PublicationList = (props) => {
 
     setPublications(response.data);
     console.log(response.data);
+    setLoading(false);
+
   } catch (error) {
     console.error('Error al obtener las publicaciones:', error);
     throw new Error('Error al obtener las publicaciones. Inténtalo de nuevo.');
@@ -50,12 +55,15 @@ const PublicationList = (props) => {
 
 
   const createPublication = async (publicationDTO) => {
+    setLoading(true);
     try {
       await axios.post(`${API_BASE_URL}/publication`, publicationDTO, {
         headers: { 'Authorization': 'Bearer ' + jwtToken },
       });
       // Actualiza la lista de publicaciones después de crear una nueva
       fetchPublications();
+      setLoading(false);
+
     } catch (error) {
       console.error('Error al crear la publicación:', error);
       throw new Error('Error al crear la publicación. Inténtalo de nuevo.');
@@ -92,6 +100,12 @@ const PublicationList = (props) => {
   
   return (
     <div className="publication-listPL">
+        {loading ? (
+      <div className="loader-container">
+        <div className="loader"></div>
+        </div>
+      ) : (
+        <>
       <h2>Publications</h2>
       
       <div className="new-publication-formPL">
@@ -179,10 +193,11 @@ const PublicationList = (props) => {
             </div>
           )}
             <CommentPublication publicationId={publication.id} userId={userId} />
- 
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 };

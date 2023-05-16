@@ -31,6 +31,7 @@ const FriendsContent = () => {
   const [showOptions, setShowOptions] = useState({});
   const { profileImage, updateProfileImage } = useProfileImage();
   const userId = localStorage.getItem("idP");
+  const [loading, setLoading] = useState(true);
 
   const handleOptionsClick = (itemId) => {
     setShowOptions((prevState) => ({
@@ -80,8 +81,12 @@ const FriendsContent = () => {
   };
 
   const fetchUserContent = async () => {
+    setLoading(true);
+
     const data = await getUserFriendsContent();
     setContent(data);
+    setLoading(false);
+
   };
   const updatePublication = async (publicationId, updatedContent) => {
     await updatePublicationApi(publicationId, updatedContent);
@@ -109,6 +114,12 @@ const FriendsContent = () => {
   };
   return (
     <div className="usercontent-containerCT">
+       {loading ? (
+      <div className="loader-container">
+        <div className="loader"></div>
+        </div>
+      ) : (
+        <> 
       <CreatePublications onNewPublication={fetchUserContent} />
       <ul className="usercontent-listCT">
         {content.map((item, index) => (
@@ -277,10 +288,11 @@ const FriendsContent = () => {
               setShowVideoModal(false);
             }}
             onRefresh={fetchUserContent}
-
-          />
-        )}
-      </div>
-    );
-      }
+            />
+            )}
+              </>
+          )}
+          </div>
+        );
+          }
 export default FriendsContent;

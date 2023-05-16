@@ -4,6 +4,7 @@
   left: 0;
   height: 600px;
   width: 100%;
+  overflow: auto;
 }
 
 .mainEXP {

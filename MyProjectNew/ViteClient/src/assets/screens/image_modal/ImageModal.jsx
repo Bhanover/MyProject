@@ -58,6 +58,8 @@ const ImageModal = ({
       const imageUrl = response.data.url;
       alert('Foto de perfil actualizada con éxito.');
       onProfileImageUpdate(imageUrl);
+      onClose();
+
       return imageUrl; // Agrega esta línea
     } catch (error) {
       console.error('Error al establecer la foto de perfil:', error);
@@ -124,7 +126,7 @@ useEffect(() => {
                       className="delete-buttonIM"
                       onClick={() => deleteImage(currentFileId)}
                     >
-                      Eliminar imagen
+                      Delete Image
                     </button>
                     <button className="set-profile-pictureIM" onClick={handleSetProfilePicture}>
                       Establecer como foto de perfil

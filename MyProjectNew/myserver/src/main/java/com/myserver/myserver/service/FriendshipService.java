@@ -102,15 +102,16 @@ public class FriendshipService {
         List<FriendInfo> friends = new ArrayList<>();
         for (Friendship friendship : sentFriendships) {
             String imageUrl = friendship.getFriend().getProfileImage() != null ? friendship.getFriend().getProfileImage().getUrl() : defaultImageUrl;
-            friends.add(new FriendInfo(friendship.getFriend().getId(), imageUrl, friendship.getFriend().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId()));
+            friends.add(new FriendInfo(friendship.getFriend().getId(), imageUrl, friendship.getFriend().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId(), user.getId()));
         }
         for (Friendship friendship : receivedFriendships) {
             String imageUrl = friendship.getUser().getProfileImage() != null ? friendship.getUser().getProfileImage().getUrl() : defaultImageUrl;
-            friends.add(new FriendInfo(friendship.getUser().getId(), imageUrl, friendship.getUser().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId()));
+            friends.add(new FriendInfo(friendship.getUser().getId(), imageUrl, friendship.getUser().getUsername(), friendship.getStatus() == FriendshipStatus.PENDING, friendship.getId(), friendship.getUser().getId()));
         }
 
         return friends;
     }
+
     public void removeFriend(Long friendshipId) {
         Optional<Friendship> optionalFriendship = friendshipRepository.findById(friendshipId);
 

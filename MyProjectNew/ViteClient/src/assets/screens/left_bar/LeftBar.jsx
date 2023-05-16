@@ -9,6 +9,7 @@ const LeftBar = () => {
   const currentUserId = localStorage.getItem("idP");
   const jwtToken = localStorage.getItem("jwtToken");
   const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(true);
   const { profileImage, updateProfileImage } = useProfileImage();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -28,14 +29,14 @@ const LeftBar = () => {
         });
         setUserInfo(response.data);
         updateProfileImage(response.data.profileImageUrl);
+        setLoading(false);
       } catch (error) {
         console.error('Error al obtener la información del usuario:', error.response.data);
+        setLoading(false);
       }
     };
     fetchUserInfo();
   }, [jwtToken, updateProfileImage, currentUserId, navigate]);
-
- 
 
   const isActive = (path) => {
     if (path === '/' && location.pathname.startsWith(`/profilePage/${currentUserId}`)) {
@@ -50,9 +51,9 @@ const LeftBar = () => {
       </Link>
       <div>
         <Link to={`/profilePage/${currentUserId}`} className={isActive(`/profilePage/${currentUserId}`) ? 'active' : ''}>
-          <img src={userInfo.profileImageUrl || profileImage} alt="User Profile" />
+          {loading ? <div className="spinner"></div> : <img src={userInfo.profileImageUrl || profileImage} alt="User Profile" />}
         </Link>
-        </div>
+      </div>
     </div>
   );
 };

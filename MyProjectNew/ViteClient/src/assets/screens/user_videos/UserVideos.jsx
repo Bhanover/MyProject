@@ -13,12 +13,15 @@ const UserVideos = (props) => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const { userId } = useParams();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchUserVideos();
   }, []);
 
   const fetchUserVideos = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get(`http://localhost:8081/api/auth/${ userId }/user-videos`, {
         headers: {
@@ -27,6 +30,8 @@ const UserVideos = (props) => {
       });
       setVideoUrls(response.data);
       console.log(response.data)
+      setLoading(false);
+
     } catch (error) {
       console.error('Error al obtener los videos del usuario:', error.response.data);
       alert('Error al obtener los videos del usuario. Inténtalo de nuevo.');
@@ -49,6 +54,12 @@ const UserVideos = (props) => {
 
   return (
     <div className='imgContainerUI'>
+       {loading ? (
+      <div className="loader-container">
+        <div className="loader"></div>
+        </div>
+      ) : (
+        <>
       <h1>Videos</h1>
       <div className="gallery-containerUI">
         {videoUrls.map((url, index) => (
@@ -73,9 +84,11 @@ const UserVideos = (props) => {
           onRefresh={refreshVideos} // Agrega esta línea
 
         />
-      )}
+        )}
+        </>
+    )}
     </div>
   );
-};
+    }
 
 export default UserVideos;

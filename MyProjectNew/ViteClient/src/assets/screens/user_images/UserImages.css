@@ -4,15 +4,7 @@
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-.gallery-containerUI {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
- }
+
 
 .image-containerUI img {
   width: auto;
@@ -33,12 +25,16 @@
   text-align: center;
   margin-bottom: 20px;
 }
-
 .gallery-containerUI {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-}
+  
+  grid-gap: 15px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+ }
+
 .gallery-itemUI {
   position: relative;
   border-radius: 10px;

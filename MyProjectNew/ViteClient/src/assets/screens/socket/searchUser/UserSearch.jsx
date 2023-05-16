@@ -15,6 +15,7 @@ function UserSearch(props) {
   const [displayCount, setDisplayCount] = useState(6);
   const searchContainer = useRef(null);
   const [showResults, setShowResults] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const socket = new SockJS("http://localhost:8081/mywebsocket");
@@ -29,6 +30,8 @@ function UserSearch(props) {
           console.log("dentro de subscribe");
           setSearchResults(data);
           setSearchError(data.length === 0);
+          setLoading(false); // Añade esta línea
+
         });
         setStompClient(stompClient);
       }
@@ -55,6 +58,8 @@ function UserSearch(props) {
         clearTimeout(debounceTimeout.current);
       }
       debounceTimeout.current = setTimeout(() => {
+        setLoading(true); // Añade esta línea
+
         stompClient.send(
           "/app/searchUsers",
           { Authorization: localStorage.getItem("jwtToken") },
@@ -103,16 +108,17 @@ function UserSearch(props) {
   
       </div>
       <div className={`userSearch-infoUS${showResults ? " show" : ""}`}>
-
-      {searchError ? (
-        <p>Usuario no encontrado</p>
-      ) : (
-        displayedResults.map((results) => (
-          <div key={results.id} onClick={() => handleResultClick(results.id)}>
-            <p>{results.username}</p>
-          </div>
-        ))
-      )}
+      {loading ? (
+  <div className="spinnerSearch"></div>
+) : searchError ? (
+  <p>Usuario no encontrado</p>
+) : (
+  displayedResults.map((results) => (
+    <div key={results.id} onClick={() => handleResultClick(results.id)}>
+      <p>{results.username}</p>
+    </div>
+  ))
+)}
       
       {searchResults.length > displayCount && (
         <button onClick={handleShowMoreClick}>Mostrar más</button>

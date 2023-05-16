@@ -24,10 +24,13 @@ const UserProfile = ({ userId }) => {
           Authorization: `Bearer ${jwtToken}`,
         },
       })
-      .then((response) => {
+       .then((response) => {
         setUserInfo(response.data);
+        console.log(response.data);
+
         updateProfileImage(response.data.profileImageUrl || defaultAvatar); // Cambiar a userInfo.profileImageUrl
       })
+      
       .catch((error) => {
         console.error(error);
       });
@@ -75,21 +78,23 @@ const UserProfile = ({ userId }) => {
         />
           </div>
       <div className="user-infoUP">
-        <p>ID: {userInfo.id}</p>
-        <p>Username: {userInfo.username}</p>
-        <p>Email: {userInfo.email}</p>
+        <p>{userInfo.username}</p>
+        <p>{userInfo.email}</p>
       </div>
       {selectedImage && (
-        <div className="modalUP" onClick={handleCloseImageModal}>
-          <div className="modal-contentUP" onClick={handleContainerClick}>
-            <img
-              src={selectedImage}
-              alt="Profile"
-              className="large-profile-imageUP"
-            />
-          </div>
-        </div>
-      )}
+  <div className="modalUP" onClick={handleCloseImageModal}>
+    <div className="modal-contentUP" onClick={handleContainerClick}>
+      <div className="large-profile-image-container">
+        <img
+          src={selectedImage}
+          alt="Profile"
+          className="large-profile-imageUP"
+        />
+        <button className="close-buttonUP" onClick={handleCloseImageModal}>X</button> {/* Nuevo botón */}
+      </div>
+    </div>
+  </div>
+)}
       
 {showUserImages && (
   <div className="modalUP" onClick={handleCloseModal}>

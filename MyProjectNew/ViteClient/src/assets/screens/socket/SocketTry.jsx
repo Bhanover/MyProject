@@ -66,12 +66,12 @@ function SocketTry() {
     };
   
     const disconnect = () => {
-      if (window.confirm("Are you sure you want to disconnect?")) {
+     
         if (stompClientRef.current !== null) {
           stompClientRef.current.disconnect();
           setConnected(false);
         }
-      }
+      
     };
   
     const enviarMensaje = () => {

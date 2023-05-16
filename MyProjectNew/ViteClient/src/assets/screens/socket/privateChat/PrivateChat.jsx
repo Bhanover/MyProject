@@ -16,6 +16,7 @@ function PrivateChat({ selectedFriend, onClose }) {
   const [roomName, setRoomName] = useState(null);
   const [minimized, setMinimized] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const jwtToken = localStorage.getItem("jwtToken");
   const userId = localStorage.getItem("idP");
@@ -88,6 +89,8 @@ function PrivateChat({ selectedFriend, onClose }) {
     }
   };
   const loadChatHistory = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get(`http://localhost:8081/mywebsocket/chat/private/history/${recipient}`, {
         headers: {
@@ -101,6 +104,8 @@ function PrivateChat({ selectedFriend, onClose }) {
           content: msg.message,
         }))
       );
+      setLoading(false);
+
     } catch (error) {
       console.error("Error al cargar el historial de chat:", error);
     }
@@ -112,7 +117,8 @@ function PrivateChat({ selectedFriend, onClose }) {
       setRoomName(null);
     }
   };
-  const enviarMensajePrivado = () => {
+  const enviarMensajePrivado = (e) => {
+    e.preventDefault();
     const roomMembers = [currentUser, recipient].sort(); // Ordenar nombres de usuario
     const roomName = roomMembers.join("-"); 
     if (message.trim() !== "" && recipient.trim() !== "") {
@@ -145,6 +151,12 @@ function PrivateChat({ selectedFriend, onClose }) {
     </div>
   ) : (
         <div className="chat-window">
+           {loading ? (
+  
+        <div className="spinnerContact"></div>
+        
+      ) : (
+        <>
           <div className="chat-header">
             <span>Private chat with {recipient}</span>
             <div>
@@ -168,16 +180,19 @@ function PrivateChat({ selectedFriend, onClose }) {
               </p>
             ))}
           </div>
-          <div className="input-wrapper">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Escribe algo"
-            />
-            <button onClick={enviarMensajePrivado}>Enviar</button>
-          </div>
+          <form onSubmit={enviarMensajePrivado} className="input-wrapper">
+  <input
+    type="text"
+    value={message}
+    onChange={(e) => setMessage(e.target.value)}
+    placeholder="Write something"
+  />
+  <button type="submit">Send</button>
+</form>
+           </>
+      )}
         </div>
+        
       )}
     </>
   );

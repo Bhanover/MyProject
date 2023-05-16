@@ -24,10 +24,7 @@
     font-weight: bolder;
     font-size: 17px;
 }
-  .form-container {
-    overflow: hidden;
-    position: relative;
-  }
+ 
   .form-slide-animation {
     animation: slideFromTop 1s ease-out forwards;
   }

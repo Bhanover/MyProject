@@ -16,12 +16,15 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { updateProfileImage } = useProfileImage();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchUserImages();
   }, []);
 
   const fetchUserImages = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get(`http://localhost:8081/api/auth/${userId}/user-images`, {
         headers: {
@@ -31,6 +34,8 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
 
       setImageUrls(response.data);
       console.log(response.data)
+      setLoading(false);
+
     } catch (error) {
       console.error('Error al establecer la foto de perfil:', error.response.data);
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
@@ -55,6 +60,12 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   };
   return (
     <div className="imgContainerUI">
+      {loading ? (
+      <div className="loader-container">
+        <div className="loader"></div>
+        </div>
+      ) : (
+        <>
       <h1>Images</h1>
       <div className="gallery-containerUI">
         {imageUrls.map((url, index) => (
@@ -84,9 +95,11 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
           onImagesRefresh={refreshImages} // Agrega esta línea
         
         />
-      )}
+        )}
+        </>
+    )}
     </div>
   );
-};
+    }
 
 export default UserImages;

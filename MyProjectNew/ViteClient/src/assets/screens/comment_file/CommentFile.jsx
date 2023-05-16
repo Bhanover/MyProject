@@ -20,9 +20,10 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
     const currentUserId = localStorage.getItem("idP");
     const [showEmojiPickerEdit, setShowEmojiPickerEdit] = useState(false);
     const [dropdownCommentId, setDropdownCommentId] = useState(null);
-    const { profileImage } = useProfileImage();
+    const { profileImage, updateProfileImage } = useProfileImage();
     const [showCancelButton, setShowCancelButton] = useState(false);
     const jwtToken = localStorage.getItem('jwtToken');
+    const [loading, setLoading] = useState(true);
 
     const api = axios.create({
       baseURL: 'http://localhost:8081/api/auth',
@@ -49,17 +50,21 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
     };
   
     const fetchComments = async () => {
+      setLoading(true);
+
       try {
         const response = await api.get(`/files/${fileId}/comments`);
         setComments(response.data);
         console.log(response.data)
+        setLoading(false);
+
       } catch (error) {
         console.error('Error al obtener los comentarios:', error);
       }
     };
     useEffect(() => {
       fetchComments();
-    }, [fileId]);
+    }, [fileId ]);
     const handleAddComment = (e) => {
   e.preventDefault(); 
   api
@@ -125,6 +130,12 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
   };
   return (
     <div className="comment-sectionCF">
+         {loading ? (
+    
+        <div className="spinner"></div>
+     
+      ) : (
+        <> 
       <div className="comment-infoCF">
       <h2>Comments</h2>
       <img className="postImageCF" src={profileImage || postImage}  alt="Profile" />
@@ -140,7 +151,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
             
             <li key={comment.id}>
               <div className='infoUserCF'> 
-              <img className="profile-imageCF" src={ comment.authorProfileImage  || profileImage } alt="Profile" />
+              <img className="profile-imageCF"  src={comment.authorProfileImage || profileImage  }alt="Profile" />
               <p className="profile-usernameCF">{comment.authorUsername}</p>
               </div>
               {editingComment === comment.id ? (
@@ -258,6 +269,9 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
         </button>
         </form>
     </div>
+    </>
+    )
+         } 
   </div>
 );
 };
