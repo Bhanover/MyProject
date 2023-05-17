@@ -28,8 +28,10 @@ const UserVideos = (props) => {
           'Authorization': 'Bearer ' + jwtToken
         }
       });
-      setVideoUrls(response.data);
-      console.log(response.data)
+      const sortedVideos = response.data.sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime));
+
+      setVideoUrls(sortedVideos);
+      console.log(sortedVideos);
       setLoading(false);
 
     } catch (error) {
@@ -41,10 +43,9 @@ const UserVideos = (props) => {
     fetchUserVideos();
   };
 
-  const handleClickVideo = (url, videoId, index) => {
-    setSelectedVideo({ url, videoId });
+  const handleClickVideo = (url, videoId, index, description) => {
+    setSelectedVideo({ url, videoId, description });
     setSelectedIndex(index);
-    
   };
 
   const handleCloseModal = () => {
@@ -62,29 +63,28 @@ const UserVideos = (props) => {
         <>
       <h1>Videos</h1>
       <div className="gallery-containerUI">
-        {videoUrls.map((url, index) => (
-          <div key={index} className="gallery-itemUI">
-            <video
-              src={url.url}
-              alt={`Video del usuario ${index}`}
-              onClick={() => handleClickVideo(url.url, url.videoId, index)}
-              className="thumbnailUI"
-              controls={false}
-            />
-           
-          </div>
-        ))}
+      {videoUrls.map((video, index) => (
+  <div key={index} className="gallery-itemUI">
+    <video
+      src={video.url}
+      alt={`Video del usuario ${index}`}
+      onClick={() => handleClickVideo(video.url, video.videoId, index, video.description)}
+      className="thumbnailUI"
+      controls={false}
+    />
+  </div>
+))}
       </div>
       {selectedVideo && (
-        <VideoModal
-          videos={videoUrls}
-          selectedVideoIndex={selectedIndex}
-          onClose={handleCloseModal}
-          userId={ userId }
-          onRefresh={refreshVideos} // Agrega esta línea
-
-        />
-        )}
+  <VideoModal
+    videos={videoUrls}
+    selectedVideo={selectedVideo}
+    selectedVideoIndex={selectedIndex}
+    onClose={handleCloseModal}
+    userId={userId}
+    onRefresh={refreshVideos} // Agrega esta línea
+  />
+)}
         </>
     )}
     </div>

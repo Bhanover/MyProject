@@ -17,7 +17,6 @@ const NotificationList = () => {
         },
       });
       setNotifications(response.data);
-      console.log(response.data)
     } catch (error) {
       console.error(error);
     }
@@ -25,7 +24,7 @@ const NotificationList = () => {
 
   const markNotificationAsRead = async (notificationId) => {
     try {
-      await axios.put(
+      const response = await axios.put(
         `http://localhost:8081/api/auth/read/${notificationId}`,
         {},
         {
@@ -34,15 +33,16 @@ const NotificationList = () => {
           },
         }
       );
-      const updatedNotifications = notifications.filter(
-        (notification) => notification.id !== notificationId
+      const updatedNotification = response.data; // Asume que el backend devuelve la notificación actualizada
+      const updatedNotifications = notifications.map(notification =>
+        notification.id === notificationId ? updatedNotification : notification
       );
       setNotifications(updatedNotifications);
     } catch (error) {
       console.error(error);
     }
   };
-
+  
   useEffect(() => {
     fetchNotifications();
   }, []);
@@ -55,15 +55,19 @@ const NotificationList = () => {
         <FontAwesomeIcon icon={faGlobe} />
         {unreadCount > 0 && <span className="notification-counter">{unreadCount}</span>}
       </div>
-      <div className="notification-list">
-        {notifications.map((notification) => (
-          <NotificationItem
-            key={notification.id}
-            notification={notification}
-            markAsRead={markNotificationAsRead}
-          />
-        ))}
-      </div>
+      {notifications.length > 0 && (
+        <div className="notification-list">
+          {notifications
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .map((notification) => (
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+                markAsRead={markNotificationAsRead}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };

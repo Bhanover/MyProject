@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,7 @@ public class FriendshipController {
         notification.setType("FriendRequest");
         notification.setContent(user.getUsername() + " te ha enviado una solicitud de amistad.");
         notification.setRead(false);
+        notification.setCreatedAt(LocalDateTime.now());  // Agregando fecha de creación a la notificación
         notificationService.save(notification);
 
         return new ResponseEntity<>(newFriendship, HttpStatus.CREATED);

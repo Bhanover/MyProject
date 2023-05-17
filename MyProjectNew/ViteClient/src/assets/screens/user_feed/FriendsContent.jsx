@@ -181,6 +181,8 @@ const FriendsContent = () => {
 
             {item.contentType && item.contentType.startsWith("video/") && (
               <div className="usercontent-video-containerCT">
+                                  <p className="usercontent-descriptionCT">{item.description}</p>
+
                 <video
                   src={item.url}
                   alt={item.filename}

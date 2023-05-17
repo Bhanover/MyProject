@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./UserProfile.css";
-import defaultAvatar from "./images/defaultAvatar.jpg";
+
 import UserImages from "../user_images/UserImages";
 import { useProfileImage } from "../../../ProfileImageContext";
 import Friendship from "../friendship/Friendship";
@@ -28,7 +28,7 @@ const UserProfile = ({ userId }) => {
         setUserInfo(response.data);
         console.log(response.data);
 
-        updateProfileImage(response.data.profileImageUrl || defaultAvatar); // Cambiar a userInfo.profileImageUrl
+        updateProfileImage(response.data.profileImageUrl); // Cambiar a userInfo.profileImageUrl
       })
       
       .catch((error) => {
@@ -40,7 +40,7 @@ const UserProfile = ({ userId }) => {
     if (currentUserId === userId) {
       setShowUserImages(true);
     } else {
-      setSelectedImage(userInfo.profileImageUrl || defaultAvatar); // Cambiar a userInfo.profileImageUrl
+      setSelectedImage(userInfo.profileImageUrl); // Cambiar a userInfo.profileImageUrl
     }
   };
 

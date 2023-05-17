@@ -16,8 +16,7 @@
     width: 100%;
     height: 660px;
     background: linear-gradient(#5698ea, #6d889a,rgb(82, 79, 79),rgb(23, 22, 22) ) ;
-    font-family: Arial, Helvetica, sans-serif
-     
+    font-family: Arial, Helvetica, sans-serif;
   }
   .button-active {
     background: linear-gradient(#5698ea, #6d889a,rgb(217, 217, 217),rgb(210, 210, 210,0.5) ) ;
@@ -60,6 +59,10 @@
     }
   
   }
+
+  .form-container{
+    overflow: hidden;
+  }
   
 .headerL{
     position: relative;
@@ -75,9 +78,9 @@
     color: black;
     font-size: 95px;
     font-weight: 900;
-    text-shadow: white -5px 0px;
+    text-shadow: white -5px 0px,white -5px 0px;
     top:-5px;
-    left: -10px;
+    left: 10px;
 }
 .logoP span:nth-child(2){
     font-weight: 900;
@@ -85,7 +88,7 @@
     color: black    ;
     font-size: 95px;
     top:30px;
-    left:-30px;
+    left:-15px;
     text-shadow: white -5px 0px;
 }
 .logoP span:nth-child(3){
@@ -93,8 +96,8 @@
     position: relative;
     color: black;
     font-size: 95px;
-    top:65px;
-    left: -140px;
+    top:80px;
+    left: -115px;
     text-shadow: white -5px 0px;
 }
 
@@ -127,8 +130,9 @@
 
 
 .centroL{
-
-    width: 100%;
+    justify-content: center;
+    align-items: center;
+    width:auto;
     height: auto;
 }
 
@@ -250,8 +254,9 @@
        
     .grid-containerL{
         width: 100%;
-        height:900px;
-        grid-template-rows: 80% 20%;
+        height:600px;
+        grid-template-rows:100% 30%;
+        
     }
     .headerL{
         width: 20%;
@@ -284,15 +289,15 @@
 @media screen and (max-width:500px) {
 
     .grid-containerL{
-        
+        height: auto;
         width: 100%;
-        height:1000px;
+        max-height:800px;
         grid-template-areas: 
         'header'
         'centro'
         'footer';
         grid-template-columns: 100%;
-        grid-template-rows: 30% 65% 16%;
+        grid-template-rows: 30% 60% 22%;
     }  
     .headerL{
        

@@ -95,6 +95,8 @@ cursor: pointer;
    width:100%;
   padding: 10px;
   border-radius: 20px;
+  display: block;
+  background-color: rgb(255, 255, 255);
 }
 .topBar > .buscador .userSearch-textUS{
   position: relative;
@@ -109,7 +111,7 @@ cursor: pointer;
 } 
 .topBar  .iconT {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: center;
   width: 25%;
   height: auto;
@@ -290,6 +292,7 @@ cursor: pointer;
     width: 10%;
     padding: 0;
     height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
   }
   .topBar > .buscador.expanded {
     width: 100%;
@@ -315,12 +318,16 @@ cursor: pointer;
 
  
 .topBar  .iconT {
-
-  font-size: 20px;
-
+  display: flex;
+  font-size: 12px;
+  justify-content: space-around;
 }
 }
- 
+@media screen and (max-width: 600px) {
+  .topBar  .iconT {
+    width: 20%;
+  }
+}
 @media screen and (max-width: 475px) {
   .topBar {
     padding-left: 50px;

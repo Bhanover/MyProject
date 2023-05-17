@@ -13,7 +13,9 @@
     background: linear-gradient( rgb(167, 167, 167) ,#4f99ca,rgb(172, 169, 169) ) ;
 
   }
-  
+  .unread-messages {
+    background-color: green;
+  }
   .user {
     display: flex;
     align-items: center;

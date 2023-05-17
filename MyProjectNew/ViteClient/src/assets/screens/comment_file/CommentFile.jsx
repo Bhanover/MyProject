@@ -11,6 +11,7 @@ import { useProfileImage } from "../../../ProfileImageContext";
  
 
 const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
+  {console.log(postDescription)}
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [editingComment, setEditingComment] = useState(null);
@@ -142,7 +143,8 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
 
       <div className="post-ownerCF">{postOwner}
        </div>
-      <div className="post-descriptionCF">{postDescription}</div>
+       {console.log(postDescription)}
+       <div className="post-descriptionCF">{postDescription}</div>
       </div>
       <div className="comments-containerCF">
         

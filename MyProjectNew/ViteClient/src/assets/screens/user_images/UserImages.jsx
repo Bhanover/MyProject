@@ -31,9 +31,10 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
           'Authorization': 'Bearer ' + jwtToken
         }
       });
+      const sortedImages = response.data.sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime));
 
-      setImageUrls(response.data);
-      console.log(response.data)
+      setImageUrls(sortedImages);
+      console.log(sortedImages);
       setLoading(false);
 
     } catch (error) {

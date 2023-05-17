@@ -145,8 +145,8 @@ useEffect(() => {
                     fileId={currentFileId}
                     postOwner={image.username}
                     postDescription={
-                      selectedImages.find((image) => image.imageId == currentFileId)
-                        ?.description || "Descripción de la foto o video"
+                      selectedImages.find((image) => image.id == currentFileId || image.imageId == currentFileId)?.description || "Descripción de la foto o video"
+                      ?.description || "description of the photo or video"
                     }
                     postImage={image.profileImage}
                   />

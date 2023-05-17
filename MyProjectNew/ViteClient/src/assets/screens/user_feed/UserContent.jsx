@@ -171,6 +171,7 @@ const UserContent = () => {
                       className="usercontent-imageCT"
                       onClick={() => handleOpenImageModal(item.url, item.id)}
                     />
+                    {console.log(item)}
                     <div className="reactionCT">
                     <Reaction fileId={item.id} entityType="image" />
                     </div>
@@ -182,6 +183,8 @@ const UserContent = () => {
 
                     {item.contentType && item.contentType.startsWith("video/") && (
                   <div className="usercontent-video-containerCT">
+                  <p className="usercontent-descriptionCT">{item.description}</p>
+
                     <video
                       src={item.url}
                       alt={item.filename}
@@ -207,6 +210,7 @@ const UserContent = () => {
                      <div className="reactionCT"> 
                     <Reaction fileId={item.id} entityType="video" />
                     </div>
+                    {console.log(item.description)}
                     <div className="commentFileCT" >
                     <CommentFile className="commentFileCT" fileId={item.id} postOwner={item.owner} postDescription={item.description} postImage={item.url} />
                     </div>
@@ -253,7 +257,7 @@ const UserContent = () => {
         ))}
       </ul>
       {showImageModal && (
-        <ImageModal
+         <ImageModal
           selectedImages={content.filter(
             (item) => item.contentType && item.contentType.startsWith("image/")
           )}
@@ -270,8 +274,12 @@ const UserContent = () => {
             selectedImageIndex={selectedImageIndex}
             onProfileImageUpdate={updateProfileImage} // Agrega esta línea
             onImagesRefresh={fetchUserContent}
+            
           />
+          
         )}
+                {console.log(content)}
+
         {showVideoModal && (
           <VideoModal
             videos={content.filter(
@@ -288,6 +296,8 @@ const UserContent = () => {
 
           />
         )}
+                        {console.log(content)}
+
           </>
       )}
       </div>

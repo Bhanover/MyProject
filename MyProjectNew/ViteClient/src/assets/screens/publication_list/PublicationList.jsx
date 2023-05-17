@@ -33,25 +33,27 @@ const PublicationList = (props) => {
   useEffect(() => {
     fetchPublications();
   }, []);
-
   const fetchPublications = async () => {
     setLoading(true);
-
-  try {
-    const response = await axios.get(`${API_BASE_URL}/${userId}/publications`, {
-      headers: { 'Authorization': 'Bearer ' + jwtToken },
-    });
-   
-
-    setPublications(response.data);
-    console.log(response.data);
-    setLoading(false);
-
-  } catch (error) {
-    console.error('Error al obtener las publicaciones:', error);
-    throw new Error('Error al obtener las publicaciones. Inténtalo de nuevo.');
-  }
-};
+  
+    try {
+      const response = await axios.get(`${API_BASE_URL}/${userId}/publications`, {
+        headers: { 'Authorization': 'Bearer ' + jwtToken },
+      });
+  
+      const sortedPublications = response.data.sort((a, b) => {
+        return new Date(b.creationTime) - new Date(a.creationTime);
+      });
+  
+      setPublications(sortedPublications);
+      console.log(sortedPublications);
+      setLoading(false);
+  
+    } catch (error) {
+      console.error('Error al obtener las publicaciones:', error);
+      throw new Error('Error al obtener las publicaciones. Inténtalo de nuevo.');
+    }
+  };
 
 
   const createPublication = async (publicationDTO) => {

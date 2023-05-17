@@ -84,8 +84,11 @@ body::-webkit-scrollbar {
   border-radius: 10px;
   
 }
-
-
+.image-containerIM img {
+  width: auto;
+  height: 50%;
+  object-fit: contain;
+}
 .comments-containerIM {
   width: 35%;
   margin: auto;

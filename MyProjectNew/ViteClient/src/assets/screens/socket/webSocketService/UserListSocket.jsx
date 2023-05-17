@@ -64,27 +64,29 @@ const UserListSocket = () => {
     const client = Stomp.over(socket);
     setStompClient(client);
   }, []);
+  
   useEffect(() => {
     if (stompClient) {
       stompClient.connect(
         { Authorization: jwtToken },
         (frame) => {
           console.log("Conectado: " + frame);
-          // Enviar mensaje de conexión para informar al servidor que el usuario está en línea
           stompClient.send("/app/online", { Authorization: jwtToken }, idP);
           
-          // Obtener la lista de amigos en línea después de conectarse
           stompClient.subscribe("/topic/online", (message) => {
             const userId = JSON.parse(message.body).userId;
             console.log("Usuario en línea: " + userId);
             updateUserStatus(userId, true);
+            // Realiza una nueva solicitud a la API para obtener los usuarios actualizados
+            getUsers();
           });
-          
   
           stompClient.subscribe("/topic/offline", (message) => {
             const userId = JSON.parse(message.body).userId;
             console.log("Usuario fuera de línea: " + userId);
             updateUserStatus(userId, false);
+            // Realiza una nueva solicitud a la API para obtener los usuarios actualizados
+            getUsers();
           });
         },
         (error) => {
@@ -92,9 +94,8 @@ const UserListSocket = () => {
         }
       );
     }
- 
-   // Desconectar al desmontar el componente
-   })
+  }, [stompClient, jwtToken, idP, updateUserStatus, getUsers]);
+
    const handleDisconnect = () => {
     if (stompClient) {
       // Enviar mensaje de desconexión para informar al servidor que el usuario está fuera de línea

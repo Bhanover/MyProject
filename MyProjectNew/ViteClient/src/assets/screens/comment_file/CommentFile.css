@@ -113,6 +113,9 @@
   word-break: break-word;
   font-family: Arial, Helvetica, sans-serif;
 }
+.comment-infoCF{
+  width: 95%;
+}
 .comment-infoCF h2{
   font-size: 20px;
 }
@@ -121,9 +124,9 @@
 }
 .post-descriptionCF{
   position: relative;
-  width: 100%;
+  width: auto;
   height: auto;
-  text-align: left;
+  text-align: justify;
 }
 .postImageCF{
   width: 40px;
@@ -338,7 +341,5 @@
     word-wrap: break-word;
     word-break: break-word;
   }
-  .comment-infoCF{
-    width: 100%;
-  }
+ 
 }

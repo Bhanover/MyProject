@@ -7,10 +7,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 import UserSearch from "../socket/searchUser/UserSearch";
 import UserLogout from "../user_logout/UserLogout";
+import NotificationList from "../notification_item/NotificationList";
 
 const TopBar = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useState(true);
   const [logoutOpen, setLogoutOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -65,7 +66,10 @@ const TopBar = (props) => {
           </button>
         )}
       </div>
+      
       <div className={`iconT ${showSearch ? 'hidden' : ''}`}>
+      <NotificationList />
+
         <div className="perfil" onClick={toggleMenu}>
           <FontAwesomeIcon icon={faUser} />
         </div>

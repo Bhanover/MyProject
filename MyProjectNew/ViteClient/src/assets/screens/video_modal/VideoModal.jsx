@@ -80,19 +80,18 @@ const VideoModal = ({ videos, selectedVideoIndex, onClose, onRefresh }) => {
                 )}
               </div>
               <div className="comments-containerIM">
-              <div className="reactionIM" >
-
-                <Reaction key={currentVideoId} fileId={currentVideoId} />
-                  </div>
-                <div className="comment-sectionIM">
-                  <CommentFile
-                    fileId={video.id ? video.id : video.videoId}
-                    postOwner={video.username}
-                    postDescription="Descripción del video"
-                    postImage={video.profileImage}
-                  />
-                </div>
-              </div>
+  <div className="reactionIM" >
+    <Reaction key={currentVideoId} fileId={currentVideoId} />
+  </div>
+  <div className="comment-sectionIM">
+  <CommentFile
+  fileId={video.id ? video.id : video.videoId}
+  postOwner={video.username}
+  postDescription={videos[currentVideoIndex]?.description || "Description of the photo or video"}
+  postImage={video.profileImage}
+/>
+  </div>
+</div>
             </div>
           ))}
         </Carousel>
