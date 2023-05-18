@@ -18,20 +18,12 @@ public class NotificationService {
     public List<Notification> findByUser(User user) {
         return notificationRepository.findByUser(user);
     }
-
+    /*Este método guarda una notificación en la base de datos utilizando el método save()*/
     public Notification save(Notification notification) {
         return notificationRepository.save(notification);
     }
-    public Notification createNotification(User user, String type, String content) {
-        Notification notification = new Notification();
-        notification.setUser(user);
-        notification.setType(type);
-        notification.setContent(content);
-        notification.setRead(false);
-        notification.setCreatedAt(LocalDateTime.now());
-        return notificationRepository.save(notification);
-    }
 
+    /*Este método marca una notificación como leída. Recibe el ID de la notificación y el usuario como argumentos.*/
     public Notification markAsRead(Long notificationId, User user) {
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new RuntimeException("Notification not found"));
         notification.setRead(true);

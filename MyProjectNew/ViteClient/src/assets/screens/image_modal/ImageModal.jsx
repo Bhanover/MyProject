@@ -24,12 +24,14 @@ const ImageModal = ({
   const jwtToken = localStorage.getItem('jwtToken');
   const { updateProfileImage } = useProfileImage();
   const currentUserId = localStorage.getItem("idP");
-
+ /*Las funciones handleOptionsClick, deleteImage, y 
+  setProfilePicture manejan la lógica para mostrar las opciones de imagen, eliminar una imagen
+   y establecer una imagen como la imagen de perfil.*/
   const handleOptionsClick = (event) => {
     event.preventDefault();
     setDropdownVisible(!dropdownVisible);
   };
-
+  
   const deleteImage = async (imageId) => {
     try {
       await axios.delete(`http://localhost:8081/api/auth/user-files/${imageId}`, {
@@ -60,7 +62,7 @@ const ImageModal = ({
       onProfileImageUpdate(imageUrl);
       onClose();
 
-      return imageUrl; // Agrega esta línea
+      return imageUrl; 
     } catch (error) {
       console.error('Error al establecer la foto de perfil:', error);
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
@@ -78,7 +80,7 @@ const handleSetProfilePicture = async () => {
   }
 };
 
-
+/*Este useEffect evita el desplazamiento cuando el modal está abierto.*/
   useEffect(() => {
   // Agrega la clase "no-scroll" al body cuando se monta el componente
   document.body.classList.add('no-scroll');
@@ -129,7 +131,8 @@ useEffect(() => {
                       Delete Image
                     </button>
                     <button className="set-profile-pictureIM" onClick={handleSetProfilePicture}>
-                      Establecer como foto de perfil
+                     Set as profile picture
+
                     </button>
                   </div>
                 )}
@@ -145,7 +148,7 @@ useEffect(() => {
                     fileId={currentFileId}
                     postOwner={image.username}
                     postDescription={
-                      selectedImages.find((image) => image.id == currentFileId || image.imageId == currentFileId)?.description || "Descripción de la foto o video"
+                      selectedImages.find((image) => image.id == currentFileId || image.imageId == currentFileId)?.description || "description of the photo or video"
                       ?.description || "description of the photo or video"
                     }
                     postImage={image.profileImage}

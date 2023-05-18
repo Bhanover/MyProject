@@ -18,32 +18,41 @@ function UserSearch(props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:8081/mywebsocket");
-    const stompClient = Stomp.over(socket);
-    console.log("antes de subscribe");
-    stompClient.connect( 
-      { Authorization: localStorage.getItem("jwtToken") }, // Añade el token JWT aquí
-      () => {
-        stompClient.subscribe("/topic/searchResults", (message) => {
-           
-          const data = JSON.parse(message.body);
-          console.log("dentro de subscribe");
-          setSearchResults(data);
-          setSearchError(data.length === 0);
-          setLoading(false); // Añade esta línea
-
-        });
-        setStompClient(stompClient);
-      }
-    );
-    console.log("después de subscribe")
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      if (stompClient && stompClient.connected) {
-        stompClient.disconnect();
-      }
-    };
+    const jwtToken = localStorage.getItem("jwtToken");
+  
+    if (!jwtToken) {
+      navigate("/loginPage");
+    } else {
+      const socket = new SockJS("http://localhost:8081/mywebsocket");
+      const stompClient = Stomp.over(socket);
+  
+      console.log("antes de subscribe");
+  
+      stompClient.connect(
+        { Authorization: jwtToken },
+        () => {
+          stompClient.subscribe("/topic/searchResults", (message) => {
+            const data = JSON.parse(message.body);
+            console.log("dentro de subscribe");
+            setSearchResults(data);
+            setSearchError(data.length === 0);
+            setLoading(false);
+          });
+          setStompClient(stompClient);
+        }
+      );
+  
+      console.log("después de subscribe");
+  
+      document.addEventListener("mousedown", handleClickOutside);
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        if (stompClient && stompClient.connected) {
+          stompClient.disconnect();
+        }
+      };
+    }
   }, []);
   
   const handleShowMoreClick = () => {

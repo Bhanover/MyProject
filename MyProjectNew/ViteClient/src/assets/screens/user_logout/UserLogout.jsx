@@ -1,43 +1,4 @@
-/*import { useEffect } from "react";
-
-import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-
-const UserLogout = () => {
-    const jwtToken = localStorage.getItem("jwtToken");
-    const idP = localStorage.getItem("idP");
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      const logout = async () => {
-        try {
-          await axios.post('http://localhost:8081/api/auth/signout', {}, {
-            headers: {
-              Authorization: `Bearer ${jwtToken}`
-            }
-          });
-  
-          // Elimina las credenciales almacenadas y redirige al usuario
-          localStorage.removeItem('idP');
-          localStorage.removeItem('jwtToken');
-          navigate('/login');
-        } catch (error) {
-          console.error('Error al cerrar sesión:', error);
-        }
-      };
-  
-      logout();
-    }, [jwtToken, navigate]);
-  
-    return (
-      <div>
-        <h2>Cerrando sesión...</h2>
-      </div>
-    );
-  };
-  
-  export default UserLogout;*/
-  import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
@@ -50,6 +11,8 @@ const UserLogout = () => {
   const navigate = useNavigate();
   const [stompClient, setStompClient] = useState(null);
 
+  /*Se utiliza el hook useEffect para establecer
+   una conexión de WebSocket utilizando SockJS y StompJS*/
   useEffect(() => {
     const socket = new SockJS("http://localhost:8081/mywebsocket");
     const client = Stomp.over(socket);
@@ -62,6 +25,9 @@ const UserLogout = () => {
     };
   }, []);
 
+  /*se utiliza un segundo useEffect para desconectar la instancia de Stomp
+  cuando el componente se desmonta.
+*/
   useEffect(() => {
     const logout = async () => {
       try {
@@ -73,7 +39,8 @@ const UserLogout = () => {
             }
           );
         }
-
+        /*Se realiza una solicitud POST a la ruta 
+        para cerrar la sesión del usuario en el servidor.*/
         await axios.post(
           "http://localhost:8081/api/auth/signout",
           {},

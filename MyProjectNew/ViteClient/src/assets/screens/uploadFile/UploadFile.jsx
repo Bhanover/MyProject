@@ -19,26 +19,24 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
   const [fileType, setFileType] = useState("");
   const [uploading, setUploading] = useState(false);
 
-
+  /*Esta función agrega el emoji seleccionado al final de la descripción actual.*/
   const handleDescriptionChange = (emoji) => {
     setDescription((prevDescription) => prevDescription + emoji.native);
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const fileURL = URL.createObjectURL(file);
-    setFile(file);
-    setSrc(fileURL);
-    setFileType(file.type.split("/")[0]);
-  };
+  /*Esta función se ejecuta cuando un archivo se arrastra y se suelta en la zona de arrastre. 
+  Actualiza el estado del archivo, el estado del src y el tipo del archivo.*/
   const onDrop = useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0];
     setFile(acceptedFile);
     setSrc(URL.createObjectURL(acceptedFile));
     setFileType(acceptedFile.type.split("/")[0]);
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
+ 
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  /*Estas funciones manejan los cambios en la escala 
+  y la rotación de la imagen y también actualizan la imagen*/
   const handleScaleChange = (event) => {
     setScale(parseFloat(event.target.value));
   };
@@ -50,7 +48,7 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
   const handleImageChange = (dataURL) => {
     setSrc(dataURL);
   };
-
+  /*Esta es la función que maneja la subida del archivo.*/
   const handleUploadFile = async (event) => {
     event.preventDefault();
 
@@ -93,7 +91,7 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
 
       });
   };
-
+  /*Esta función convierte una URL de datos a un objeto de tipo File.*/
   const dataURLtoFile = (dataurl, filename) => {
     let arr = dataurl.split(","),
       mime = arr[0].match(/:(.*?);/)[1],
@@ -148,21 +146,21 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
             <FontAwesomeIcon icon={faSmile} />
           </button>
           <button type="submit" disabled={!file}>
-  Upload File
-</button>
+          Upload File
+        </button>
 
           {showEmojiPicker && (
             <div className="pickerContainer">
-  <Picker 
-    className="emoji-picker"
-    data={data}
-    onEmojiSelect={handleDescriptionChange}
-    native
-    
-  />
-    </div>
-    
-)}
+        <Picker 
+          className="emoji-picker"
+          data={data}
+          onEmojiSelect={handleDescriptionChange}
+          native
+          
+        />
+          </div>
+          
+        )}
 
         </div>
         {uploading && (

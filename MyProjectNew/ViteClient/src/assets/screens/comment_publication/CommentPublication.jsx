@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 const API_BASE_URL = 'http://localhost:8081/api/auth';
-
+/*Este componente recibe un publicationId como propiedad. 
+Esta propiedad se utiliza para obtener y publicar los comentarios para una publicación específica.*/
 const CommentPublication = ({ publicationId }) => {
   const [comments, setComments] = useState([]);
   const [newCommentText, setNewCommentText] = useState('');
@@ -22,7 +23,7 @@ const CommentPublication = ({ publicationId }) => {
   useEffect(() => {
     fetchComments();
   }, []);
-
+  /* hace una solicitud GET a la API para obtener todos los comentarios de la publicación actual.*/
   const fetchComments = async () => {
     setLoading(true);
 
@@ -38,7 +39,7 @@ const CommentPublication = ({ publicationId }) => {
       throw new Error('Error al obtener las publicaciones. Inténtalo de nuevo.');
     }
   };
-
+  /* se hace una solicitud post para la creacion de un nuevo comentario*/
   const handleCreateComment = async () => {
     
     try {
@@ -60,7 +61,7 @@ const CommentPublication = ({ publicationId }) => {
       throw new Error("Error al crear el comentario. Inténtalo de nuevo.");
     }
   };
-
+  /* se hace una solicitud put para la edición de un comentario existente*/
   const handleUpdateComment = async (commentId, updatedText) => {
     try {
       await axios.put(`${API_BASE_URL}/comments/${commentId}`, updatedText, {
@@ -82,7 +83,7 @@ const CommentPublication = ({ publicationId }) => {
       throw new Error('Error al actualizar el comentario. Inténtalo de nuevo.');
     }
   };
-
+  /*Estas funcion se utilizan para eliminar el comentario*/
   const handleDeleteComment = async (commentId) => {
     try {
       await axios.delete(`${API_BASE_URL}/comments/${commentId}`, {
@@ -94,13 +95,14 @@ const CommentPublication = ({ publicationId }) => {
       throw new Error('Error al eliminar el comentario. Inténtalo de nuevo.');
     }
   };
-
+/*Convierte una fecha en formato de cadena a un formato de fecha legible*/
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', options);
   };
-
+  /*Estas funciones se utilizan para controlar el menú del perfil
+   que aparece cuando se hace clic en el botón de opciones de un comentario.*/
   const toggleProfileMenu = (e, commentId) => {
     e.stopPropagation();
     if (profileMenuCommentId === commentId) {
@@ -221,11 +223,11 @@ const CommentPublication = ({ publicationId }) => {
             type="text"
             value={newCommentText}
             onChange={(e) => setNewCommentText(e.target.value)}
-            placeholder="write your comment
-            "
+            placeholder="write your comment"
           />
-          <button type="submit">          <FontAwesomeIcon icon={faPaperPlane} />
-</button>
+          <button type="submit">          
+          <FontAwesomeIcon icon={faPaperPlane} />
+        </button>
         </form>
       </div>
       </>

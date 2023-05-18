@@ -14,7 +14,7 @@ const UserVideos = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const { userId } = useParams();
   const [loading, setLoading] = useState(true);
-
+  /*    fetchUserVideos se utiliza para mostrar una galería de videos subidos por el usuario.*/
   useEffect(() => {
     fetchUserVideos();
   }, []);
@@ -28,6 +28,8 @@ const UserVideos = (props) => {
           'Authorization': 'Bearer ' + jwtToken
         }
       });
+      /*sortedVideos Se utiliza para ordenar las imagenes por la fecha de creacion*/
+
       const sortedVideos = response.data.sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime));
 
       setVideoUrls(sortedVideos);
@@ -39,10 +41,12 @@ const UserVideos = (props) => {
       alert('Error al obtener los videos del usuario. Inténtalo de nuevo.');
     }
   };
+  /*El método refreshVideos llama a fetchUserVideos, permitiendo recargar los videos.*/
   const refreshVideos = () => {
     fetchUserVideos();
   };
-
+  /*La función handleClickVideo se utiliza para establecer el video seleccionado y el índice
+   seleccionado, que se usan para mostrar el video en un modal.*/
   const handleClickVideo = (url, videoId, index, description) => {
     setSelectedVideo({ url, videoId, description });
     setSelectedIndex(index);
@@ -60,35 +64,35 @@ const UserVideos = (props) => {
         <div className="loader"></div>
         </div>
       ) : (
-        <>
-      <h1>Videos</h1>
-      <div className="gallery-containerUI">
-      {videoUrls.map((video, index) => (
-  <div key={index} className="gallery-itemUI">
-    <video
-      src={video.url}
-      alt={`Video del usuario ${index}`}
-      onClick={() => handleClickVideo(video.url, video.videoId, index, video.description)}
-      className="thumbnailUI"
-      controls={false}
-    />
-  </div>
-))}
-      </div>
-      {selectedVideo && (
-  <VideoModal
-    videos={videoUrls}
-    selectedVideo={selectedVideo}
-    selectedVideoIndex={selectedIndex}
-    onClose={handleCloseModal}
-    userId={userId}
-    onRefresh={refreshVideos} // Agrega esta línea
-  />
-)}
-        </>
-    )}
-    </div>
-  );
+                  <>
+                <h1>Videos</h1>
+                <div className="gallery-containerUI">
+                {videoUrls.map((video, index) => (
+            <div key={index} className="gallery-itemUI">
+              <video
+                src={video.url}
+                alt={`Video del usuario ${index}`}
+                onClick={() => handleClickVideo(video.url, video.videoId, index, video.description)}
+                className="thumbnailUI"
+                controls={false}
+              />
+            </div>
+          ))}
+                </div>
+                {selectedVideo && (
+            <VideoModal
+              videos={videoUrls}
+              selectedVideo={selectedVideo}
+              selectedVideoIndex={selectedIndex}
+              onClose={handleCloseModal}
+              userId={userId}
+              onRefresh={refreshVideos} 
+            />
+          )}
+                  </>
+              )}
+              </div>
+        );
     }
 
 export default UserVideos;

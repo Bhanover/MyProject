@@ -21,7 +21,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   useEffect(() => {
     fetchUserImages();
   }, []);
-
+  /* fetchUserImages se utiliza para mostrar una galería de imágenes subidas por el usuario.*/
   const fetchUserImages = async () => {
     setLoading(true);
 
@@ -31,10 +31,10 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
           'Authorization': 'Bearer ' + jwtToken
         }
       });
+      /*sortedImages Se utiliza para ordenar las imagenes por la fecha de creacion*/
       const sortedImages = response.data.sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime));
 
       setImageUrls(sortedImages);
-      console.log(sortedImages);
       setLoading(false);
 
     } catch (error) {
@@ -42,7 +42,8 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
     }
   };
-
+  /*Las funciones handleOpenImageModal y handleCloseImageModal 
+  se utilizan para abrir y cerrar el modal de imagen respectivamente.*/
   const handleOpenImageModal = (url, fileId, index) => {
     setSelectedFileId(fileId);
     setSelectedImage(url.url);
@@ -56,6 +57,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     setSelectedFileId(null);
     setShowImageModal(false);
   };
+  /*El método refreshImages llama a fetchUserImages, permitiendo recargar las imágenes.*/
   const refreshImages = () => {
     fetchUserImages();
   };
@@ -92,8 +94,8 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
           selectedImage={selectedImage}
           userId={userId}
           selectedImageIndex={selectedImageIndex}
-          onProfileImageUpdate={updateProfileImage} // Agrega esta línea
-          onImagesRefresh={refreshImages} // Agrega esta línea
+          onProfileImageUpdate={updateProfileImage}
+          onImagesRefresh={refreshImages} 
         
         />
         )}

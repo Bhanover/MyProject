@@ -41,7 +41,8 @@ function SocketTry() {
       return new Promise((resolve, reject) => {
         const socket = new SockJS("http://localhost:8081/mywebsocket");
         stompClientRef.current = Stomp.over(socket);
-        stompClientRef.current.connect({}, () => {
+        stompClientRef.current.connect({ Authorization: jwtToken }, () => {
+
           console.log("CONNECTED TO SERVER");
            
           setConnected(true);

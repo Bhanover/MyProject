@@ -13,7 +13,8 @@ const UserRegister = ({ className , setFormType }) => {
         email: "",
         password: "",
     });
-
+    /*La función validateForm se utiliza para validar los campos del 
+    formulario*/
     const validateForm = () => {
         const newErrors = {};
 
@@ -37,6 +38,8 @@ const UserRegister = ({ className , setFormType }) => {
         return Object.keys(newErrors).length === 0;
     };
 
+    /* se utiliza como controlador de eventos para actualizar
+     el estado del formulario cuando se cambian los valores de los campos de entrada.*/
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -44,7 +47,7 @@ const UserRegister = ({ className , setFormType }) => {
             [name]: value,
         });
     };
-
+    /*se utiliza como controlador de eventos para manejar el envío del formulario*/
     const onSubmit = async (e) => {
         e.preventDefault();
 
@@ -54,7 +57,6 @@ const UserRegister = ({ className , setFormType }) => {
 
         try {
             const response = await axios.post("http://localhost:8081/api/auth/signup", formData);
-            console.log(response);
             setFormType("login");
         } catch (error) {
             console.error("Error al registrar:", error);

@@ -4,6 +4,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import PrivateChat from "../privateChat/PrivateChat";
 import "./UserListSocket.css"
+import { useNavigate } from "react-router-dom";
 
 const UserListSocket = () => {
   const [users, setUsers] = useState([]);
@@ -11,6 +12,7 @@ const UserListSocket = () => {
   const idP = localStorage.getItem("idP");
   const [stompClient, setStompClient] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
+  const navigate = useNavigate();
 
   const [chatWindows, setChatWindows] = useState([]);
 
@@ -57,12 +59,14 @@ const UserListSocket = () => {
     );
   };
   useEffect(() => {
-    getUsers();
-  }, []);
-  useEffect(() => {
-    const socket = new SockJS("http://localhost:8081/mywebsocket");
-    const client = Stomp.over(socket);
-    setStompClient(client);
+    if (!jwtToken) {
+      navigate("/loginPage");
+    } else {
+      getUsers();
+      const socket = new SockJS("http://localhost:8081/mywebsocket");
+      const client = Stomp.over(socket);
+      setStompClient(client);
+    }
   }, []);
   
   useEffect(() => {

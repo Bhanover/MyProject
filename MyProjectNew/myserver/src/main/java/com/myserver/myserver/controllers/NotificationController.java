@@ -23,6 +23,7 @@ public class NotificationController {
     private NotificationService notificationService;
     @Autowired
     private UserRepository userRepository;
+    /* Este método obtiene las notificaciones del usuario actualmente autenticado*/
     @GetMapping("/notification")
     public ResponseEntity<List<Notification>> getNotificationsByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -31,7 +32,7 @@ public class NotificationController {
         List<Notification> notifications = notificationService.findByUser(user);
         return ResponseEntity.ok(notifications);
     }
-
+    /*. Este método marca una notificación específica como leída para el usuario autenticado*/
     @PutMapping("/read/{notificationId}")
     public ResponseEntity<Notification> markNotificationAsRead(@PathVariable Long notificationId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

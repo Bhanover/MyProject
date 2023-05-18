@@ -24,19 +24,29 @@ public class UserController {
     private FileDBRepository fileDBRepository;
     final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
 
+    /* getUserInfo se utiliza para obtener la información de un usuario en particular.*/
+
+    /*Toma dos parámetros: id que representa el ID del usuario y userDetails que contiene los detalles de autenticación del usuario.
+*/
     @GetMapping("/user/{id}/info")
     public ResponseEntity<?> getUserInfo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
+           /* se busca el usuario en la base de datos utilizando el repositorio UserRepository*/
             User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-            // Pasar la URL de la imagen predeterminada al constructor de UserInfoResponse
+            // Pasa la URL de la imagen predeterminada al constructor de UserInfoResponse
             UserInfoResponse userInfoResponse = new UserInfoResponse(user, defaultImageUrl);
 
             return ResponseEntity.ok(userInfoResponse);
         } catch (Exception e) {
+           /* se devuelve una respuesta de error 500 si ocurre alguna excepción.*/
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    /* se utiliza para establecer la imagen de perfil de un usuario.*/
+
+    /*Toma un parámetro imageId que representa el ID de la imagen que se utilizará como foto de perfil.*/
     @PutMapping("/set-profile-image")
     public ResponseEntity<String> setProfileImage(@RequestParam("imageId") String imageId) {
         try {

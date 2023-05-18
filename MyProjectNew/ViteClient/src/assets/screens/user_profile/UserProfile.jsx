@@ -14,7 +14,7 @@ const UserProfile = ({ userId }) => {
   const { profileImage, updateProfileImage } = useProfileImage();
   const isOwnProfile = userId === currentUserId;
   const [friendRequestSent, setFriendRequestSent] = useState(false);
-  
+  /*Se obtiene los datos del usuario*/
   useEffect(() => {
     const jwtToken = localStorage.getItem("jwtToken");
   
@@ -28,22 +28,24 @@ const UserProfile = ({ userId }) => {
         setUserInfo(response.data);
         console.log(response.data);
 
-        updateProfileImage(response.data.profileImageUrl); // Cambiar a userInfo.profileImageUrl
+        updateProfileImage(response.data.profileImageUrl); 
       })
       
       .catch((error) => {
         console.error(error);
       });
   }, [userId, updateProfileImage]);
-
+  /*handleProfileImageClick muestra las imágenes del usuario si se hace clic 
+  en la imagen de perfil del usuario actual,
+   en caso contrario muestra la imagen de perfil del usuario seleccionado.*/
   const handleProfileImageClick = () => {
     if (currentUserId === userId) {
       setShowUserImages(true);
     } else {
-      setSelectedImage(userInfo.profileImageUrl); // Cambiar a userInfo.profileImageUrl
+      setSelectedImage(userInfo.profileImageUrl); 
     }
   };
-
+  /*handleCloseImageModal y handleCloseModal cierran los modales de imagen y de imágenes del usuario*/
   const handleCloseImageModal = () => {
     setSelectedImage(null);
   };
@@ -51,10 +53,13 @@ const UserProfile = ({ userId }) => {
   const handleCloseModal = () => {
     setShowUserImages(false);
   };
-
+  /*handleContainerClick detiene la propagación del evento de clic para evitar 
+  que los clics en el contenedor del modal cierren el modal.*/
   const handleContainerClick = (event) => {
     event.stopPropagation();
   };
+  /*handleFriendRequestSent se utiliza para actualizar
+   el estado cuando se envía una solicitud de amistad.*/
   const handleFriendRequestSent = () => {
     setFriendRequestSent(true);
   };
@@ -71,7 +76,7 @@ const UserProfile = ({ userId }) => {
       )}
       <div className="profile-image-containerUP">
       <img
-          src={userInfo.profileImageUrl || profileImage}  // Cambiar a userInfo.profileImageUrl
+          src={userInfo.profileImageUrl || profileImage} 
           alt="Profile"
           className="profile-imageUP"
           onClick={handleProfileImageClick}
@@ -82,34 +87,34 @@ const UserProfile = ({ userId }) => {
         <p>{userInfo.email}</p>
       </div>
       {selectedImage && (
-  <div className="modalUP" onClick={handleCloseImageModal}>
-    <div className="modal-contentUP" onClick={handleContainerClick}>
-      <div className="large-profile-image-container">
-        <img
-          src={selectedImage}
-          alt="Profile"
-          className="large-profile-imageUP"
-        />
-        <button className="close-buttonUP" onClick={handleCloseImageModal}>X</button> {/* Nuevo botón */}
-      </div>
-    </div>
-  </div>
-)}
-      
-{showUserImages && (
-  <div className="modalUP" onClick={handleCloseModal}>
-    <div className="modal-contentUP" onClick={handleContainerClick}>
-      <div className="modal-closeUP" onClick={handleCloseModal}>
-        &times;
-      </div>
-      <div className="gallery-wrapper-containerUP"> {/* Agrega este contenedor */}
-        <div className="gallery-wrapperUP">
-          <UserImages userId={userId} />
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+          <div className="modalUP" onClick={handleCloseImageModal}>
+            <div className="modal-contentUP" onClick={handleContainerClick}>
+              <div className="large-profile-image-container">
+                <img
+                  src={selectedImage}
+                  alt="Profile"
+                  className="large-profile-imageUP"
+                />
+                <button className="close-buttonUP" onClick={handleCloseImageModal}>X</button> 
+              </div>
+            </div>
+          </div>
+        )}
+              
+        {showUserImages && (
+          <div className="modalUP" onClick={handleCloseModal}>
+            <div className="modal-contentUP" onClick={handleContainerClick}>
+              <div className="modal-closeUP" onClick={handleCloseModal}>
+                &times;
+              </div>
+              <div className="gallery-wrapper-containerUP"> 
+                <div className="gallery-wrapperUP">
+                  <UserImages userId={userId} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
 
     </div>

@@ -25,6 +25,7 @@ public class ReactionService {
     @Autowired
     private FileDBRepository fileDBRepository;
 
+    /*Esta función crea o actualiza una reacción de un usuario a una publicación o archivo*/
     public Reaction createOrUpdateReaction(Long userId, Long publicationId, String fileId, ReactionType type) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
         Publication publication = publicationId != null ? publicationRepository.findById(publicationId).orElseThrow(() -> new ResourceNotFoundException("Publication not found with id: " + publicationId)) : null;
@@ -39,12 +40,12 @@ public class ReactionService {
 
         return reactionRepository.save(reaction);
     }
-
+    /*Esta función cuenta las reacciones de un cierto tipo a una publicación.*/
     public Long countReactionsByTypeAndPublication(ReactionType type, Long publicationId) {
         Publication publication = publicationRepository.findById(publicationId).orElseThrow(() -> new ResourceNotFoundException("Publication not found with id: " + publicationId));
         return reactionRepository.countByTypeAndPublication(type, publication);
     }
-
+    /*Esta función cuenta las reacciones de un cierto tipo a un archivo.*/
     public Long countReactionsByTypeAndFile(ReactionType type, String fileId) {
         FileDB file = fileDBRepository.findById(fileId).orElseThrow(() -> new ResourceNotFoundException("File not found with id: " + fileId));
         return reactionRepository.countByTypeAndFile(type, file);

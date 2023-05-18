@@ -33,6 +33,7 @@ public class AuthController {
     @Autowired
     private JwtUtils jwtUtils;
 
+    /* Este método maneja las solicitudes de registro de usuarios.*/
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -47,21 +48,32 @@ public class AuthController {
         userRepository.save(user);
         return ResponseEntity.ok(new UserInfoResponse(user.getId(), user.getUsername(), user.getEmail()));
     }
-
+    /* Este método maneja las solicitudes de inicio de sesión de los usuarios
+     Toma una LoginRequest con el nombre de usuario y la contraseña.
+    Intenta autenticar al usuario utilizando el AuthenticationManager.*/
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        /*Se utiliza AuthenticationManager para autenticar al
+        usuario utilizando las credenciales proporcionadas en loginRequest.*/
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        /*Se genera un token para el usuario*/
         String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
         user.setJwtToken(jwtToken);
-        user.setOnline(true); // Establecer el estado en línea aquí
-        userRepository.save(user);
+        /*Esto se usa para establecer que el usuario esta online*/
+        user.setOnline(true);
 
+        userRepository.save(user);
+        /*Se devuelve una respuesta HTTP exitosa (ResponseEntity.ok(...))
+        con un objeto JwtResponse en el cuerpo. JwtResponse*/
         return ResponseEntity.ok(new JwtResponse(jwtToken, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail()));
     }
+
+    /*Este método maneja las solicitudes de cierre de sesión de los usuarios.*/
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

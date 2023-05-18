@@ -5,14 +5,16 @@ import CommentFile from "../comment_file/CommentFile";
 import "./VideoModal.css";
 import Reaction from "../reaction/Reaction";
 import axios from 'axios';
-
+/*VideoModal recibe como props una lista de vídeos, un índice del vídeo seleccionado, 
+una función para cerrar el modal y una función para refrescar los vídeos.*/
 const VideoModal = ({ videos, selectedVideoIndex, onClose, onRefresh }) => {
-
+/*Se mantiene el índice del vídeo actual (currentVideoIndex), el ID del vídeo actual (currentVideoId), 
+y el índice de la opción de desplegable visible (dropdownVisibleIndex).*/
   const [currentVideoIndex, setCurrentVideoIndex] = useState(selectedVideoIndex);
   const [currentVideoId, setCurrentVideoId] = useState(videos[selectedVideoIndex]?.id || videos[selectedVideoIndex]?.videoId);
   const [dropdownVisibleIndex, setDropdownVisibleIndex] = useState(null);
   const currentUserId = localStorage.getItem("idP");
-
+  /*cambia el índice del desplegable visible cuando se hace click en las opciones de un vídeo.*/
   const handleOptionsClick = (event, index) => {
     event.preventDefault();
     event.stopPropagation();
@@ -25,6 +27,7 @@ const VideoModal = ({ videos, selectedVideoIndex, onClose, onRefresh }) => {
       document.body.classList.remove("modal-open");
     };
   }, []);
+  /*se encarga de eliminar un vídeo a través de una solicitud DELETE a una API.*/
   const deleteVideo = async (videoId) => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
@@ -80,18 +83,18 @@ const VideoModal = ({ videos, selectedVideoIndex, onClose, onRefresh }) => {
                 )}
               </div>
               <div className="comments-containerIM">
-  <div className="reactionIM" >
-    <Reaction key={currentVideoId} fileId={currentVideoId} />
-  </div>
-  <div className="comment-sectionIM">
-  <CommentFile
-  fileId={video.id ? video.id : video.videoId}
-  postOwner={video.username}
-  postDescription={videos[currentVideoIndex]?.description || "Description of the photo or video"}
-  postImage={video.profileImage}
-/>
-  </div>
-</div>
+            <div className="reactionIM" >
+              <Reaction key={currentVideoId} fileId={currentVideoId} />
+            </div>
+            <div className="comment-sectionIM">
+            <CommentFile
+            fileId={video.id ? video.id : video.videoId}
+            postOwner={video.username}
+            postDescription={videos[currentVideoIndex]?.description || "Description of the photo or video"}
+            postImage={video.profileImage}
+          />
+            </div>
+          </div>
             </div>
           ))}
         </Carousel>

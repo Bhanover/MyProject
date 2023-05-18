@@ -4,17 +4,21 @@ import axios from "axios";
 
 const UserLogin = ({ className }) => {
     const navigate = useNavigate();
+
+    /*setFormData se utiliza para actualizar el estado del
+     formulario cuando se ingresan los datos del usuario*/
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
-
+    /*setErrors se utiliza para establecer los errores relacionados con la autenticación.*/
     const [errors, setErrors] = useState({
         username: "",
         password: "",
         general: "",
     });
-
+    /*se utiliza como controlador de eventos para actualizar el 
+    estado del formulario cuando se cambian los valores de los campos de entrada*/
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -22,7 +26,7 @@ const UserLogin = ({ className }) => {
             [name]: value,
         });
     };
-    
+    /* se utiliza como controlador de eventos para manejar el envío del formulario*/
     const onSubmit = async (e) => {
         e.preventDefault();
     
@@ -30,8 +34,6 @@ const UserLogin = ({ className }) => {
             const response = await axios.post("http://localhost:8081/api/auth/signin", formData);
             localStorage.setItem("idP", response.data.id);
             localStorage.setItem("jwtToken", response.data.jwtToken);
-            console.log(response.data.jwtToken);
-            console.log(response.data.id);
             navigate("/");
         } catch (error) {
             console.error("Error al iniciar sesión:", error);

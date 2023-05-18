@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./Reaction.css"
-
+/*: El componente Reaction acepta fileId y publicationId como props*/
 const Reaction = ({ fileId, publicationId }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
@@ -11,7 +11,8 @@ const Reaction = ({ fileId, publicationId }) => {
   useEffect(() => {
     fetchReactions();
   }, []);
-
+  /* Esta función realiza solicitudes HTTP GET a la API para
+   obtener el número de "me gusta" y "no me gusta" para la publicación o el archivo especificado. */
   const fetchReactions = async () => {
     try {
       setLoading(true);
@@ -39,7 +40,7 @@ const Reaction = ({ fileId, publicationId }) => {
               'Authorization': 'Bearer ' + jwtToken,
             },
           });
-
+          /*likeCount y dislikeCount representan el número de "me gusta" y "no me gusta" */
       setLikeCount(likeResponse.data);
       setDislikeCount(dislikeResponse.data);
       
@@ -50,7 +51,7 @@ const Reaction = ({ fileId, publicationId }) => {
       alert('Error al obtener reacciones. Inténtalo de nuevo.');
     }
   };
-
+  /*Esta función acepta un tipo de reacción ("LIKE" o "DISLIKE") y realiza una solicitud HTTP POST*/
   const handleReaction = async (type) => {
     try {
       await axios.post(`http://localhost:8081/api/auth/${type === 'LIKE' ? 'like' : 'dislike'}`, null, {

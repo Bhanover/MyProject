@@ -9,9 +9,12 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useProfileImage } from "../../../ProfileImageContext";
 
  
-
+/*El componente CommentFile toma como props varios datos,
+ incluyendo el fileId del archivo para el cual se está 
+ mostrando la sección de comentarios, la postOwner (la persona que publicó el archivo), 
+la postDescription (la descripción del archivo), 
+y la postImage (la imagen asociada al archivo)*/
 const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
-  {console.log(postDescription)}
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [editingComment, setEditingComment] = useState(null);
@@ -32,6 +35,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
         Authorization: `Bearer ${jwtToken}`,
       },
     });
+    /*Alterna el menú desplegable para un comentario en particular*/
     const toggleDropdown = (commentId) => {
       
       if (dropdownCommentId === commentId) {
@@ -40,7 +44,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
         setDropdownCommentId(commentId);
       }
     };
-  
+  /*Añade un emoji seleccionado al nuevo comentario y al comentario editado*/
     const handleEmojiSelect = (emoji) => {
         setSelectedEmoji(emoji.native);
         setNewComment(newComment + emoji.native);
@@ -49,14 +53,13 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
     const handleEmojiSelectEdit = (emoji) => {
       setEditedCommentText(editedCommentText + emoji.native);
     };
-  
+    /*Llama a la API para obtener la lista de comentarios para el archivo*/
     const fetchComments = async () => {
       setLoading(true);
 
       try {
         const response = await api.get(`/files/${fileId}/comments`);
         setComments(response.data);
-        console.log(response.data)
         setLoading(false);
 
       } catch (error) {
@@ -66,6 +69,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
     useEffect(() => {
       fetchComments();
     }, [fileId ]);
+    /*Envía un nuevo comentario a la API.*/
     const handleAddComment = (e) => {
   e.preventDefault(); 
   api
@@ -75,11 +79,13 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
       },
     })
     .then(() => {
-      fetchComments(); // Reemplaza la llamada a api.get con fetchComments
-      setNewComment(''); // Agrega esta línea para vaciar el input después de enviar un comentario
+      fetchComments(); 
+      setNewComment('');
     })
     .catch((error) => console.error(error));
 };
+
+  /*Actualiza un comentario existente*/
     const handleUpdateComment = (commentId) => {
       api
         .put(`/comments/${commentId}`, editedCommentText, {
@@ -88,11 +94,13 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
           },
         })
         .then(() => {
-          fetchComments(); // Reemplaza la llamada a api.get con fetchComments
-          setEditingComment(null); // Agrega esta línea para ocultar el panel de edición después de actualizar el comentario
+          fetchComments();
+          setEditingComment(null);
         })
         .catch((error) => console.error(error));
     };
+  /*Comienza a editar un comentario existente y elimina un comentario existente respectivamente, 
+  pero solo si el usuario es el autor de dicho comentario.*/
   const handleEditComment = (commentId, commentText) => {
     // Buscar el comentario a editar
     const comment = comments.find((c) => c.id === commentId);
@@ -124,6 +132,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
       console.log('No estás autorizado para eliminar este comentario');
     }
   };
+  /*Formatea la fecha de creación de un comentario para su visualización.*/
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
@@ -143,7 +152,6 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
 
       <div className="post-ownerCF">{postOwner}
        </div>
-       {console.log(postDescription)}
        <div className="post-descriptionCF">{postDescription}</div>
       </div>
       <div className="comments-containerCF">
@@ -239,7 +247,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
       <div className="comment-input-containerCF">
 
       <form
-        onSubmit={handleAddComment} // Agregue el método handleAddComment al evento onSubmit del formulario
+        onSubmit={handleAddComment} 
       >
          <input
           placeholder="write your comment"
@@ -266,7 +274,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
           />
           </div>
       )}
-        <button type="submit"> {/* Cambie el tipo del botón a "submit" */}
+        <button type="submit"> 
           <FontAwesomeIcon icon={faPaperPlane} />
         </button>
         </form>

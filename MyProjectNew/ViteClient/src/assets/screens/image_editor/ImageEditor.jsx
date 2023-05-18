@@ -2,14 +2,14 @@ import React, { useState, useRef } from "react";
 import AvatarEditor from "react-avatar-editor";
 
 function ImageEditor({ editorRef, src, scale, rotate, onScaleChange, onRotateChange, onImageChange }) {
-// const editorRef = useRef(null); // Eliminar esta línea
 const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
   
     const handleImageChange = () => {
       const canvas = editorRef.current.getImage();
       onImageChange(canvas.toDataURL("image/jpeg"));
     };
-  
+    /*handlePositionChange que se ejecutará cuando se produzca un cambio 
+    en la posición de la imagen en el editor*/
     const handlePositionChange = (position, event) => {
       setPosition(position);
     };
@@ -21,13 +21,13 @@ const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
           image={src}
           width={250}
           height={250}
-          border={10} // reduce border size
-          color={[255, 255, 255, 0.6]} // RGBA
+          border={10} 
+          color={[255, 255, 255, 0.6]}
           scale={scale}
           rotate={rotate}
           position={position}
           onPositionChange={handlePositionChange}
-          style={{ pointerEvents: "auto", margin: "20px" }} // enable dragging and add margin
+          style={{ pointerEvents: "auto", margin: "20px" }} 
         />
         <div>
           <label htmlFor="scale">Zoom:</label>
