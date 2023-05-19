@@ -9,15 +9,15 @@
 .grid-containerL {
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows:  94% 6%;
+    grid-template-rows: 94vh 6vh;
     grid-template-areas: 
       'header centro'
-      'footer footer ';
+      'footer footer';
     width: 100%;
-    height: 660px;
+    height:100vh;
     background: linear-gradient(#5698ea, #6d889a,rgb(82, 79, 79),rgb(23, 22, 22) ) ;
     font-family: Arial, Helvetica, sans-serif;
-  }
+}
   .button-active {
     background: linear-gradient(#5698ea, #6d889a,rgb(217, 217, 217),rgb(210, 210, 210,0.5) ) ;
     font-weight: bolder;
