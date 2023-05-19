@@ -20,6 +20,7 @@ function PrivateChat({ selectedFriend, onClose }) {
 
   const jwtToken = localStorage.getItem("jwtToken");
   const userId = localStorage.getItem("idP");
+  /*Se obtiene la información del usuario logueado*/
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -31,7 +32,6 @@ function PrivateChat({ selectedFriend, onClose }) {
         });
         setUserInfo(response.data);
         setCurrentUser(response.data.username);
-        console.log(response.data.username)
       } catch (error) {
         console.error("Error al obtener la información del usuario:", error.response.data);
         alert("Error al obtener la información del usuario. Inténtalo de nuevo.");
@@ -39,6 +39,7 @@ function PrivateChat({ selectedFriend, onClose }) {
     };
     fetchUserInfo();
   }, []);
+  /*El segundo useEffect se encarga de manejar la conexión y desconexión a partir de la selección de un amigo para chatear.*/
   useEffect(() => {
     if (selectedFriend && currentUser) {
       connect();
@@ -46,6 +47,9 @@ function PrivateChat({ selectedFriend, onClose }) {
       disconnect();
     }
   }, [selectedFriend, currentUser]);
+
+  /* Este método se utiliza para establecer una conexión con el servidor de WebSockets utilizando las bibliotecas SockJS y StompJS. 
+  Crea una sala de chat basándose en los nombres de usuario y suscribe al cliente a esa sala de chat. */
   const connect = async () => {
     const roomMembers = [currentUser, recipient].sort(); // Ordenar nombres de usuario
     const roomName = roomMembers.join("-"); 
@@ -54,11 +58,9 @@ function PrivateChat({ selectedFriend, onClose }) {
     const socket = new SockJS("http://localhost:8081/mywebsocket");
     stompClientRef.current = Stomp.over(socket);
     await stompClientRef.current.connect({}, () => {
-      console.log("CONNECTED TO SERVER");
       setConnected(true);
-      console.log(`Subscribed to private chat room: ${roomName}`);
+      /*También maneja la recepción de mensajes y actualiza el estado de privateMessages con cada nuevo mensaje.*/
       stompClientRef.current.subscribe(`/queue/chat/private/${roomName}`, (response) => {
-        console.log("Mensaje recibido: " + response.body);
         const message = JSON.parse(response.body);
         setPrivateMessages((prevMessages) => [
           ...prevMessages,
@@ -88,6 +90,7 @@ function PrivateChat({ selectedFriend, onClose }) {
       alert("Error al obtener los mensajes privados. Inténtalo de nuevo.");
     }
   };
+  /* Este método hace una petición a la API para obtener el historial de chat y luego establece el estado de privateMessages con la respuesta.*/
   const loadChatHistory = async () => {
     setLoading(true);
 
@@ -110,6 +113,7 @@ function PrivateChat({ selectedFriend, onClose }) {
       console.error("Error al cargar el historial de chat:", error);
     }
   };
+  /*Este método desconecta al cliente del servidor WebSocket y resetea la información relevante.*/
   const disconnect = () => {
     if (stompClientRef.current !== null) {
       stompClientRef.current.disconnect();
@@ -117,6 +121,7 @@ function PrivateChat({ selectedFriend, onClose }) {
       setRoomName(null);
     }
   };
+  /*Este método envía un mensaje privado a través de la conexión de WebSocket. */
   const enviarMensajePrivado = (e) => {
     e.preventDefault();
     const roomMembers = [currentUser, recipient].sort(); // Ordenar nombres de usuario
@@ -136,6 +141,9 @@ function PrivateChat({ selectedFriend, onClose }) {
       setMessage("");
     }
   };
+
+  /*Varios elementos en el renderizado tienen eventos onClick 
+  que manejan acciones como minimizar la ventana de chat, cerrar la ventana de chat y enviar un mensaje.*/
   return (
     <>
      {minimized ? (
@@ -167,8 +175,8 @@ function PrivateChat({ selectedFriend, onClose }) {
                 -
               </span>
               <span className="close-button" onClick={() => { onClose(); disconnect(); }}>
-  &times;
-</span>
+            &times;
+          </span>
             </div>
           </div>
           <div className="chat-content">
@@ -181,16 +189,16 @@ function PrivateChat({ selectedFriend, onClose }) {
             ))}
           </div>
           <form onSubmit={enviarMensajePrivado} className="input-wrapper">
-  <input
-    type="text"
-    value={message}
-    onChange={(e) => setMessage(e.target.value)}
-    placeholder="Write something"
-  />
-  <button type="submit">Send</button>
-</form>
-           </>
-      )}
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Write something"
+          />
+          <button type="submit">Send</button>
+        </form>
+         </>
+        )}
         </div>
         
       )}

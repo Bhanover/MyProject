@@ -92,14 +92,5 @@ public class UserDetailsImpl implements UserDetails {
     UserDetailsImpl user = (UserDetailsImpl) o;
     return Objects.equals(id, user.id);
   }
-/*
-  public void updateToken(Long userId, String token) {
-    User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User Not Found with id: " + userId));
 
-    user.setJwtToken(token);
-    userRepository.save(user);
-  }
-
-*/
 }

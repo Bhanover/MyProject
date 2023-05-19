@@ -15,13 +15,14 @@ const UserListSocket = () => {
   const navigate = useNavigate();
 
   const [chatWindows, setChatWindows] = useState([]);
-
+  /* Esta función se llama cuando el usuario hace clic en un nombre de usuario en la lista*/
   const handleFriendClick = (user) => {
     if (chatWindows.some((chat) => chat.id === user.id)) {
       return;
     }
     setChatWindows([...chatWindows, user]);
   };
+  //Esta función  recupera la lista de amigos en línea del usuario
   const getUsers = async () => {
     try {
         const response = await axios.get("http://localhost:8081/mywebsocket/onlineFriends", {
@@ -34,7 +35,7 @@ const UserListSocket = () => {
             if (response.data && response.data.length > 0) {
               const onlineFriends = response.data.map((friend) => ({
                 ...friend,
-                isOnline: friend.online, // Asegúrate de que isOnline se establezca correctamente
+                isOnline: friend.online,
               }));
               setUsers(onlineFriends);
             }
@@ -46,11 +47,11 @@ const UserListSocket = () => {
       console.error("Error al obtener la lista de usuarios:", error);
     }
   };
-
+  /* Esta función actualiza el estado en línea de un usuario en la lista de usuarios.*/
   const updateUserStatus = (userId, isOnline) => {
     setUsers((users) =>
       users.map((user) => {
-        if (user.id === parseInt(userId, 10)) { // Convierte userId en un número antes de la comparación
+        if (user.id === parseInt(userId, 10)) {
           return { ...user, isOnline };
         } else {
           return user;
@@ -58,6 +59,7 @@ const UserListSocket = () => {
       })
     );
   };
+  /*Dentro del primer useEffect, se establece la conexión STOMP y se envía un mensaje al servidor para indicar que el usuario está en línea*/
   useEffect(() => {
     if (!jwtToken) {
       navigate("/loginPage");
@@ -68,28 +70,27 @@ const UserListSocket = () => {
       setStompClient(client);
     }
   }, []);
-  
+  /*Dentro del segundo useEffect, se establecen dos suscripciones: 
+  una para cuando un usuario se pone en línea y otra para cuando un 
+  usuario se pone fuera de línea. Cada vez que se recibe un mensaje a
+   través de estas suscripciones, se actualiza el estado en línea del usuario
+    correspondiente y se obtiene la lista de usuarios nuevamente.*/
   useEffect(() => {
     if (stompClient) {
       stompClient.connect(
         { Authorization: jwtToken },
         (frame) => {
-          console.log("Conectado: " + frame);
           stompClient.send("/app/online", { Authorization: jwtToken }, idP);
           
           stompClient.subscribe("/topic/online", (message) => {
             const userId = JSON.parse(message.body).userId;
-            console.log("Usuario en línea: " + userId);
             updateUserStatus(userId, true);
-            // Realiza una nueva solicitud a la API para obtener los usuarios actualizados
             getUsers();
           });
   
           stompClient.subscribe("/topic/offline", (message) => {
             const userId = JSON.parse(message.body).userId;
-            console.log("Usuario fuera de línea: " + userId);
             updateUserStatus(userId, false);
-            // Realiza una nueva solicitud a la API para obtener los usuarios actualizados
             getUsers();
           });
         },
@@ -120,6 +121,7 @@ const UserListSocket = () => {
               onClick={() => handleFriendClick(user)}
               className="user"
             >
+              
               {user.username}{" "}
               <span
                 className="online-status"

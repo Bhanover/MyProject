@@ -85,26 +85,3 @@ const TopBar = (props) => {
 }
 
 export default TopBar;
-/*
-    const doLogout = () => {
-        sendLogoutRequest();
-        localStorage.removeItem("idpersona");
-        localStorage.removeItem("sessionToken");
-
-        props.setLoggedIn(false);
-    };
-
-    const sendLogoutRequest = () => {
-
-        const idpersona=localStorege.getItem(idpersona);
-        const sessionToken = localStorage.getItem(sessionToken);
-
-        if (idpersona != null && sessionToken != null) {
-
-            axios.delete(BASE_URL+"login/${idpersona}",{
-                headers:{"sessionToken":sessionToken}
-            });
-        }
-    };
-
-*/

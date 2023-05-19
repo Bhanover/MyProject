@@ -9,9 +9,10 @@ function SocketTry() {
     const [connected, setConnected] = useState(false);
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
-    const [currentUser, setCurrentUser] = useState(null); // Nuevo estado para el usuario actual
+    const [currentUser, setCurrentUser] = useState(null);
     const stompClientRef = useRef(null);
     const [userInfo, setUserInfo] = useState({});
+    /*Este método maneja el evento de envío del formulario, que dispara el método enviarMensaje.*/
     const handleSubmit = (e) => {
       e.preventDefault();
       enviarMensaje();
@@ -19,6 +20,7 @@ function SocketTry() {
    
     const jwtToken = localStorage.getItem("jwtToken");
     const userId = localStorage.getItem("idP");  
+    /*En este método se recupera la información del usuario*/
     useEffect(() => {
       const fetchUserInfo = async () => {
         try {
@@ -36,24 +38,21 @@ function SocketTry() {
       };
       fetchUserInfo();
     }, [jwtToken]);
-
+    /* Este método crea una conexión WebSocket al servidor */
     const connect = () => {
       return new Promise((resolve, reject) => {
         const socket = new SockJS("http://localhost:8081/mywebsocket");
         stompClientRef.current = Stomp.over(socket);
         stompClientRef.current.connect({ Authorization: jwtToken }, () => {
 
-          console.log("CONNECTED TO SERVER");
            
           setConnected(true);
         
           // Enviar un mensaje al servidor WebSocket para informarle que el usuario ha iniciado sesión
           stompClientRef.current.send("/app/chat/login", {}, currentUser);
-          
+            /*se suscribe a un canal de chat general y maneja la recepción de mensajes*/
           stompClientRef.current.subscribe("/topic/chat/general", (response) => {
-            console.log("golaaaaaaaaaaaaaaaaaaaaaaa")
             const message = JSON.parse(response.body);
-            console.log("looooooooo recibo"+message)
             setMessages((prevMessages) => [
               ...prevMessages,
               { sender: message.sender, content: message.message },
@@ -65,7 +64,7 @@ function SocketTry() {
         });
       });
     };
-  
+    /*Este método desconecta la conexión WebSocket y actualiza el estado connected a false.*/
     const disconnect = () => {
      
         if (stompClientRef.current !== null) {
@@ -80,7 +79,7 @@ function SocketTry() {
         stompClientRef.current.send(
           "/app/chat/general",
           {},
-          JSON.stringify({ message, sender: currentUser }) // Enviar el nombre de usuario del usuario actual en el mensaje
+          JSON.stringify({ message, sender: currentUser }) // Envia el nombre de usuario del usuario actual en el mensaje
         );
         setMessage("");
       }

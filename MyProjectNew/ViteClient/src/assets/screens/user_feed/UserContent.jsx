@@ -32,7 +32,7 @@ const UserContent = () => {
   const { userId } = useParams();
   const currentUserId = localStorage.getItem("idP");
   const [loading, setLoading] = useState(true);
-
+  /*Esta función se activa cuando un usuario hace clic en el ícono de opciones*/
   const handleOptionsClick = (itemId,e) => {
     e.preventDefault();
     setShowOptions((prevState) => ({
@@ -40,7 +40,7 @@ const UserContent = () => {
       [itemId]: !prevState[itemId],
     }));
   };
-
+  /*Esta función abre el modal de video cuando un usuario hace clic en un video. */
   const handleOpenVideoModal = (url, fileId) => {
     const videoIndex = content
       .filter(
@@ -52,7 +52,7 @@ const UserContent = () => {
     setSelectedVideoIndex(videoIndex);
     setShowVideoModal(true);
   };
-
+  /*Abre el modal de imagen cuando un usuario hace clic en una imagen.*/
   const handleOpenImageModal = (url, fileId) => {
     const imageIndex = content
       .filter(
@@ -65,19 +65,20 @@ const UserContent = () => {
     setShowImageModal(true);
     
   };
-
+  /*Cierra el modal de imagen */
   const handleCloseImageModal = () => {
     setSelectedFileId(null);
     setShowImageModal(false);
 
   };
-
+  /* Se usa useEffect para invocar fetchUserContent cuando el componente se monta y cada vez que cambia el userId.*/
   useEffect(() => {
  
     fetchUserContent();
  
   }, [userId]);
-
+  /*Se invoca cuando el usuario envía el formulario de actualización de la publicación. 
+  Llama a handleSaveButtonClick.*/
   const handleFormSubmit = (e, publicationId) => {
     e.preventDefault();
     handleSaveButtonClick(publicationId);
@@ -272,13 +273,12 @@ const UserContent = () => {
               setShowImageModal(false);
             }}
             selectedImageIndex={selectedImageIndex}
-            onProfileImageUpdate={updateProfileImage} // Agrega esta línea
+            onProfileImageUpdate={updateProfileImage} 
             onImagesRefresh={fetchUserContent}
             
           />
           
         )}
-                {console.log(content)}
 
         {showVideoModal && (
           <VideoModal
@@ -296,7 +296,6 @@ const UserContent = () => {
 
           />
         )}
-                        {console.log(content)}
 
           </>
       )}

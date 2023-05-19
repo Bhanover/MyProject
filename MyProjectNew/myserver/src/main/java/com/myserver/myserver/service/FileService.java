@@ -32,23 +32,26 @@ public class FileService {
 
     @Autowired
     private Cloudinary cloudinary;
-
+    /*Este método toma un archivo MultipartFile, una descripción del archivo y las credenciales de un usuario
+     (UserDetailsImpl userDetails), y carga este archivo a un servicio de almacenamiento en la nube como Cloudinary,*/
     public String uploadFile(MultipartFile file, String description, UserDetailsImpl userDetails) throws IOException, IllegalArgumentException, UnauthorizedException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String fileType = file.getContentType();
-
-        boolean isImage = fileType != null && fileType.startsWith("image/");
+         boolean isImage = fileType != null && fileType.startsWith("image/");
         boolean isVideo = fileType != null && fileType.startsWith("video/");
+        /*El método primero verifica que el archivo sea una imagen o un video basándose en su tipo de contenido (contentType)*/
 
         if (!isImage && !isVideo) {
+            /*Si no lo es, lanza una excepción.*/
             throw new IllegalArgumentException("El archivo no es una imagen ni un video.");
         }
-
+        /* Luego, busca en la base de datos al usuario que está subiendo el archivo, y si no se encuentra, lanza una excepción.*/
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
 
         String folder = isImage ? "images/" : "videos/";
         String userFolder = user.getUsername() + "/";
-
+        /*Después, sube el archivo a un servicio de almacenamiento en la nube (Cloudinary)
+        y guarda el resultado de la subida, que incluye la URL del archivo subido*/
         Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap(
                         "resource_type", isImage ? "image" : "video",
@@ -60,12 +63,12 @@ public class FileService {
         fileDB.setUrl(url);
         fileDB.setDescription(description);
         fileDB.setCreationTime(LocalDateTime.now());
-
+        /* guarda los detalles de la subida del archivo en la base de datos*/
         fileDBRepository.save(fileDB);
-
+        /*El método devuelve la URL del archivo subido.*/
         return url;
     }
-
+    /*Este método se encarga de eliminar archivos. Acepta un único parámetro: la ID del archivo que se va a eliminar.*/
     public ResponseEntity<String> deleteFile(String fileId) {
         try {
             // Obtiene el usuario autenticado

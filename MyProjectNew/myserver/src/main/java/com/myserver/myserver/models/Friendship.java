@@ -32,7 +32,6 @@ public class Friendship {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // constructores, getters y setters
     public Friendship() {
 
     }

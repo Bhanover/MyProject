@@ -50,12 +50,15 @@ public class ListPublicationAllUserController {
     @Autowired
     private ContentService contentService;
 
+    /*Este metodo Primero, recupera el objeto Authentication del contexto de seguridad y
+     utiliza ese objeto para obtener el UserDetailsImpl del usuario autenticado actual*/
     @GetMapping("/friends-content")
     public ResponseEntity<List<Map<String, Object>>> getFriendsContent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        /*busca al usuario en la base de datos por su ID utilizando el userRepository.*/
         User currentUser = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
-
+        /* es un método que llama al controlador listPublicationAllController para obtener el contenido del usuario dado por su ID.*/
         List<Map<String, Object>> friendsContent = contentService.getFriendsContent(currentUser);
         return new ResponseEntity<>(friendsContent, HttpStatus.OK);
     }

@@ -5,17 +5,20 @@ import axios from 'axios';
 import "./CreatePublications.css"
 
 const API_BASE_URL = 'http://localhost:8081/api/auth';
-
+/*CreatePublications que recibe una prop onNewPublication. 
+Esta función será invocada cuando se cree una nueva publicación*/
 const CreatePublications = ({ onNewPublication }) => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const currentUserId = localStorage.getItem("idP");
   const jwtToken = localStorage.getItem("jwtToken");
   const [newContent, setNewContent] = useState("");
-
+  /*toggleUploadModal es una función que cambia el estado de 
+  isUploadModalOpen cada vez que se llama.*/
   const toggleUploadModal = () => {
     setIsUploadModalOpen(!isUploadModalOpen);
   };
-
+  /*Esta es una función asincrónica que realiza una solicitud POST a 
+  la API para crear una nueva publicación. */
   const createPublication = async (publicationDTO) => {
     try {
       await axios.post(`${API_BASE_URL}/publication`, publicationDTO, {
@@ -42,12 +45,12 @@ const CreatePublications = ({ onNewPublication }) => {
           }}
         >
           <input
-            placeholder="ContenidoPL"
+            placeholder="post something"
             value={newContent}
             onChange={(event) => setNewContent(event.target.value)}
           />
           <button type="submit" disabled={!newContent.trim()}>
-            Crear
+          Create
           </button>
         </form>
       </div>

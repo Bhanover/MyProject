@@ -10,7 +10,9 @@ const LeftBar = () => {
   const jwtToken = localStorage.getItem("jwtToken");
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
+  /*Aqui se obtienen del hook useProfileImage.*/
   const { profileImage, updateProfileImage } = useProfileImage();
+  /*location es la ubicación actual en la aplicación.*/
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ const LeftBar = () => {
     };
     fetchUserInfo();
   }, [jwtToken, updateProfileImage, currentUserId, navigate]);
-
+  /*Esta función determina si una ruta específica está activa comparándola con la ubicación actual.*/
   const isActive = (path) => {
     if (path === '/' && location.pathname.startsWith(`/profilePage/${currentUserId}`)) {
       return false;

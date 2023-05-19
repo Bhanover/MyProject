@@ -27,20 +27,27 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private JwtUtils jwtUtils;
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    /*Configura las rutas de mensajes. */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic", "/queue","/user");
         config.setApplicationDestinationPrefixes("/app");
-        config.setUserDestinationPrefix("/user"); // Cambia esta línea
+        config.setUserDestinationPrefix("/user");
 
     }
 
+
+    /*Configura los endpoints STOMP*/
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/mywebsocket").setAllowedOrigins("http://localhost:5173").withSockJS();
 
     }
-
+    /*: Este método retorna un ChannelInterceptor que intercepta los
+     mensajes antes de que sean enviados. En este caso, si el comando es CONNECT,
+     extrae el token de las cabeceras, valida el token, extrae el nombre de usuario del token,
+      carga los detalles del usuario y establece el objeto de autenticación en el contexto de seguridad.*/
     private ChannelInterceptor jwtAuthChannelInterceptor() {
         return new ChannelInterceptor() {
             @Override
@@ -48,7 +55,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
                 if (accessor.getCommand() == StompCommand.CONNECT) {
                     String token = accessor.getFirstNativeHeader("Authorization");
-                    System.out.println("Token recibido: " + token); // Agrega este log
                     try {
                         if (token != null && jwtUtils.validateToken(token)) {
                             String username = jwtUtils.getUsernameFromToken(token);
@@ -56,7 +62,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                     userDetails, null, userDetails.getAuthorities());
                             SecurityContextHolder.getContext().setAuthentication(authentication);
-                            System.out.println("Autenticación establecida: " + authentication); // Agrega este log
                         }
                     } catch (InvalidJwtException e) {
                         throw new RuntimeException(e);
@@ -66,6 +71,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             }
         };
     }
+
+    /* Este método registra el interceptor creado en jwtAuthChannelInterceptor() para ser aplicado a los mensajes entrantes.*/
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(jwtAuthChannelInterceptor());

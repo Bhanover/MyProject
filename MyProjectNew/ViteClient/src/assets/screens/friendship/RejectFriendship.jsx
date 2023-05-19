@@ -1,8 +1,8 @@
-// RejectFriendship.js
 import React from "react";
 import axios from "axios";
-
+/*Este componente recibe un friendshipId y una función updateFriends como props*/
 function RejectFriendship({ friendshipId, updateFriends }) {
+  /* Crea un botón que, al hacer click, realiza una petición PUT a la API para rechazar una solicitud de amistad.*/
   const rejectFriendRequest = async () => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");

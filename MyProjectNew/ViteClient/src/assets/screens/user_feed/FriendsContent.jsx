@@ -79,7 +79,7 @@ const FriendsContent = () => {
     e.preventDefault();
     handleSaveButtonClick(publicationId);
   };
-
+  /*Lo unico diferente a UserContent es que aqui se lla a getUserFriendsContent()*/
   const fetchUserContent = async () => {
     setLoading(true);
 
@@ -273,7 +273,7 @@ const FriendsContent = () => {
               setShowImageModal(false);
             }}
             selectedImageIndex={selectedImageIndex}
-            onProfileImageUpdate={updateProfileImage} // Agrega esta línea
+            onProfileImageUpdate={updateProfileImage} 
             onImagesRefresh={fetchUserContent}
           />
         )}

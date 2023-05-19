@@ -47,10 +47,14 @@ public class ListPublicationAllController {
 
 
     @GetMapping("/{id}/content")
+    /*Esta tambien es otra forma de comprobar si el usuario esta autenticado*/
     @PreAuthorize("isAuthenticated()")
+    /*Este método toma un parámetro id de la ruta de la solicitud, que se supone que es la ID de un usuario.*/
     public List<Map<String, Object>> getUserContent(@PathVariable Long id) {
-        // Recupera las imágenes, videos y publicaciones del usuario
+        // Busca al usuario en la base de datos por su ID utilizando el userRepository
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+        /*, busca todas las imágenes y videos del usuario utilizando el fileDBRepository,
+        y todas las publicaciones del usuario utilizando el publicationRepository*/
         List<Map<String, Object>> imagesAndVideos = fileDBRepository.findImagesAndVideosByUser(user, defaultImageUrl);
         List<Map<String, Object>> publications = publicationRepository.findPublicationsByUser(user, defaultImageUrl);
 

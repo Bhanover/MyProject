@@ -19,7 +19,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
     const [newComment, setNewComment] = useState('');
     const [editingComment, setEditingComment] = useState(null);
     const [editedCommentText, setEditedCommentText] = useState('');
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false); 
     const [selectedEmoji, setSelectedEmoji] = useState('');
     const currentUserId = localStorage.getItem("idP");
     const [showEmojiPickerEdit, setShowEmojiPickerEdit] = useState(false);

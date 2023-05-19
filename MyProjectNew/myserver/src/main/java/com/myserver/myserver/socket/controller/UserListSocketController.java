@@ -34,25 +34,30 @@ public class UserListSocketController {
 
     @Autowired
     private FriendshipRepository friendshipRepository;
-
+    /* Estas son anotaciones de Spring que indican que los métodos que
+     siguen deben ser invocados cuando lleguen mensajes a los destinos "/online" y "/offline
+     Estos métodos toman como parámetros un Message<String> que contiene el mensaje entrante y un
+     Principal que representa al usuario actualmente autenticado.*/
     @MessageMapping("/online")
     public void online(Message<String> message, Principal principal) {
-        String userId = message.getPayload(); // Cambia esta línea para obtener el userId del mensaje
-        System.out.println("Usuario en línea: " + userId);
+        String userId = message.getPayload();
         updateUserOnlineStatus(userId, true);
         messagingTemplate.convertAndSend("/topic/online", "{\"userId\": \"" + userId + "\"}");
     }
 
     @MessageMapping("/offline")
     public void offline(Message<String> message, Principal principal) {
-        String userId = message.getPayload(); // Cambia esta línea para obtener el userId del mensaje
-        System.out.println("Usuario fuera de línea: " + userId);
+        String userId = message.getPayload();
         updateUserOnlineStatus(userId, false);
         messagingTemplate.convertAndSend("/topic/offline", "{\"userId\": \"" + userId + "\"}");
     }
 
+    /*Este método retorna una lista de amigos en línea del usuario actualmente autenticado*/
     @GetMapping("/onlineFriends")
     public ResponseEntity<List<User>> getOnlineFriends(Principal principal) {
+
+        /*Primero, busca al usuario actual en la base de datos, luego busca todas las solicitudes de amistad
+         que el usuario ha enviado y ha sido aceptadas y recoge a todos los amigos que están en línea*/
         User currentUser = userRepository.findByUsername(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + principal.getName()));
 
@@ -63,7 +68,7 @@ public class UserListSocketController {
                 onlineSentFriends.add(friendship.getFriend());
             }
         }
-
+        /*Luego, hace lo mismo para todas las solicitudes de amistad que el usuario ha recibido y han sido aceptadas*/
         List<Friendship> receivedFriendships = friendshipRepository.findByFriendAndStatus(currentUser, FriendshipStatus.ACCEPTED);
         List<User> onlineReceivedFriends = new ArrayList<>();
         for (Friendship friendship : receivedFriendships) {

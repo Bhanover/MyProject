@@ -37,6 +37,7 @@ public class FriendshipController {
     private UserRepository userRepository;
     @Autowired
     private NotificationService notificationService;
+    /*Este metódo se encarga de enviar una solicitud de amistad al usuario identificado por friendId*/
     @PostMapping("/request/{friendId}")
     public ResponseEntity<Friendship> sendFriendRequest(@PathVariable Long friendId) {
         // Obtiene el usuario autenticado
@@ -58,7 +59,8 @@ public class FriendshipController {
 
         return new ResponseEntity<>(newFriendship, HttpStatus.CREATED);
     }
-
+    /*Este método maneja las solicitudes PUT a la ruta /accept/{friendshipId}.
+     Acepta una solicitud de amistad identificada por friendshipId*/
     @PutMapping("/accept/{friendshipId}")
     public ResponseEntity<?> acceptFriendRequest(@PathVariable Long friendshipId) {
         // Obtiene el usuario autenticado
@@ -83,16 +85,20 @@ public class FriendshipController {
         friendshipService.acceptFriendRequest(friendshipId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    /*Este método maneja las solicitudes GET a la ruta /friendship-status/{friendId}.
+    Obtiene el estado de amistad con el usuario identificado por friendId*/
     @GetMapping("/friendship-status/{friendId}")
     public ResponseEntity<Friendship> getFriendshipStatus(@PathVariable Long friendId) {
         // Obtiene el usuario autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
-
+        /*utiliza friendshipService para obtener el estado de la amistad. */
         Friendship friendship = friendshipService.getFriendshipStatus(user.getId(), friendId);
         return new ResponseEntity<>(friendship, HttpStatus.OK);
     }
+    /*Este método maneja las solicitudes PUT a la ruta /reject/{friendshipId}.
+    Rechaza una solicitud de amistad identificada por friendshipId*/
     @PutMapping("/reject/{friendshipId}")
     public ResponseEntity<?> rejectFriendRequest(@PathVariable Long friendshipId) {
         // Obtiene el usuario autenticado
@@ -113,14 +119,15 @@ public class FriendshipController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to reject this friend request.");
         }
 
-// Elimina la solicitud de amistad en lugar de cambiar su estado a rechazado
+        // Elimina la solicitud de amistad en lugar de cambiar su estado a rechazado
         friendshipRepository.deleteById(friendshipId);
 
-// Devuelve una respuesta exitosa con un mensaje de confirmación
+        // Devuelve una respuesta exitosa con un mensaje de confirmación
         return ResponseEntity.ok("Friend request rejected successfully.");
     }
 
-
+    /*Este método maneja las solicitudes GET a la ruta /{id}/friends.
+     Obtiene la lista de amigos del usuario identificado por id. */
     @GetMapping("/{id}/friends")
     public ResponseEntity<List<FriendInfo>> getUserFriends(@PathVariable Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
@@ -128,6 +135,8 @@ public class FriendshipController {
         List<FriendInfo> friends = friendshipService.getFriends(user.getId());
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
+    /* Este método maneja las solicitudes DELETE a la ruta /remove/{friendshipId}.
+     Elimina una amistad identificada por friendshipId*/
     @DeleteMapping("/remove/{friendshipId}")
     public ResponseEntity<?> removeFriend(@PathVariable Long friendshipId) {
         // Obtiene el usuario autenticado

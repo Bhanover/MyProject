@@ -5,6 +5,7 @@ import Stomp from "stompjs";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import "./UserSearch.css"
+/*Este componente permite a los usuarios buscar otros usuarios por su nombre*/
 function UserSearch(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -16,17 +17,17 @@ function UserSearch(props) {
   const searchContainer = useRef(null);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  /* Si el usuario no está autenticado, se redirige a la página de inicio de sesión*/
   useEffect(() => {
     const jwtToken = localStorage.getItem("jwtToken");
   
     if (!jwtToken) {
       navigate("/loginPage");
     } else {
+      /*Si el usuario está autenticado, se establece una conexión WebSocket para recibir los resultados de la búsqueda. */
       const socket = new SockJS("http://localhost:8081/mywebsocket");
       const stompClient = Stomp.over(socket);
   
-      console.log("antes de subscribe");
   
       stompClient.connect(
         { Authorization: jwtToken },
@@ -41,8 +42,8 @@ function UserSearch(props) {
           setStompClient(stompClient);
         }
       );
-  
-      console.log("después de subscribe");
+       /*También se añade un evento de escucha para el clic fuera del componente,
+       que limpiará el término de búsqueda y ocultará los resultados.*/
   
       document.addEventListener("mousedown", handleClickOutside);
   
@@ -54,20 +55,22 @@ function UserSearch(props) {
       };
     }
   }, []);
-  
+  /*Este método maneja el clic en el botón "Mostrar más", que incrementa la cantidad de resultados mostrados en un número específico.*/
   const handleShowMoreClick = () => {
     setDisplayCount(displayCount + 6);
   };
   const displayedResults = searchResults.slice(0, displayCount);
+  /* Este método maneja el cambio de entrada del término de búsqueda*/
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
     setShowResults(true);
     if (stompClient) {
+      /*Implementa un debounce para retrasar la solicitud de búsqueda hasta que el usuario deje de escribir durante un tiempo específico.*/
       if (debounceTimeout.current) {
         clearTimeout(debounceTimeout.current);
       }
       debounceTimeout.current = setTimeout(() => {
-        setLoading(true); // Añade esta línea
+        setLoading(true); 
 
         stompClient.send(
           "/app/searchUsers",
@@ -77,7 +80,7 @@ function UserSearch(props) {
       }, 500); // Tiempo de espera en milisegundos
     }
   };
-
+/*Este método maneja el clic en un resultado de búsqueda, navegando al perfil del usuario seleccionado.*/
   const handleResultClick = (user_id) => {
     const result = searchResults.find((result) => result.id === user_id);
     if (result) {
@@ -89,12 +92,12 @@ function UserSearch(props) {
     if (stompClient) {
       stompClient.send(
         "/app/searchUsers",
-        { Authorization: localStorage.getItem("jwtToken") }, // Añade el token JWT aquí
+        { Authorization: localStorage.getItem("jwtToken") },
         JSON.stringify({ search_term: searchTerm })
       );
     }
-     setShowResults(true); // Añade esta línea
-  setSearchResults([]); // Limpia los resultados de búsqueda
+     setShowResults(true);
+  setSearchResults([]); 
 
   };
   const handleClickOutside = (event) => {
@@ -105,6 +108,9 @@ function UserSearch(props) {
   };
       /* <button onClick={handleSearchClick}>          <FontAwesomeIcon icon={faSearch} />
       </button>*/
+
+
+/*Este renderiza un campo de entrada para la búsqueda y los resultados de la búsqueda.*/
   return (
     <div className="userSearchUS" ref={searchContainer}>
       <div className="userSearch-textUS"> 
@@ -118,17 +124,17 @@ function UserSearch(props) {
       </div>
       <div className={`userSearch-infoUS${showResults ? " show" : ""}`}>
       {loading ? (
-  <div className="spinnerSearch"></div>
-) : searchError ? (
-  <p>Usuario no encontrado</p>
-) : (
-  displayedResults.map((results) => (
-    <div key={results.id} onClick={() => handleResultClick(results.id)}>
-      <p>{results.username}</p>
-    </div>
-  ))
-)}
-      
+              <div className="spinnerSearch"></div>
+            ) : searchError ? (
+              <p>Usuario no encontrado</p>
+            ) : (
+              displayedResults.map((results) => (
+                <div key={results.id} onClick={() => handleResultClick(results.id)}>
+                  <p>{results.username}</p>
+                </div>
+              ))
+            )}
+                  
       {searchResults.length > displayCount && (
         <button onClick={handleShowMoreClick}>Mostrar más</button>
       )}

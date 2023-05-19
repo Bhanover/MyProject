@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Friendship.css";
+/*: Este componente maneja el envío de solicitudes de amistad y la visualización de su estado. */
 function Friendship({ friendId, updateFriends, disabled }) {
   const [friendshipStatus, setFriendshipStatus] = useState(null);
   const [sentRequest, setSentRequest] = useState(null);
-
-  const sendFriendRequest = async () => {
+   const sendFriendRequest = async () => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
       const config = {
@@ -19,12 +19,12 @@ function Friendship({ friendId, updateFriends, disabled }) {
         {},
         config
       );
-      console.log(response.data);
       updateFriends();
     } catch (error) {
       console.error(error);
     }
   };
+  /*Al montar el componente o cuando friendId cambia, se realiza una petición GET*/
 
   const checkFriendshipStatus = async () => {
     try {
@@ -38,8 +38,9 @@ function Friendship({ friendId, updateFriends, disabled }) {
         `http://localhost:8081/api/auth/friendship-status/${friendId}`,
         config
       );
-      console.log(response.data)
       const friendship = response.data;
+      /* Si existe una relación de amistad, se actualizan friendshipStatus
+       y sentRequest; si no, ambos se establecen en null*/
       if (friendship) {
         setFriendshipStatus(friendship.status);
         const loggedInUserId = localStorage.getItem("idP");
@@ -59,7 +60,8 @@ function Friendship({ friendId, updateFriends, disabled }) {
   useEffect(() => {
     checkFriendshipStatus();
   }, [friendId]);
-
+/*El componente renderiza un botón "Send Request" si no existe una relación de amistad, un mensaje
+ sobre el estado de la solicitud si está pendiente y un mensaje de confirmación si la solicitud ha sido aceptada.*/
   return (
     <div className="friendsShipFDS">
       {friendshipStatus === null && (

@@ -28,9 +28,10 @@ public class ContentService {
     public List<Map<String, Object>> getCombinedUserContent(User user) {
         return listPublicationAllController.getUserContent(user.getId());
     }
-
+    /*Este es un método que se utiliza para obtener el contenido del usuario autenticado actual y sus amigos.
+     Primero, obtiene los IDs de los amigos del usuario utilizando el friendshipService*/
     public List<Map<String, Object>> getFriendsContent(User currentUser) {
-        // Obtén los IDs de los amigos del usuario
+        // Obtiene los IDs de los amigos del usuario
         List<Long> friendIds = friendshipService.getFriendIds(currentUser.getId());
 
         // Filtra los usuarios para incluir solo los amigos del usuario autenticado
@@ -43,10 +44,10 @@ public class ContentService {
             allContent.addAll(friendContent);
         }
 
-        // Obtenga el contenido del usuario actual
+        // Obtiene el contenido del usuario actual
         List<Map<String, Object>> currentUserContent = getCombinedUserContent(currentUser);
 
-        // Añadir el contenido del usuario actual a la lista allContent
+        // Añade el contenido del usuario actual a la lista allContent
         allContent.addAll(currentUserContent);
 
         List<Map<String, Object>> combinedContent = allContent.stream()

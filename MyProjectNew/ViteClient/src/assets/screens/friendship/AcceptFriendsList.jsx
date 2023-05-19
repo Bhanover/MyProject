@@ -1,7 +1,10 @@
 import "./AcceptedFriendsList.css"
+/*Este componente recibe un array de friends como props*/
 function AcceptedFriendsList({ friends }) {
   
-
+/*Renderiza una lista de amigos cuya solicitud de amistad ha
+ sido aceptada (es decir, friend.pending es false). 
+ Cada amigo se representa con su imagen de perfil y su nombre de usuario.*/
     return (
       <div className="accepted-FriendsListAFL">
         <h2>Friends</h2>

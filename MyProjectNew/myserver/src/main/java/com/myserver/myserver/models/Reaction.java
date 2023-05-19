@@ -36,5 +36,4 @@ public class Reaction {
     @Enumerated(EnumType.STRING)
     private ReactionType type;
 
-    // Getters and setters
 }

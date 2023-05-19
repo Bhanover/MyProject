@@ -32,5 +32,4 @@ public class Notification {
     private LocalDateTime createdAt;
 
 
-    // Getters, setters y otros métodos relevantes
 }

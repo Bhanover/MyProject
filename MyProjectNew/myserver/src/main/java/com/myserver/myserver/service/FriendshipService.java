@@ -32,16 +32,16 @@ public class FriendshipService {
     private UserRepository userRepository;
 
       final  String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
-
+    /*Este método devuelve el estado de una relación de amistad entre dos usuarios, identificados por userId y friendId. */
     public Friendship getFriendshipStatus(Long userId, Long friendId) {
         return friendshipRepository.findByUserIdAndFriendIdOrFriendIdAndUserId(userId, friendId, userId, friendId)
                 .orElse(new Friendship(userId, friendId, null));
     }
-
+    /*Este método se encarga de enviar una solicitud de amistad desde el usuario con userId al usuario con friendId*/
     public Friendship sendFriendRequest(Long userId, Long friendId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
         User friend = userRepository.findById(friendId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + friendId));
-
+        /*. Crea una nueva instancia de Friendship con estado "PENDING" (pendiente) y la persiste en el repositorio.*/
         Friendship friendship = new Friendship();
         friendship.setUser(user);
         friendship.setFriend(friend);
@@ -50,47 +50,24 @@ public class FriendshipService {
 
         return friendshipRepository.save(friendship);
     }
-    public boolean areFriends(Long userId, Long friendId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<User> optionalFriend = userRepository.findById(friendId);
 
-        if (optionalUser.isPresent() && optionalFriend.isPresent()) {
-            User user = optionalUser.get();
-            User friend = optionalFriend.get();
 
-            Optional<Friendship> friendship = friendshipRepository.findByUserAndFriend(user, friend);
-
-            return friendship.isPresent();        }
-
-        return false;
-    }
-    public Friendship getFriendshipById(Long friendshipId) {
-        return friendshipRepository.findById(friendshipId).orElseThrow(() -> new RuntimeException("Friendship Not Found"));
-    }
+    /*Este método devuelve una instancia de Friendship identificada por friendshipId.*/
     public Optional<Friendship> findFriendshipById(Long friendshipId) {
         return friendshipRepository.findById(friendshipId);
     }
+    /* Este método se encarga de aceptar una solicitud de amistad identificada por friendshipId*/
     public void acceptFriendRequest(Long friendshipId) {
         Friendship friendship = friendshipRepository.findById(friendshipId).orElseThrow(() -> new IllegalArgumentException("Friendship not found with id: " + friendshipId));
 
         if (friendship.getStatus() != FriendshipStatus.PENDING) {
             throw new IllegalStateException("Cannot accept friend request with status " + friendship.getStatus());
         }
-
+        /*Cambia el estado de la relación a "ACCEPTED" (aceptado) y la persiste en el repositorio.*/
         friendship.setStatus(FriendshipStatus.ACCEPTED);
         friendshipRepository.save(friendship);
     }
-
-    public void rejectFriendRequest(Long friendshipId) {
-        Friendship friendship = friendshipRepository.findById(friendshipId).orElseThrow(() -> new IllegalArgumentException("Friendship not found with id: " + friendshipId));
-
-        if (friendship.getStatus() != FriendshipStatus.PENDING) {
-            throw new IllegalStateException("Cannot reject friend request with status " + friendship.getStatus());
-        }
-
-        friendship.setStatus(FriendshipStatus.REJECTED);
-        friendshipRepository.save(friendship);
-    }
+    /*Este método devuelve la lista de amigos de un usuario identificado por userId*/
     public List<FriendInfo> getFriends(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
         List<Friendship> sentFriendships = friendshipRepository.findByUser(user);
@@ -98,7 +75,7 @@ public class FriendshipService {
 
         // Aquí, agrega la URL de la imagen por defecto.
         String defaultImageUrl = "https://res.cloudinary.com/dhqfopwka/image/upload/v1683919422/defaultImage/defaultAvatar_f4vs3m.jpg";
-
+        /*Crea una lista de FriendInfo basada en las relaciones de amistad enviadas y recibidas por el usuario.*/
         List<FriendInfo> friends = new ArrayList<>();
         for (Friendship friendship : sentFriendships) {
             String imageUrl = friendship.getFriend().getProfileImage() != null ? friendship.getFriend().getProfileImage().getUrl() : defaultImageUrl;
@@ -111,7 +88,8 @@ public class FriendshipService {
 
         return friends;
     }
-
+    /*Este método se encarga de eliminar una relación de amistad
+    identificada por friendshipId, siempre que su estado sea "ACCEPTED" */
     public void removeFriend(Long friendshipId) {
         Optional<Friendship> optionalFriendship = friendshipRepository.findById(friendshipId);
 
@@ -119,21 +97,23 @@ public class FriendshipService {
             Friendship friendship = optionalFriendship.get();
             if (friendship.getStatus() == FriendshipStatus.ACCEPTED) {
                 friendshipRepository.delete(friendship);
+                /* Si la relación no existe o su estado no es "ACCEPTED", lanza una excepción de tipo RuntimeException.*/
             } else {
-                System.out.println("The friendship status is not accepted."); // Agrega esta línea
+                System.out.println("The friendship status is not accepted.");
                 throw new RuntimeException("The friendship status is not accepted.");
             }
         } else {
-            System.out.println("Friendship not found."); // Agrega esta línea
+            System.out.println("Friendship not found.");
             throw new RuntimeException("Friendship not found.");
         }
     }
+    /*Este método devuelve una lista de los identificadores de los amigos de un usuario identificado por userId*/
     public List<Long> getFriendIds(Long userId) {
         List<Friendship> friendships = friendshipRepository.findByUser_IdAndStatusOrFriend_IdAndStatus(
                 userId, FriendshipStatus.ACCEPTED,
                 userId, FriendshipStatus.ACCEPTED
         );
-
+        /* Extrae los ID de los amigos a partir de las relaciones de amistad aceptadas del usuario*/
         List<Long> friendIds = new ArrayList<>();
         for (Friendship friendship : friendships) {
             if (friendship.getUser().getId().equals(userId)) {
