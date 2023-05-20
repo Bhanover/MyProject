@@ -41,13 +41,13 @@ const LoginPage = () => {
         </div>
       </div>
       <div className="footerL">
-        <div>
+      
           <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
           <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
           <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
           <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
           <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
-        </div>
+       
       </div>
     </div>
   );
