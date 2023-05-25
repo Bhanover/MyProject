@@ -17,6 +17,9 @@
 
 ## Descripción
 Experience es una página web completamente funcional que permite a los usuarios registrarse y autenticarse en la plataforma para acceder a diversas características. Proporciona una experiencia personalizada y controlada sobre el contenido, donde los usuarios pueden subir y editar videos, imágenes y publicaciones. Además, incorpora emojis en los campos de entrada para enriquecer la expresividad en las comunicaciones. Los usuarios también pueden buscar y agregar amigos, expandiendo su red y fomentando la interacción social.
+## Información Importante
+
+- **Subida de imágenes y videos:** Es importante notar que solo se pueden subir imágenes y videos con un tamaño máximo de 10MB debido a las restricciones de Cloudinary, que es el servicio que utilizamos para almacenar este tipo de archivos. Esto se debe a que estamos utilizando la versión gratuita de Cloudinary, que tiene un límite de tamaño de archivo.
 
 ## Características Principales
 - Registro y autenticación de usuarios.
