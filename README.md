@@ -82,7 +82,7 @@ Para ejecutar este proyecto, necesitarás lo siguiente instalado en tu sistema:
 
 ### Configuración de la base de datos
 
-Es necesario tener MySQL instalado y configurado en tu máquina local. Una vez hecho esto, debes configurar las credenciales y otros parámetros de la base de datos siguienod el archivo `application.properties` del servidor de Spring Boot donde se encuentra el nombre que debes usar en la base de datos y el usuario que debes usar en Mysql junto con su contraseña.
+Es necesario tener MySQL instalado y configurado en tu máquina local. Una vez hecho esto, debes configurar las credenciales y otros parámetros de la base de datos siguiendo el archivo `application.properties` del servidor de Spring Boot donde se encuentra el nombre que debes usar en la base de datos y el usuario que debes usar en Mysql junto con su contraseña.
 
 ```properties
 spring.datasource.url= jdbc:mysql://localhost:3306/experience?useSSL=false&allowPublicKeyRetrieval=true
@@ -99,19 +99,44 @@ Después de configurar el entorno de desarrollo y la base de datos, puedes inici
 1. En IntelliJ IDEA, busca la clase principal de la aplicación (usualmente nombrada `Application` o `Main`) en el panel de archivos del proyecto.
 2. Haz clic derecho en la clase principal y selecciona 'Run `Application.main()`' en el menú contextual. Esto iniciará el servidor en el puerto que se especificó en el archivo `application.properties`.
 
+![image](https://github.com/Bhanover/MyProject/assets/127310131/e7fdda1f-6c65-4516-b273-62e29dc0fde5)
 
-![nombre-de-la-imagen](https://drive.google.com/uc?export=view&id=1ge621BZQAZnkZO5_thW8VXrYKbhu342x)
+
 ### Cliente (React)
 1. Abre Visual Studio Code y navega a la terminal integrada.
-2. Asegúrate de que estás en la carpeta del cliente y ejecuta `npm start` en la terminal. Esto iniciará el cliente, y generalmente se abrirá automáticamente en una nueva pestaña de tu navegador.
+2. Asegúrate de que estás en la carpeta del cliente `/MyProject/MyProjectNew/ViteClient` y ejecuta `npm install` en la terminal para actualizar las dependecias alojadas en el proyecto.
+3. A continuación añade `npm run dev` esto iniciará el cliente, y generalmente se abrirá automáticamente en una nueva pestaña de tu navegador.
+
+![image](https://github.com/Bhanover/MyProject/assets/127310131/22f5bdf3-13ac-40cf-84a7-e1cff0974d9f)
 
 Una vez que el servidor y el cliente estén funcionando, puedes interactuar con la aplicación a través de tu navegador.
 
-## Uso
-1. Registro y autenticación: Para usar la aplicación, primero debes registrarte y autenticarte.
-2. Subida de contenidos: Para subir un video, imagen o publicación, haz click en...
+## Guía de Uso Detallada
 
-![screenshot](ruta/a/la/captura/de/pantalla)
+1. **Registro y autenticación:** Antes de que puedas acceder a todas las increíbles funcionalidades de la plataforma, debes registrarte. Para ello, haz clic en el botón de registro en la página (loginPage). Se te pedirá que proporciones algunos datos personales básicos y que elijas un nombre de usuario y una contraseña. Recuerda que tu contraseña debe ser segura y única. Una vez que hayas completado el registro, debes autenticarte introduciendo tu nombre de usuario y contraseña en el formulario de inicio de sesión.
+
+2. **Explorando la página principal:** Al iniciar sesión, serás redirigido a la página principal. Aquí, en la parte superior de la página, verás una lista en tiempo real de tus amigos que están actualmente conectados a la plataforma.
+
+3. **Búsqueda de usuarios:** Si estás buscando a un amigo o simplemente quieres explorar y conocer gente nueva, utiliza la función de búsqueda ubicada en la parte superior de la página. Simplemente introduce el nombre de usuario que estás buscando y se buscara a los usuarios que coincidan con esos datos en tiempo real.
+
+4. **Chats públicos y privados:** La plataforma incluye una funcionalidad de chat para la comunicación entre usuarios. En la parte izquierda de la pantalla, encontrarás una lista de chat público al que puedes unirte. Si prefieres tener una conversación privada, utiliza el buscador de chat para encontrar al usuario con el que quieres chatear.
+
+5. **Publicaciones:** La sección central de la página es tu tablero de publicaciones. Aquí puedes compartir tus pensamientos, experiencias, noticias o cualquier otra cosa que desees comunicar a tu red de amigos. Para hacer una publicación, simplemente escribe tu mensaje en el cuadro de texto y haz clic en el botón de publicación.
+
+6. **Interacción con publicaciones:** La plataforma te permite ver y responder a las publicaciones de tus amigos. Puedes mostrar tu apoyo o reconocimiento a una publicación haciendo clic en el botón de "me gusta". También tienes la opción de comentar en las publicaciones si deseas iniciar una conversación o simplemente expresar tu opinión.
+
+7. **Ampliando tu red de amigos:** Si encuentras a alguien con quien te gustaría interactuar más o si simplemente quieres ampliar tu red de amigos, puedes enviar solicitudes de amistad a otros usuarios. Para hacerlo, visita su perfil y haz clic en el botón "Send Request".
+
+8. **Solicitudes de amistad:** Cuando envíes una solicitud de amistad, la otra persona la recibirá en su perfil y se le notificará. Si la otra persona acepta tu solicitud, se añadirá a tu red de amigos y podrás ver e interactuar con todas sus futuras publicaciones.
+
+9. **Explorando perfiles de usuarios:** Visitar el perfil de un usuario es una gran manera de conocer más sobre él. En el perfil de un usuario, puedes ver todo el contenido que ha compartido, incluyendo videos, imágenes y publicaciones. También puedes ver su lista de amigos.
+
+10. **Comentarios:** Puedes comentar cualquier publicación de un amigo o la tuya y asi poder expresar tus opiniones tambien pudes dar likes o dislikes a las publicaciones.
+
+
+
+
+
 ## Cómo Contribuir
 Las contribuciones son bienvenidas y apreciadas. Sigue estos pasos para contribuir:
 1. Haz un "Fork" del repositorio.
