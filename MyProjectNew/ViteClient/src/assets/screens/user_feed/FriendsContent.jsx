@@ -127,11 +127,11 @@ const FriendsContent = () => {
         <div className="container-userCT"> 
         <Link to={`/profilePage/${item.userId}`}>
 
-        <img
-  className="profile-imageCT"
-  src={profileImage || item.profileImage}
-  alt="Profile"
-/>
+              <img
+        className="profile-imageCT"
+        src={profileImage || item.profileImage}
+        alt="Profile"
+      />
                 </Link>
 
           <p className="profile-usernameCT">{item.username}</p>

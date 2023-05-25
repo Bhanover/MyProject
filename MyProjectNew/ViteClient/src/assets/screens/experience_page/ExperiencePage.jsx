@@ -38,7 +38,6 @@ const ExperiencePage = () => {
       {isSmallerScreen && (
         <button className="userListButton" onClick={toggleUserList}>{`\u2190`}</button>
       )}
-      {/* Elimina el evento onClick de leftEXP */}
       <div className={`leftEXP ${isMenuOpen ? "open" : ""}`}>
         <SearchChat />
       </div>

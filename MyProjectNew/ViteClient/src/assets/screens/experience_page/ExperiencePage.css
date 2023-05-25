@@ -2,14 +2,14 @@
   display: flex;
   position: relative;
   left: 0;
-  height: 600px;
+  height: 700px;
   width: 100%;
   overflow: auto;
 }
 
 .mainEXP {
   margin: auto;
-  width: 50%;
+  width: 55%;
   height: 1500px;
 }
 

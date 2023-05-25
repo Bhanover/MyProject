@@ -1,0 +1,18 @@
+
+
+.notFoundN{
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+ }
+.notFoundN h1{
+
+    font-size: 300px;
+}
+.notFoundN p{
+    margin-bottom: 10px;
+}

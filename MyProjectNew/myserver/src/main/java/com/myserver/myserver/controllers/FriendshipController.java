@@ -143,13 +143,12 @@ public class FriendshipController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException("User Not Found"));
-        System.out.println("User ID: " + user.getId()  + ", Friendship ID: " + friendshipId); // Agrega esta línea
+
 
         try {
             friendshipService.removeFriend(friendshipId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (RuntimeException e) {
-            System.out.println("Error: " + e.getMessage()); // Agrega esta línea
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

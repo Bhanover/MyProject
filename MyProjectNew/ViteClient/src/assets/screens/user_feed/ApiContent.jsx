@@ -52,7 +52,6 @@ export const deleteFileApi = async (fileId) => {
 export const getUserFriendsContent = async () => {
     try {
       const response = await axios.get(`http://localhost:8081/api/auth/friends-content`, axiosConfig());
-      console.log("userfriendsContent",response.data)
       return response.data;
     } catch (error) {
       console.error("Error fetching user content", error);

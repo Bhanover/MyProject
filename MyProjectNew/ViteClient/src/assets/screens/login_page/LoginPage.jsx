@@ -43,10 +43,10 @@ const LoginPage = () => {
       <div className="footerL">
       
           <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
-          <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
-          <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
-          <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
-          <a href="https://es.wikipedia.org/wiki/Privacidad">Política de privacidad</a>
+          <a href="https://es.wikipedia.org/wiki/Privacidad">Centro de privacidad</a>
+          <a href="https://es.wikipedia.org/wiki/Privacidad">Condiciones</a>
+          <a href="https://es.wikipedia.org/wiki/Privacidad">Ayuda</a>
+          <a href="https://es.wikipedia.org/wiki/Privacidad">MetaVerso Experecience</a>
        
       </div>
     </div>

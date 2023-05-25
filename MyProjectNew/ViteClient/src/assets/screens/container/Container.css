@@ -5,8 +5,8 @@
   
  
   .container-mainCT{
-    padding-top: 100px;
-    padding-left:50px;
+    padding-top: 120px;
+    padding-left:80px;
     overflow-y: auto;
 
     
@@ -19,7 +19,7 @@
    @media screen and (max-width: 800px) {
  
     .container-mainCT{
-      padding-top: 60px;
+      padding-top: 80px;
       padding-left:50px;
       overflow-y: auto;
   

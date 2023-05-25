@@ -18,6 +18,7 @@ import LoginPage from './assets/screens/login_page/LoginPage';
 import CreatePublications from './assets/screens/create_publications/CreatePublications';
 import SearchChat from './assets/screens/socket/searchChat/SearchChat';
 import ProtectedRoute from './PrivateRoute';
+import NotFound from './assets/screens/not_found/NotFound';
 
 function App() {
   return (
@@ -35,9 +36,11 @@ function App() {
             <Route path="content" element={<UserContent />} />
             <Route path="friends" element={<FriendsPrincipal />} />
           </Route>
+          <Route path="*" element={<NotFound />}/>
+
           <Route path="/" element={<ProtectedRoute component={ExperiencePage} />}></Route>
         </Route>
-        <Route path="/loginPage" element={<LoginPage />}></Route>
+         <Route path="/loginPage" element={<LoginPage />}></Route>
       </Routes>
     </ProfileImageProvider>
   );
