@@ -100,7 +100,7 @@ Después de configurar el entorno de desarrollo y la base de datos, puedes inici
 2. Haz clic derecho en la clase principal y selecciona 'Run `Application.main()`' en el menú contextual. Esto iniciará el servidor en el puerto que se especificó en el archivo `application.properties`.
 
 
-
+![nombre-de-la-imagen](https://drive.google.com/uc?export=view&id=1ge621BZQAZnkZO5_thW8VXrYKbhu342x)
 ### Cliente (React)
 1. Abre Visual Studio Code y navega a la terminal integrada.
 2. Asegúrate de que estás en la carpeta del cliente y ejecuta `npm start` en la terminal. Esto iniciará el cliente, y generalmente se abrirá automáticamente en una nueva pestaña de tu navegador.
