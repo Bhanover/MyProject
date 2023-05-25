@@ -1,5 +1,8 @@
 # MyProject
 # Experience
+
+
+ 
 [![React](https://img.shields.io/badge/React-^17.0.0-blue)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-^14.0.0-green)](https://nodejs.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-^2.5.0-brightgreen)](https://spring.io/projects/spring-boot)
@@ -8,6 +11,7 @@
 [![CSS](https://img.shields.io/badge/CSS-3-blue)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![Java](https://img.shields.io/badge/Java-^11.0-orange)](https://www.java.com/)
 
+![iconPage2](https://github.com/Bhanover/MyProject/assets/127310131/7b694bcb-6b80-4db0-9c73-c1f85aa1e731)
 
 ## Descripción
 Experience es una página web completamente funcional que permite a los usuarios registrarse y autenticarse en la plataforma para acceder a diversas características. Proporciona una experiencia personalizada y controlada sobre el contenido, donde los usuarios pueden subir y editar videos, imágenes y publicaciones. Además, incorpora emojis en los campos de entrada para enriquecer la expresividad en las comunicaciones. Los usuarios también pueden buscar y agregar amigos, expandiendo su red y fomentando la interacción social.
@@ -51,3 +55,62 @@ Experience es una página web completamente funcional que permite a los usuarios
 - react-intersection-observer: Detecta cuando un elemento está en el punto de vista del viewport para cargar contenido perezosamente o habilitar el scroll infinito.
 
 Estas bibliotecas y dependencias han sido seleccionadas por su robustez, confiabilidad y compatibilidad, brindando una base sólida para el desarrollo y mantenimiento continuo del proyecto.
+
+## Requisitos del Sistema
+Para ejecutar este proyecto, necesitarás lo siguiente instalado en tu sistema:
+- Java 11 o superior
+- Node.js v14 o superior
+- MySQL 5.7 o superior
+- Git
+- Un IDE adecuado como IntelliJ IDEA para Spring Boot y Visual Studio Code para React.
+
+
+### Instalación y Configuración del entorno de desarrollo
+
+#### IntelliJ IDEA
+1. Descarga e instala [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) Community Edition.
+2. Clona el repositorio en tu máquina local.
+3. Abre IntelliJ IDEA y selecciona "Open" en el diálogo inicial. Busca y selecciona la carpeta del proyecto que acabas de clonar.
+4. IntelliJ IDEA detectará automáticamente el archivo `pom.xml` y configurará tu proyecto en base a él. Si se te solicita, permite que IntelliJ IDEA descargue e instale los plugins y dependencias necesarios.
+
+#### Visual Studio Code
+1. Descarga e instala [Visual Studio Code](https://code.visualstudio.com/download).
+2. Abre Visual Studio Code y selecciona "Open Folder" desde el menú "File". Busca y selecciona la carpeta del cliente dentro del proyecto que clonaste.
+3. Ejecuta `npm install` en la terminal de Visual Studio Code para instalar las dependencias necesarias del cliente.
+
+### Configuración de la base de datos
+
+Es necesario tener MySQL instalado y configurado en tu máquina local. Una vez hecho esto, debes configurar las credenciales y otros parámetros de la base de datos en el archivo `application.properties` del servidor de Spring Boot se encuentra el nombre que debes usar en la base de datos y el usuario que debes usar en Mysql junto con su contraseña. Aquí tienes un ejemplo de cómo debería verse:
+
+```properties
+spring.datasource.url= jdbc:mysql://localhost:3306/experience?useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username= root
+spring.datasource.password= 1234
+server.port=8081
+```
+## Uso
+
+1. Registro y autenticación: Para usar la aplicación, primero debes registrarte y autenticarte.
+2. Subida de contenidos: Para subir un video, imagen o publicación, haz click en...
+
+![screenshot](ruta/a/la/captura/de/pantalla)
+## Cómo Contribuir
+Las contribuciones son bienvenidas y apreciadas. Sigue estos pasos para contribuir:
+1. Haz un "Fork" del repositorio.
+2. Clona el fork a tu máquina local.
+3. Crea una nueva rama para tu cambio.
+4. Haz tus cambios y asegúrate de probarlos.
+5. Haz un "commit" de tus cambios a tu rama.
+6. Haz un "push" de tus cambios a tu fork en GitHub.
+7. Abre un "Pull Request" en el repositorio original.
+
+Por favor, asegúrate de que tu código sigue las convenciones de estilo del proyecto y que has añadido pruebas para cualquier cambio que hagas, si es aplicable.
+
+
+## Contacto
+Si tienes preguntas o deseas discutir algo sobre el proyecto, no dudes en contactarme a través de mi correo electrónico: billydht5@gmail.com
+
+## Licencia
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
