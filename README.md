@@ -11,7 +11,9 @@
 [![CSS](https://img.shields.io/badge/CSS-3-blue)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![Java](https://img.shields.io/badge/Java-^11.0-orange)](https://www.java.com/)
 
-![iconPage2](https://github.com/Bhanover/MyProject/assets/127310131/7b694bcb-6b80-4db0-9c73-c1f85aa1e731)
+<p align="center">
+  <img src="https://github.com/Bhanover/MyProject/assets/127310131/7b694bcb-6b80-4db0-9c73-c1f85aa1e731" alt="iconPage2">
+</p>
 
 ## Descripción
 Experience es una página web completamente funcional que permite a los usuarios registrarse y autenticarse en la plataforma para acceder a diversas características. Proporciona una experiencia personalizada y controlada sobre el contenido, donde los usuarios pueden subir y editar videos, imágenes y publicaciones. Además, incorpora emojis en los campos de entrada para enriquecer la expresividad en las comunicaciones. Los usuarios también pueden buscar y agregar amigos, expandiendo su red y fomentando la interacción social.
@@ -80,7 +82,7 @@ Para ejecutar este proyecto, necesitarás lo siguiente instalado en tu sistema:
 
 ### Configuración de la base de datos
 
-Es necesario tener MySQL instalado y configurado en tu máquina local. Una vez hecho esto, debes configurar las credenciales y otros parámetros de la base de datos en el archivo `application.properties` del servidor de Spring Boot se encuentra el nombre que debes usar en la base de datos y el usuario que debes usar en Mysql junto con su contraseña. Aquí tienes un ejemplo de cómo debería verse:
+Es necesario tener MySQL instalado y configurado en tu máquina local. Una vez hecho esto, debes configurar las credenciales y otros parámetros de la base de datos siguienod el archivo `application.properties` del servidor de Spring Boot donde se encuentra el nombre que debes usar en la base de datos y el usuario que debes usar en Mysql junto con su contraseña.
 
 ```properties
 spring.datasource.url= jdbc:mysql://localhost:3306/experience?useSSL=false&allowPublicKeyRetrieval=true
@@ -88,8 +90,24 @@ spring.datasource.username= root
 spring.datasource.password= 1234
 server.port=8081
 ```
-## Uso
+Una ves creado en Mysql el usuario "root" con password "1234" no olvides de crear la base de datos con el comando `create database experience`;
 
+## Cómo Empezar
+Después de configurar el entorno de desarrollo y la base de datos, puedes iniciar el servidor y el cliente de la siguiente manera:
+
+### Servidor (Spring Boot)
+1. En IntelliJ IDEA, busca la clase principal de la aplicación (usualmente nombrada `Application` o `Main`) en el panel de archivos del proyecto.
+2. Haz clic derecho en la clase principal y selecciona 'Run `Application.main()`' en el menú contextual. Esto iniciará el servidor en el puerto que se especificó en el archivo `application.properties`.
+
+
+
+### Cliente (React)
+1. Abre Visual Studio Code y navega a la terminal integrada.
+2. Asegúrate de que estás en la carpeta del cliente y ejecuta `npm start` en la terminal. Esto iniciará el cliente, y generalmente se abrirá automáticamente en una nueva pestaña de tu navegador.
+
+Una vez que el servidor y el cliente estén funcionando, puedes interactuar con la aplicación a través de tu navegador.
+
+## Uso
 1. Registro y autenticación: Para usar la aplicación, primero debes registrarte y autenticarte.
 2. Subida de contenidos: Para subir un video, imagen o publicación, haz click en...
 
