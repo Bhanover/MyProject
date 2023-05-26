@@ -17,9 +17,7 @@
 
 ## Descripción
 Experience es una página web completamente funcional que permite a los usuarios registrarse y autenticarse en la plataforma para acceder a diversas características. Proporciona una experiencia personalizada y controlada sobre el contenido, donde los usuarios pueden subir y editar videos, imágenes y publicaciones. Además, incorpora emojis en los campos de entrada para enriquecer la expresividad en las comunicaciones. Los usuarios también pueden buscar y agregar amigos, expandiendo su red y fomentando la interacción social.
-## Información Importante
-
-- **Subida de imágenes y videos:** Es importante notar que solo se pueden subir imágenes y videos con un tamaño máximo de 10MB debido a las restricciones de Cloudinary, que es el servicio que utilizamos para almacenar este tipo de archivos. Esto se debe a que estamos utilizando la versión gratuita de Cloudinary, que tiene un límite de tamaño de archivo.
+ 
 
 ## Características Principales
 - Registro y autenticación de usuarios.
@@ -136,10 +134,14 @@ Una vez que el servidor y el cliente estén funcionando, puedes interactuar con 
 
 10. **Comentarios:** Puedes comentar cualquier publicación de un amigo o la tuya y asi poder expresar tus opiniones tambien pudes dar likes o dislikes a las publicaciones.
 
+## Información Importante
+
+- **Subida de imágenes y videos:** Es importante notar que solo se pueden subir imágenes y videos con un tamaño máximo de 10MB debido a las restricciones de Cloudinary, que es el servicio que utilizamos para almacenar este tipo de archivos. Esto se debe a que estamos utilizando la versión gratuita de Cloudinary, que tiene un límite de tamaño de archivo.
+- **Conexión con la base de datos:** Es importante saber que tienes que tener bien conectado la base de datos con spring boot en el caso de que no lo este te saldra este error:
+![image](https://github.com/Bhanover/MyProject/assets/127310131/1c082f26-aadb-4338-9905-e57984bf196e)
 
 
-
-
+Una posible solución es que si hiciste todos los pasos bien , ademas de eso tienes que tener el programa de Mysql abierto.
 ## Cómo Contribuir
 Las contribuciones son bienvenidas y apreciadas. Sigue estos pasos para contribuir:
 1. Haz un "Fork" del repositorio.
