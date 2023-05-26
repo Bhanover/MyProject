@@ -82,12 +82,13 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
       })
       .then((response) => {
         console.log(response.data);
-        setUploading(false); // Indicar que la carga se completó
+        setUploading(false); // Indica que la carga se completó
         if (onNewFile) onNewFile();
       })
       .catch((error) => {
         console.error(error);
-        setUploading(false); // Indicar que la carga falló
+        setUploading(false); // Indica que la carga falló
+            alert("Ocurrió un error al subir el archivo.");
 
       });
   };
