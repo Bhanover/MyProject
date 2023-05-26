@@ -141,11 +141,13 @@ Una vez que el servidor y el cliente estén funcionando, puedes interactuar con 
 
 ![image](https://github.com/Bhanover/MyProject/assets/127310131/1c082f26-aadb-4338-9905-e57984bf196e)
 
+Una posible solución es que si hiciste todos los pasos bien , ademas de eso tienes que tener el programa de Mysql abierto.
+
+
 - **Activar Lombook:** En Spring Boot al iniciar el proyecto por primera vez , Spring Boot te pedira que actives la Lombook y en ese caso das click a `enabled lombook`
 
 
-Una posible solución es que si hiciste todos los pasos bien , ademas de eso tienes que tener el programa de Mysql abierto.
-## Cómo Contribuir
+ ## Cómo Contribuir
 Las contribuciones son bienvenidas y apreciadas. Sigue estos pasos para contribuir:
 1. Haz un "Fork" del repositorio.
 2. Clona el fork a tu máquina local.
