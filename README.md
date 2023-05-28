@@ -165,6 +165,7 @@ Por favor, asegúrate de que tu código sigue las convenciones de estilo del pro
 Si tienes preguntas o deseas discutir algo sobre el proyecto, no dudes en contactarme a través de mi correo electrónico: billydht5@gmail.com
 
 ## Licencia
-[MIT](https://choosealicense.com/licenses/mit/)
+Este proyecto está licenciado bajo [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
 
 
