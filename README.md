@@ -12,8 +12,9 @@
 [![Java](https://img.shields.io/badge/Java-^11.0-orange)](https://www.java.com/)
 
 <p align="center">
-  <img src="https://github.com/Bhanover/MyProject/assets/127310131/7b694bcb-6b80-4db0-9c73-c1f85aa1e731" alt="iconPage2">
+  <img src="https://github.com/Bhanover/MyProject/assets/127310131/9a209c1d-556e-437b-bb39-788ba2322459" alt="iconPage2">
 </p>
+
 
 ## Descripción
 Experience es una página web completamente funcional que permite a los usuarios registrarse y autenticarse en la plataforma para acceder a diversas características. Proporciona una experiencia personalizada y controlada sobre el contenido, donde los usuarios pueden subir y editar videos, imágenes y publicaciones. Además, incorpora emojis en los campos de entrada para enriquecer la expresividad en las comunicaciones. Los usuarios también pueden buscar y agregar amigos, expandiendo su red y fomentando la interacción social.
