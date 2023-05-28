@@ -230,6 +230,9 @@ body::-webkit-scrollbar {
     bottom: 190px;
     z-index: 99999;
   }
+  .carousel.carousel-slider .control-arrow{
+    width: 15px;
+  }
 }
 
 @media (max-width:500px) {

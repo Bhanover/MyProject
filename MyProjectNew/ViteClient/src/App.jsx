@@ -31,14 +31,25 @@ function App() {
           >
             <Route index element={<Navigate to="content" />} /> 
             <Route path="images" element={<UserImages />} />
+            <Route path="images/:fileId" element={<UserImages />} />
+
             <Route path="videos" element={<UserVideos />} />
+            <Route path="videos/:videoId" element={<UserVideos/>} />
+
             <Route path="publications" element={<PublicationList />} />
             <Route path="content" element={<UserContent />} />
+            <Route path="content/:fileId" element={<UserContent />} />
+
             <Route path="friends" element={<FriendsPrincipal />} />
           </Route>
           <Route path="*" element={<NotFound />}/>
 
-          <Route path="/" element={<ProtectedRoute component={ExperiencePage} />}></Route>
+          <Route path="/" element={<ProtectedRoute component={ExperiencePage} />}>
+          <Route path="/photo/:fileId" element={<FriendsContent />} />
+          <Route path="/watchV/:fileId" element={<FriendsContent />} />
+
+          </Route>
+          
         </Route>
          <Route path="/loginPage" element={<LoginPage />}></Route>
       </Routes>

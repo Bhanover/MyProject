@@ -80,8 +80,7 @@
     border: none;
     cursor: pointer;
   }
-  .usercontent-imageCT,
-  .usercontent-videoCT {
+  .usercontent-imageCT {
     position:relative;
     height:auto;
     max-width: 300px;
@@ -90,6 +89,16 @@
     cursor: pointer;
     object-fit: cover;
   }
+  .usercontent-video-containerCT > .usercontent-videoCT {
+    position: relative;
+    height: 100%;
+    max-width: 600px;
+    max-height: 600px;
+    width: 100%;
+    cursor: pointer;
+    object-fit: contain;
+  }
+  
   .usercontent-publication-containerCT{
     background-color: #f8f9fa;
     padding: 20px;

@@ -139,16 +139,30 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    position: relative; /* Añade esta línea */
+    position: relative; 
 
   }
  
-  @media (max-width: 480px) {
+  @media (max-width: 660px) {
     .chat-window {
-      width: 100%;
-      height: 100%;
+      width: auto;
       border-radius: 0;
       bottom: 0;
       right: 0;
+    }
+    .minimized-chat {
+      position: fixed;
+      bottom: 20px;
+      right: 1%;
+      width: 50px;
+      height: 50px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      background-color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
     }
   }

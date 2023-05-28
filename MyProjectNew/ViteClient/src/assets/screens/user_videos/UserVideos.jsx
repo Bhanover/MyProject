@@ -5,7 +5,7 @@ import VideoModal from '../video_modal/VideoModal';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./UserVideos.css"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const UserVideos = (props) => {
   const [videoUrls, setVideoUrls] = useState([]);
@@ -14,6 +14,8 @@ const UserVideos = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const { userId } = useParams();
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
   /*    fetchUserVideos se utiliza para mostrar una galería de videos subidos por el usuario.*/
   useEffect(() => {
     fetchUserVideos();
@@ -45,16 +47,21 @@ const UserVideos = (props) => {
   const refreshVideos = () => {
     fetchUserVideos();
   };
+  const clearUrl = () => {
+    navigate(`/profilePage/${userId}/videos`);
+  };
   /*La función handleClickVideo se utiliza para establecer el video seleccionado y el índice
    seleccionado, que se usan para mostrar el video en un modal.*/
   const handleClickVideo = (url, videoId, index, description) => {
     setSelectedVideo({ url, videoId, description });
     setSelectedIndex(index);
+    navigate(`/profilePage/${userId}/videos/${videoId}`);
   };
 
   const handleCloseModal = () => {
     setSelectedVideo(null);
     setSelectedIndex(null);
+    clearUrl();
   };
 
   return (

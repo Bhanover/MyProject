@@ -6,6 +6,7 @@ import "./ImageModal.css";
 import Reaction from "../reaction/Reaction";
 import axios from 'axios';
 import { useProfileImage } from "../../../ProfileImageContext";
+import { useNavigate } from 'react-router-dom';
 
 const ImageModal = ({
   selectedImages,
@@ -17,6 +18,7 @@ const ImageModal = ({
   onProfileImageUpdate, 
   onImagesRefresh,
 }) => {
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(selectedImageIndex);
   const [currentFileId, setCurrentFileId] = useState(fileId);
   const [optionsVisible, setOptionsVisible] = useState(false);
@@ -24,6 +26,8 @@ const ImageModal = ({
   const jwtToken = localStorage.getItem('jwtToken');
   const { updateProfileImage } = useProfileImage();
   const currentUserId = localStorage.getItem("idP");
+  const navigate = useNavigate();
+
  /*Las funciones handleOptionsClick, deleteImage, y 
   setProfilePicture manejan la lógica para mostrar las opciones de imagen, eliminar una imagen
    y establecer una imagen como la imagen de perfil.*/
@@ -93,9 +97,27 @@ const handleSetProfilePicture = async () => {
 useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
+      
       document.body.classList.remove("modal-open");
+      
     };
   }, []);
+  const handleChangeImage = (index) => {
+    setCurrentImageIndex(index);
+    setCurrentFileId(selectedFileIds[index]);
+
+    const fromContent = window.location.pathname.includes('/content');
+    const fromImages = window.location.pathname.includes(`/images`);
+    const fromHome = window.location.pathname.includes('/photo');
+
+    if (fromHome) {
+      navigate(`/photo/${selectedFileIds[index]}`);
+    } else if (fromContent) {
+      navigate(`/profilePage/${userId}/content/${selectedFileIds[index]}`);
+    } else if (fromImages) {
+      navigate(`/profilePage/${userId}/images/${selectedFileIds[index]}`);
+    }
+  };
 
   return (
     <div className="fullscreen-modalIM">
@@ -105,11 +127,7 @@ useEffect(() => {
           showThumbs={false}
           showStatus={false}
           showIndicators={false}
-          onChange={index => {
-            setCurrentImageIndex(index);
-            setCurrentFileId(selectedFileIds[index]);
-            
-          }}
+          onChange={handleChangeImage}
         >
          {selectedImages.map((image, index) => (
           <div key={index} className="image-comments-wrapperIM">
@@ -149,7 +167,7 @@ useEffect(() => {
                     postOwner={image.username}
                     postDescription={
                       selectedImages.find((image) => image.id == currentFileId || image.imageId == currentFileId)?.description || "description of the photo or video"
-                      ?.description || "description of the photo or video"
+                      ?.description || ""
                     }
                     postImage={image.profileImage}
                   />

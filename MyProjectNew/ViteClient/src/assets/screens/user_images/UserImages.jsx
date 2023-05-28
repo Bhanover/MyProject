@@ -3,7 +3,7 @@ import axios from 'axios';
 import './UserImages.css';
 import ImageModal from '../image_modal/ImageModal';
 import { useProfileImage } from "../../../ProfileImageContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const UserImages = ({ onProfileImageUpdate, ...props }) => {
   const { userId } = useParams();
@@ -17,7 +17,7 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { updateProfileImage } = useProfileImage();
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchUserImages();
   }, []);
@@ -42,6 +42,9 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
       alert('Error al establecer la foto de perfil. Inténtalo de nuevo.');
     }
   };
+  const clearUrl = () => {
+    navigate(`/profilePage/${userId}/images`);
+  };
   /*Las funciones handleOpenImageModal y handleCloseImageModal 
   se utilizan para abrir y cerrar el modal de imagen respectivamente.*/
   const handleOpenImageModal = (url, fileId, index) => {
@@ -49,13 +52,14 @@ const UserImages = ({ onProfileImageUpdate, ...props }) => {
     setSelectedImage(url.url);
     setSelectedImageIndex(index);
     setShowImageModal(true);
-    
-  };
 
+    navigate(`/profilePage/${userId}/images/${fileId}`);
+  };
   const handleCloseImageModal = () => {
     setSelectedImage(null);
     setSelectedFileId(null);
     setShowImageModal(false);
+    clearUrl()
   };
   /*El método refreshImages llama a fetchUserImages, permitiendo recargar las imágenes.*/
   const refreshImages = () => {

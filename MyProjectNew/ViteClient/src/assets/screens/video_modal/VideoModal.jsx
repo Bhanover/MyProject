@@ -5,15 +5,18 @@ import CommentFile from "../comment_file/CommentFile";
 import "./VideoModal.css";
 import Reaction from "../reaction/Reaction";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 /*VideoModal recibe como props una lista de vídeos, un índice del vídeo seleccionado, 
 una función para cerrar el modal y una función para refrescar los vídeos.*/
-const VideoModal = ({ videos, selectedVideoIndex, onClose, onRefresh }) => {
+const VideoModal = ({ videos, selectedVideoIndex, onClose, onRefresh ,userId}) => {
 /*Se mantiene el índice del vídeo actual (currentVideoIndex), el ID del vídeo actual (currentVideoId), 
 y el índice de la opción de desplegable visible (dropdownVisibleIndex).*/
   const [currentVideoIndex, setCurrentVideoIndex] = useState(selectedVideoIndex);
   const [currentVideoId, setCurrentVideoId] = useState(videos[selectedVideoIndex]?.id || videos[selectedVideoIndex]?.videoId);
   const [dropdownVisibleIndex, setDropdownVisibleIndex] = useState(null);
   const currentUserId = localStorage.getItem("idP");
+  const navigate = useNavigate(); 
   /*cambia el índice del desplegable visible cuando se hace click en las opciones de un vídeo.*/
   const handleOptionsClick = (event, index) => {
     event.preventDefault();
@@ -36,7 +39,7 @@ y el índice de la opción de desplegable visible (dropdownVisibleIndex).*/
           'Authorization': 'Bearer ' + jwtToken
         }
       });
-      onRefresh(); // Agrega esta línea
+      onRefresh(); 
 
       onClose();
       alert('Video eliminado con éxito.');
@@ -45,6 +48,27 @@ y el índice de la opción de desplegable visible (dropdownVisibleIndex).*/
       alert('Error al eliminar el video. Inténtalo de nuevo.');
     }
   };
+
+  const handleChangeVideo = (index) => {
+    setCurrentVideoIndex(index);
+    setCurrentVideoId(videos[index]?.id || videos[index]?.videoId);
+  
+    const fromContent = window.location.pathname.includes('/content');
+    const fromVideos = window.location.pathname.includes('/videos');
+    const fromHome = window.location.pathname.includes('/watchV');
+
+    if (fromContent) {
+      navigate(`/profilePage/${userId}/content/${videos[index]?.id || videos[index]?.videoId}`);
+    } else if (fromVideos){
+      navigate(`/profilePage/${userId}/videos/${videos[index]?.id || videos[index]?.videoId}`);
+
+    } else if (fromHome){
+      navigate(`/watchV/${videos[index]?.id || videos[index]?.videoId}`);
+
+    }
+  };
+
+
   return (
     <div className="fullscreen-modalIM">
       <div className="modal-contentIM">
@@ -53,11 +77,8 @@ y el índice de la opción de desplegable visible (dropdownVisibleIndex).*/
           showThumbs={false}
           showStatus={false}
           showIndicators={false}
-          onChange={index => {
-            setCurrentVideoIndex(index);
-            setCurrentVideoId(videos[index]?.id || videos[index]?.videoId);
-            
-          }}
+          onChange={handleChangeVideo}
+
         >
           {videos.map((video, index) => (
             <div key={index} className="image-comments-wrapperIM">
@@ -66,10 +87,12 @@ y el índice de la opción de desplegable visible (dropdownVisibleIndex).*/
                   Tu navegador no soporta la etiqueta <code>video</code>.
                 </video>
                 {video.userId == currentUserId && (
+                  <div className="options-iconIM">
                   <i
-                    className="fa fa-ellipsis-h options-iconIM"
+                    className="fa fa-ellipsis-h  "
                     onClick={(event) => handleOptionsClick(event, index)}
                   ></i>
+                  </div>
                 )}
                 {dropdownVisibleIndex === index && (
                   <div className="options-dropdownIM">
@@ -90,7 +113,7 @@ y el índice de la opción de desplegable visible (dropdownVisibleIndex).*/
             <CommentFile
             fileId={video.id ? video.id : video.videoId}
             postOwner={video.username}
-            postDescription={videos[currentVideoIndex]?.description || "Description of the photo or video"}
+            postDescription={videos[currentVideoIndex]?.description || ""}
             postImage={video.profileImage}
           />
             </div>

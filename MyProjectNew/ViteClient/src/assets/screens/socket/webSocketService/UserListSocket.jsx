@@ -17,11 +17,14 @@ const UserListSocket = () => {
   const [chatWindows, setChatWindows] = useState([]);
   /* Esta función se llama cuando el usuario hace clic en un nombre de usuario en la lista*/
   const handleFriendClick = (user) => {
-    if (chatWindows.some((chat) => chat.id === user.id)) {
-      return;
+    const existingChat = chatWindows.find((chat) => chat.id === user.id);
+    if (existingChat) {
+      setChatWindows(chatWindows.filter((chat) => chat.id !== user.id));
+    } else {
+      setChatWindows([...chatWindows, user]);
     }
-    setChatWindows([...chatWindows, user]);
   };
+  
   //Esta función  recupera la lista de amigos en línea del usuario
   const getUsers = async () => {
     try {

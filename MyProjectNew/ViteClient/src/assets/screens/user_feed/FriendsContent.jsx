@@ -18,6 +18,8 @@ import { useParams } from "react-router-dom";
 import CommentFile from "../comment_file/CommentFile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
+
 const FriendsContent = () => {
   const [content, setContent] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
@@ -32,6 +34,7 @@ const FriendsContent = () => {
   const { profileImage, updateProfileImage } = useProfileImage();
   const userId = localStorage.getItem("idP");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); 
 
   const handleOptionsClick = (itemId) => {
     setShowOptions((prevState) => ({
@@ -50,6 +53,8 @@ const FriendsContent = () => {
     setSelectedFileId(fileId);
     setSelectedVideoIndex(videoIndex);
     setShowVideoModal(true);
+    navigate(`/watchV/${fileId}`);
+
   };
 
   const handleOpenImageModal = (url, fileId) => {
@@ -62,13 +67,16 @@ const FriendsContent = () => {
     setSelectedFileId(fileId);
     setSelectedImageIndex(imageIndex);
     setShowImageModal(true);
-    
-  };
+    navigate(`/photo/${fileId}`);
 
+  };
+  const clearUrl = () => {
+    navigate(`/`);
+  };
   const handleCloseImageModal = () => {
     setSelectedFileId(null);
     setShowImageModal(false);
-
+    clearUrl();
   };
 
   useEffect(() => {
@@ -187,27 +195,17 @@ const FriendsContent = () => {
                   src={item.url}
                   alt={item.filename}
                   className="usercontent-videoCT"
-                  controls={false}
-                  onClick={() => handleOpenVideoModal(item.url, item.id)}
+                  controls={true}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleOpenVideoModal(item.url, item.id);
+                }}                  
                 />
+                
                 <span className="usercontent-publication-dateCT">
                   posted on  {new Date(item.creationTime).toLocaleDateString("es-ES")}
                 </span>
-                {showVideoModal && (
-                  <VideoModal
-                    videos={content.filter(
-                      (item) =>
-                        item.contentType && item.contentType.startsWith("video/")
-                    )}
-                    selectedVideoIndex={selectedVideoIndex}
-                    onClose={() => setShowVideoModal(false)}
-                    userId={userId}
-                    onDelete={(fileId) => {
-                      deleteFile(fileId);
-                      setShowVideoModal(false);
-                    }}
-                  />
-                )}
+         
                 <div className="reactionCT"> 
                   <Reaction fileId={item.id} entityType="video" />
                 </div>
@@ -215,7 +213,7 @@ const FriendsContent = () => {
                   <CommentFile className="commentFileCT" fileId={item.id} postOwner={item.owner} postDescription={item.description} postImage={item.url} />
                 </div>
               </div>
-)}
+              )}
 
 
             {item.entityType === "publication" && (
@@ -283,8 +281,10 @@ const FriendsContent = () => {
               (item) => item.contentType && item.contentType.startsWith("video/")
             )}
             selectedVideoIndex={selectedVideoIndex}
-            onClose={() => setShowVideoModal(false)}
-            userId={userId}
+            onClose={() => {
+              setShowVideoModal(false);
+              clearUrl();
+            }}            userId={userId}
             onDelete={(fileId) => {
               deleteFile(fileId);
               setShowVideoModal(false);

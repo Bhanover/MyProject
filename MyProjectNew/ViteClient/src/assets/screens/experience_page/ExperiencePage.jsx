@@ -7,12 +7,12 @@ import SearchChat from "../socket/searchChat/SearchChat";
 const ExperiencePage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserListOpen, setIsUserListOpen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1200);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1300);
   const [isSmallerScreen, setIsSmallerScreen] = useState(window.innerWidth <= 800);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 1200);
+      setIsSmallScreen(window.innerWidth <= 1300);
       setIsSmallerScreen(window.innerWidth <= 800);
     };
 

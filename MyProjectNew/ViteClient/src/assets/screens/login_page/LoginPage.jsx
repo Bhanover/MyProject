@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LoginForm from "../user_login/UserLogin";
 import RegisterForm from "../user_register/UserRegister";
 import "./LoginPage.css";
-import logo from "./Imagenes/logo5.png";
 
 const LoginPage = () => {
   const [formType, setFormType] = useState("login");

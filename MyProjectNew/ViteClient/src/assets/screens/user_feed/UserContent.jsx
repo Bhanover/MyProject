@@ -17,6 +17,8 @@ import { useParams } from "react-router-dom";
 import CommentFile from "../comment_file/CommentFile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
+
 const UserContent = () => {
   const [content, setContent] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
@@ -32,6 +34,8 @@ const UserContent = () => {
   const { userId } = useParams();
   const currentUserId = localStorage.getItem("idP");
   const [loading, setLoading] = useState(true);
+    const navigate = useNavigate(); 
+
   /*Esta función se activa cuando un usuario hace clic en el ícono de opciones*/
   const handleOptionsClick = (itemId,e) => {
     e.preventDefault();
@@ -51,25 +55,29 @@ const UserContent = () => {
     setSelectedFileId(fileId);
     setSelectedVideoIndex(videoIndex);
     setShowVideoModal(true);
+    navigate(`/profilePage/${userId}/content/${fileId}`);
+
   };
   /*Abre el modal de imagen cuando un usuario hace clic en una imagen.*/
+  
   const handleOpenImageModal = (url, fileId) => {
     const imageIndex = content
-      .filter(
-        (item) =>
-          item.contentType && item.contentType.startsWith("image/")
-      )
+      .filter((item) => item.contentType && item.contentType.startsWith("image/"))
       .findIndex((item) => item.id === fileId);
     setSelectedFileId(fileId);
     setSelectedImageIndex(imageIndex);
     setShowImageModal(true);
-    
+
+    navigate(`/profilePage/${userId}/content/${fileId}`);
+  };
+  const clearUrl = () => {
+    navigate(`/profilePage/${userId}/content`);
   };
   /*Cierra el modal de imagen */
   const handleCloseImageModal = () => {
     setSelectedFileId(null);
     setShowImageModal(false);
-
+    clearUrl();
   };
   /* Se usa useEffect para invocar fetchUserContent cuando el componente se monta y cada vez que cambia el userId.*/
   useEffect(() => {
@@ -134,7 +142,7 @@ const UserContent = () => {
 
         <img
         className="profile-imageCT"
-        src={item.profileImage || profileImage  }
+        src={profileImage || item.profileImage}
         alt="Profile"
       />
                 </Link>
@@ -190,9 +198,11 @@ const UserContent = () => {
                       src={item.url}
                       alt={item.filename}
                       className="usercontent-videoCT"
-                      controls={false}
-                      onClick={() => handleOpenVideoModal(item.url, item.id)}
-                    />
+                      controls={true}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleOpenVideoModal(item.url, item.id);
+                    }}                    />
                     {showVideoModal && (
                       <VideoModal
                         videos={content.filter(
@@ -286,7 +296,10 @@ const UserContent = () => {
               (item) => item.contentType && item.contentType.startsWith("video/")
             )}
             selectedVideoIndex={selectedVideoIndex}
-            onClose={() => setShowVideoModal(false)}
+            onClose={() => {
+              setShowVideoModal(false);
+              clearUrl();
+            }}
             userId={userId}
             onDelete={(fileId) => {
               deleteFile(fileId);

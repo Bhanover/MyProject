@@ -1,17 +1,19 @@
 .video-containerIV {
   position: relative;
   width: 60%;
-  height: auto;
+  height: 100%;
   display: flex;
+  object-fit: cover;
   justify-content: center;
   align-items: center;
   border-radius: 30px;
-  padding: 30px;
+  max-height: 650px;
+  
 }
 
 .video-containerIV > video {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -19,10 +21,16 @@
 @media (max-width: 800px) {
   .video-containerIV {
     margin: auto;
-    width: 60%;
-    height: 40%;
+    width: 100%;
+    height: 50%;
+    padding: 0;
   }
-    
+  .video-containerIV > video {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 @media (max-width:600px) {

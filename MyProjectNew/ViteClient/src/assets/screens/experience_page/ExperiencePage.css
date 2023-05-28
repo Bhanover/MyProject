@@ -14,17 +14,19 @@
 }
 
 .user-list-containerEXP {
+  display: flex;
+  justify-content: center;
   width: 25%;
 }
 
 .leftEXP {
   width: 20%;
-  margin-left: 30px;
+  margin-left: 20px;
   transition: all 0.3s ease;
   
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
   .menuButton{
     position: fixed;
     width: 20px;
@@ -48,13 +50,13 @@
     position: absolute;
     background-color: white;
     z-index: 999;
-    display: none; /* Agrega esta línea para ocultarlo por defecto */
+    display: none; 
   }
 
   .leftEXP.open {
     width: 20%;
     margin-left: 50px;
-    display: block; /* Agrega esta línea para que se muestre al hacer clic en el botón */
+    display: block; 
   }
   .mainEXP {
     margin: auto;
@@ -64,6 +66,7 @@
   
   .user-list-containerEXP {
     width: 30%;
+    
   }
 }
 
@@ -124,10 +127,14 @@
 }
 @media (max-width:600px) {
   .menuButton{
-    display: none;
+    z-index: 100;
    
   }
   .userListButton{
-  display: none;
+    z-index: 100;
+  }
+  .user-list-containerEXP {
+    position: absolute;
+    right: 180px;
   }
 }
