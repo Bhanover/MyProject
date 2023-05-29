@@ -89,6 +89,9 @@ function SocketTry() {
         <div className="socketTryST">
           {currentUser && connected ? (
             <div>
+                   <div className="socketTry-disconnectST">
+                <button onClick={disconnect}>x</button>
+              </div>
               <h2>Conectado al Chat General</h2>
               
               <div className="socketTry-generalchatST">
@@ -102,25 +105,23 @@ function SocketTry() {
                 </ul>
                 
               </div>
-              <div className="socketTry-generalAllST">
           
-                <form onSubmit={handleSubmit} className="socketTry-generalinfoST">
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Escribe algo..."
-          />
-          <button type="submit">
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </button>
-        </form>
           
+          <form onSubmit={handleSubmit} className="socketTry-generalinfoST">
+    <input
+      type="text"
+      value={message}
+      onChange={(e) => setMessage(e.target.value)}
+      placeholder="Escribe algo..."
+    />
+    <button type="submit">
+      <FontAwesomeIcon icon={faPaperPlane} />
+    </button>
+  </form>
+    
 
-              <div className="socketTry-disconnectST">
-                <button onClick={disconnect}>x</button>
-              </div>
-             </div>
+    
+       
             </div>
           ) : (
             <div className="socketTry-generalST">

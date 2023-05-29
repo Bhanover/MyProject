@@ -128,7 +128,7 @@
 @media (max-width:600px) {
   .menuButton{
     z-index: 100;
-   
+   left: 60px;
   }
   .userListButton{
     z-index: 100;
