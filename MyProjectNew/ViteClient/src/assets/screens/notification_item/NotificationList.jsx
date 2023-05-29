@@ -5,11 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import "./NotificationList.css";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const NotificationList = () => {
   const [notifications, setNotifications] = useState([]);
   const jwtToken = localStorage.getItem("jwtToken");
   const navigate = useNavigate();
+  const [showTitle, setShowTitle] = useState(true);
+  const location = useLocation();
+
   /*fetchNotifications se utiliza para obtener las notificaciones */
   const fetchNotifications = async () => {
     try {
@@ -52,9 +56,38 @@ const NotificationList = () => {
     } else {
       fetchNotifications();
     }
-  }, []);
+  }, [jwtToken,location]);
 
   const unreadCount = notifications.filter((notification) => !notification.read).length;
+  useEffect(() => {
+    const interval = setInterval(() => {
+        setShowTitle(prevShowTitle => !prevShowTitle);
+    }, 2000);
+
+    return () => clearInterval(interval);
+}, []);
+
+useEffect(() => {
+  if (showTitle) {
+      if (unreadCount > 0) {
+          if (location.pathname === '/') {
+              document.title = `(${unreadCount}) Tienes notificaciones sin leer - Experience - Pagina principal`;
+          }  else if (location.pathname.startsWith('/profilePage/') ) {
+              const profileName = location.pathname.split('/')[2];
+              document.title = `(${unreadCount}) Tienes notificaciones sin leer - Experience - Pagina de Perfil - ${profileName}`;
+          }
+      }
+  } else {
+      if (location.pathname === '/') {
+          document.title = `Experience - Pagina principal`;
+      }  else if (location.pathname.startsWith('/profilePage/') ) {
+          const profileName = location.pathname.split('/')[2];
+          document.title = `Experience - Pagina de Perfil - ${profileName}`;
+      } else {
+          document.title = `Experience`;
+      }
+  }
+}, [unreadCount, showTitle, location]);
 
   return (
     <div className="notification-container">

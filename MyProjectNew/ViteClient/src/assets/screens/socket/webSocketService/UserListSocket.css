@@ -7,7 +7,7 @@
     margin-top: 30px;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
-    max-height: 570px;
+    max-height: 480px;
     overflow-y: auto;
     position: fixed;
     background: linear-gradient( rgb(167, 167, 167) ,#4f99ca,rgb(172, 169, 169) ) ;

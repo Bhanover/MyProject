@@ -34,6 +34,8 @@ export const updatePublicationApi = async (publicationId, updatedContent) => {
 export const deletePublicationApi = async (publicationId) => {
   try {
     const response = await axios.delete(`http://localhost:8081/api/auth/publication/${publicationId}`, axiosConfig());
+    alert("Successful Post deleted");
+
     return response.data;
   } catch (error) {
     console.error("Error deleting publication", error);
@@ -43,8 +45,10 @@ export const deletePublicationApi = async (publicationId) => {
 export const deleteFileApi = async (fileId) => {
   try {
     const response = await axios.delete(`http://localhost:8081/api/auth/user-files/${fileId}`, axiosConfig());
+    alert("Successful file deleted");
+
     return response.data;
-  } catch (error) {
+   } catch (error) {
     console.error("Error deleting file", error);
   }
 };

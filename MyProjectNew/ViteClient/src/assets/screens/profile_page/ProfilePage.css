@@ -34,7 +34,6 @@
     width: 75%;
     margin-top: 20px;
     box-shadow: 3px 5px 8px black;
-
   }
   .grid-containerPG > .publication-listPL {
       width: 75%;
@@ -90,8 +89,8 @@
   transform: translate(-50%, -50%);
   z-index: 9999;
 
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #0c0c0c; /* Blue */
+  border: 16px solid #f3f3f3; 
+  border-top: 16px solid #0c0c0c; 
   border-radius: 50%;
  
   animation: spin 2s linear infinite;

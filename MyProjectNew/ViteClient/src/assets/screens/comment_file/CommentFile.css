@@ -129,9 +129,9 @@
   text-align: justify;
 }
 .postImageCF{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
 }
 
 .comment-sectionCF ul {
@@ -332,7 +332,7 @@
   .comment-input-containerCF {
     position: absolute;
     bottom:0px;
-    width:90%;
+    width:95%;
     margin: auto;
   }
   .comment-infoCF h2,.post-ownerCF  ,.postImageCF ,.post-descriptionCF  { 

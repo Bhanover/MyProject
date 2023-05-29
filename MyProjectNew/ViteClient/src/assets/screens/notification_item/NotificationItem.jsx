@@ -13,7 +13,7 @@ const NotificationItem = ({ notification, markAsRead }) => {
       <div className="notification-date">{new Date(createdAt).toLocaleString()}</div>
       {!read && (
         <button onClick={() => markAsRead(id)}>
-          Mark as read
+          viewed
         </button>
       )}
     </div>
