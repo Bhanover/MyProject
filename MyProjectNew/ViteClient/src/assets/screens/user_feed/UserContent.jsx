@@ -137,8 +137,9 @@ const UserContent = () => {
         </div>
       ) : (
         <>
-      <CreatePublications onNewPublication={fetchUserContent} />
-      <ul className="usercontent-listCT">
+{currentUserId == userId && (
+    <CreatePublications onNewPublication={fetchUserContent} />
+)}      <ul className="usercontent-listCT">
         {content.map((item, index) => (
           <li key={item.id} className="usercontent-itemCT">
         <div className="container-userCT"> 

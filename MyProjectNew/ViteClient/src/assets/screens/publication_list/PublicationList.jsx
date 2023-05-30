@@ -112,7 +112,8 @@ const PublicationList = (props) => {
       ) : (
         <>
       <h2>Publications</h2>
-      
+      {currentUserId == userId && (
+    
       <div className="new-publication-formPL">
       <form onSubmit={(event) => {
           event.preventDefault();
@@ -126,7 +127,9 @@ const PublicationList = (props) => {
           />
           <button type="submit">Create</button>
         </form>
+        
       </div>
+       )} 
       <div className="publicationsPL">
       {publications.map((publication) => (
   <div key={publication.id} className="publicationPL">

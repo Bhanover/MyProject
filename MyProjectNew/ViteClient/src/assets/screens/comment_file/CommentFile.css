@@ -171,15 +171,21 @@
  }
 
  .infoUserCF img{
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+ }
+ .infoUserCF a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+   overflow: hidden;
+  width: 30px;
+  height: 30px;
+  
+  border-radius: 50%;
+
  }
 
-.infoUserCF > .profile-imageCF {
-  height: 30px !important;
-  width: 30px !important;
-  border-radius: 50%;
- }
  .infoUserCF > .profile-usernameCF{
   position: absolute;
   margin-top: 8px;

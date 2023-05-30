@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useProfileImage } from "../../../ProfileImageContext";
+import { Link } from 'react-router-dom';
 
  
 /*El componente CommentFile toma como props varios datos,
@@ -148,7 +149,7 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
         <> 
       <div className="comment-infoCF">
       <h2>Comments</h2>
-      <img className="postImageCF" src={profileImage || postImage}  alt="Profile" />
+      <img className="postImageCF" src={postImage  || profileImage}  alt="Profile" />
 
       <div className="post-ownerCF">{postOwner}
        </div>
@@ -161,8 +162,9 @@ const CommentFile = ({ fileId, postOwner, postDescription,postImage }) => {
             
             <li key={comment.id}>
               <div className='infoUserCF'> 
-              <img className="profile-imageCF"  src={comment.authorProfileImage || profileImage  }alt="Profile" />
-              <p className="profile-usernameCF">{comment.authorUsername}</p>
+              <Link to={`/profilePage/${comment.authorId}`}>
+        <img className="profile-imageCF" src={comment.authorProfileImage || profileImage} alt="Profile" />
+      </Link>              <p className="profile-usernameCF">{comment.authorUsername}</p>
               </div>
               {editingComment === comment.id ? (
                 <>
