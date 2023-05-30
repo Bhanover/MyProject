@@ -137,7 +137,7 @@ const FriendsContent = () => {
 
               <img
         className="profile-imageCT"
-        src={profileImage || item.profileImage}
+        src={item.profileImage  ||  profileImage}
         alt="Profile"
       />
                 </Link>

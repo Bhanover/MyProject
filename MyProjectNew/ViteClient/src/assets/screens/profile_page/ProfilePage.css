@@ -34,16 +34,17 @@
     width: 75%;
     margin-top: 20px;
     box-shadow: 3px 5px 8px black;
-  }
+   }
   .grid-containerPG > .publication-listPL {
       width: 75%;
       margin-top: 20px;
 
   }
-  .grid-containerPG >.usercontent-containerCT {
+  .grid-containerPG >.usercontent-mainCT {
     width: 80%;
     margin-top: 10px;
   }
+  
   .grid-containerPG > .friendsPrincipalFP{
     width: 75%;
     margin-top: 20px;
@@ -130,7 +131,7 @@
   .grid-containerPG{
     padding: 0;
   }
-  .grid-containerPG >.usercontent-containerCT {
+  .grid-containerPG >.usercontent-mainCT {
     padding: 0;
     width: 100%;
   }

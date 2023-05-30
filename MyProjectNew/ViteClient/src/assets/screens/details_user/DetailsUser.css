@@ -1,0 +1,93 @@
+.user-infoDTU{
+    padding: 10%;
+    height: 80vh;
+    width: 100%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    border-radius: 10px;
+    overflow-y:auto ;
+    border: 1px solid rgb(207, 207, 207);
+    box-shadow: 3px 5px 8px rgb(5, 5, 5);
+    background-color: white;   
+    color: rgb(116, 116, 116);
+}
+.user-infoDTU h1{
+    font-size: 30px;
+    color: black;
+}
+.user-detailsDTU{
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-detailsDTU button{
+    width: 10%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+}
+.user-infoDTU::-webkit-scrollbar {
+    display: none;
+}
+
+.user-infoDTU {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+.user-infoDTU  form{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+    
+}
+.user-infoDTU  form button:last-child{
+   padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(231, 231, 228);
+    cursor: pointer;
+}
+.user-infoDTU  form button:last-child:hover{
+    background-color: black;
+    color: white;
+}
+.non-editing-input {
+    border: none;
+    background: none;
+    
+  }
+  
+.user-infoDTU  input,.user-infoDTU  select{
+    width: 90%;
+    border-radius: 5px;
+    border: 1px solid rgb(231, 231, 228);
+    padding: 5px;
+}
+
+.user-infoDTU  label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.user-infoDTU p{
+    width: 100%;
+    padding: 5px;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+.user-infoDTU  > .icon{
+    width: 10%;
+
+}
+
+.user-infoDTU textarea {
+    width: 300px;
+    height: 100px;
+    resize: none;
+  }

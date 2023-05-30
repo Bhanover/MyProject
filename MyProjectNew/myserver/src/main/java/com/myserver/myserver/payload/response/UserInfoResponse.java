@@ -14,7 +14,7 @@ public class UserInfoResponse {
 	private Long id;
 	private String username;
 	private String email;
-	private String profileImageUrl; // Cambiar de FileDB a String
+	private String profileImageUrl;
 
 	public UserInfoResponse(Long id, String username, String email) {
 		this.id = id;

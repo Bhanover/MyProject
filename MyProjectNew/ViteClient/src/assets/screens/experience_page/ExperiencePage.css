@@ -9,8 +9,10 @@
 
 .mainEXP {
   margin: auto;
-  width: 55%;
+  width: 50%;
   height: 1500px;
+  margin-left: 35px;
+  margin-top: 30px;
 }
 
 .user-list-containerEXP {
@@ -27,6 +29,7 @@
 }
 
 @media (max-width: 1300px) {
+  
   .menuButton{
     position: fixed;
     width: 20px;
@@ -38,6 +41,8 @@
    align-items: center;
    background-color: transparent;
    border: none;
+   z-index: 9999;
+
   }
   .menuButton:hover{
     background-color: rgb(217, 218, 221);
@@ -62,6 +67,7 @@
     margin: auto;
     width: 70%;
     height: 1500px;
+    margin-top: 30px;
   }
   
   .user-list-containerEXP {
@@ -76,7 +82,7 @@
     width: 20px;
     height: 20px;
     top: 120px;
-    left: 55px;
+    left: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,11 +116,14 @@
    background-color: transparent;
    border: none;
    border-radius: 50%;
+   z-index: 9999;
 
   }
   .mainEXP {
-    margin: auto;
+     margin: auto;
     width: 100%;
+    margin-top: 15px;
+
   }
   .user-list-containerEXP.open {
     width: 25%;
@@ -128,7 +137,7 @@
 @media (max-width:600px) {
   .menuButton{
     z-index: 100;
-   left: 60px;
+   left: 50px;
   }
   .userListButton{
     z-index: 100;
@@ -137,4 +146,10 @@
     position: absolute;
     right: 180px;
   }
+  .mainEXP {
+    margin: auto;
+   width: 100%;
+   margin-top: 5px;
+
+ }
 }

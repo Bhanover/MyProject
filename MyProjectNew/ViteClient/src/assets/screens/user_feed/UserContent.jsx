@@ -18,6 +18,7 @@ import CommentFile from "../comment_file/CommentFile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
+import DetailsUser from "../details_user/DetailsUser";
 
 const UserContent = () => {
   const [content, setContent] = useState([]);
@@ -126,6 +127,9 @@ const UserContent = () => {
     setUpdatedContent("");
   };
   return (
+    <div  className="usercontent-mainCT"> 
+    
+    <div className="usercontent-detailsCT"><DetailsUser userId={userId} /></div>
     <div className="usercontent-containerCT">
      {loading ? (
       <div className="loader-container">
@@ -142,7 +146,7 @@ const UserContent = () => {
 
         <img
         className="profile-imageCT"
-        src={profileImage || item.profileImage}
+        src={item.profileImage  ||  profileImage}
         alt="Profile"
       />
                 </Link>
@@ -312,6 +316,7 @@ const UserContent = () => {
 
           </>
       )}
+      </div>
       </div>
     );
       }

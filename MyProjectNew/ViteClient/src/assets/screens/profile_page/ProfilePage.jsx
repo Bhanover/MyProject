@@ -34,10 +34,9 @@ const ProfilePage = () => {
         />
       </div>
       <div className="detailsPG">
-        <div></div>
-        <div className="contentPG">
+         <div className="contentPG">
           <div className="content-switchPG">
-          <Link
+           <Link
   to={`/profilePage/${userId}/content`}
   className={isCurrentPath(`/profilePage/${userId}/content`) ? "active" : ""}
 >

@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,6 +41,37 @@ public class User {
     @Size(max = 120)
     private String password;
 
+
+    @Size(max = 50)
+    private String firstName;
+
+
+    @Size(max = 50)
+    private String lastName;
+
+
+    @Past
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
+
+    @Size(max = 50)
+    private String gender;
+
+    @Size(max = 100)
+    private String currentLocation;
+
+    @Size(max = 100)
+    private String workplace;
+
+    @Size(max = 100)
+    private String education;
+
+    @Size(max = 50)
+    private String maritalStatus;
+
+    @Size(max = 500)
+    private String interests;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
     @JsonIgnore
@@ -66,9 +96,6 @@ public class User {
     private List<Friendship> friends;
 
     private boolean isOnline;
-
-
-
 
     public User(String username, String email, String password) {
         this.username = username;
