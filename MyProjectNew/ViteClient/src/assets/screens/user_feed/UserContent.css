@@ -247,10 +247,13 @@
   .usercontent-mainCT{
    flex-wrap: wrap;
    width: 100%;
+    
  }
 .usercontent-mainCT > .usercontent-containerCT {
   width: 100%;
   margin: auto;
+  height: auto;
+
 }
 
 .usercontent-detailsCT{

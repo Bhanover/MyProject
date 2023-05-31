@@ -140,7 +140,7 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
           />
-          <button
+          <button className="emojiUF"
             type="button"
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
           >

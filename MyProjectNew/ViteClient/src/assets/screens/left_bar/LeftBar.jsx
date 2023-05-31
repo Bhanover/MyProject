@@ -48,11 +48,11 @@ const LeftBar = () => {
   };
   return (
     <div className="icon-containerLB">
-      <Link to={`/`} className={isActive('/') ? 'active' : ''}>
-        <i className="fa fa-home icon" aria-hidden="true"></i>
+      <Link to={`/`} className={isActive('/') ? 'active' : ''} title="Página de inicio" >
+        <i   className="fa fa-home icon" aria-hidden="true"></i>
       </Link>
       <div>
-        <Link to={`/profilePage/${currentUserId}`} className={isActive(`/profilePage/${currentUserId}`) ? 'active' : ''}>
+        <Link to={`/profilePage/${currentUserId}`} className={isActive(`/profilePage/${currentUserId}`) ? 'active' : ''} title="Página del Perfil de usuario">
           {loading ? <div className="spinner"></div> : <img src={userInfo.profileImageUrl || profileImage} alt="User Profile" />}
         </Link>
       </div>

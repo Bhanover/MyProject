@@ -188,9 +188,7 @@
     border-radius: 30px;
     padding: 5px;
     border: 3px solid white;
-    font-family: 'DM Serif Display', serif;
-    
-    
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .centroL > div button:hover{
@@ -205,7 +203,7 @@
 .centroL > div input:last-child{
     height: auto;
     font-weight: 900;
-    font-family: 'DM Serif Display', serif;
+    font-family: Arial, Helvetica, sans-serif;
 
 }
 

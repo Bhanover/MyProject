@@ -46,7 +46,7 @@ const TopBar = (props) => {
 
   return (
     <div className="topBar">
-      <div className="topBarExp">
+      <div className="topBarExp" title="Página de Inicio">
         <Link to={`/`}>
           <div className="logoM">
             <span>E</span>
