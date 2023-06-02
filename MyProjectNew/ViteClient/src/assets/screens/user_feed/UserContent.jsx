@@ -78,6 +78,7 @@ const UserContent = () => {
   const handleCloseImageModal = () => {
     setSelectedFileId(null);
     setShowImageModal(false);
+    fetchUserContent();
     clearUrl();
   };
   /* Se usa useEffect para invocar fetchUserContent cuando el componente se monta y cada vez que cambia el userId.*/
@@ -185,7 +186,6 @@ const UserContent = () => {
                       className="usercontent-imageCT"
                       onClick={() => handleOpenImageModal(item.url, item.id)}
                     />
-                    {console.log(item)}
                     <div className="reactionCT">
                     <Reaction fileId={item.id} entityType="image" />
                     </div>
@@ -303,6 +303,8 @@ const UserContent = () => {
             selectedVideoIndex={selectedVideoIndex}
             onClose={() => {
               setShowVideoModal(false);
+              fetchUserContent();
+
               clearUrl();
             }}
             userId={userId}

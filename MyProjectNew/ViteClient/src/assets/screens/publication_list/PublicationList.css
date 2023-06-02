@@ -27,7 +27,7 @@ background-color: white;  border-radius: 10px;
 .publicationPL> p{
   width: 100%;
   overflow-wrap: break-word;
-
+  font-size: 15px !important;
 }
 .profile-imagePL {
   width: 40px;

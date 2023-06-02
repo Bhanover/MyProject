@@ -76,6 +76,8 @@ const FriendsContent = () => {
   const handleCloseImageModal = () => {
     setSelectedFileId(null);
     setShowImageModal(false);
+    fetchUserContent();
+
     clearUrl();
   };
 
@@ -283,6 +285,8 @@ const FriendsContent = () => {
             selectedVideoIndex={selectedVideoIndex}
             onClose={() => {
               setShowVideoModal(false);
+              fetchUserContent();
+
               clearUrl();
             }}            userId={userId}
             onDelete={(fileId) => {

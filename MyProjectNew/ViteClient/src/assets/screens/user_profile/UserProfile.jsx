@@ -34,7 +34,7 @@ const UserProfile = ({ userId }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, [userId, updateProfileImage]);
+  }, [userId, profileImage]);
   /*handleProfileImageClick muestra las imágenes del usuario si se hace clic 
   en la imagen de perfil del usuario actual,
    en caso contrario muestra la imagen de perfil del usuario seleccionado.*/
