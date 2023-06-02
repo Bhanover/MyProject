@@ -71,19 +71,19 @@ useEffect(() => {
   if (showTitle) {
       if (unreadCount > 0) {
           if (location.pathname === '/') {
-              document.title = `(${unreadCount}) Tienes notificaciones sin leer - Experience - Pagina principal`;
+              document.title = `(${unreadCount}) Tienes notificaciones sin leer - Experience - Página principal`;
           }  else if (location.pathname.startsWith('/profilePage/') ) {
               const profileName = location.pathname.split('/')[2];
-              document.title = `(${unreadCount}) Tienes notificaciones sin leer - Experience - Pagina de Perfil - ${profileName}`;
+              document.title = `(${unreadCount}) Tienes notificaciones sin leer - Experience - Página de Perfil - ${profileName}`;
           }
       }
   } else {
       if (location.pathname === '/') {
-          document.title = `Experience - Pagina principal`;
+          document.title = `Experience - Página principal`;
       }  else if (location.pathname.startsWith('/profilePage/') ) {
           const profileName = location.pathname.split('/')[2];
-          document.title = `Experience - Pagina de Perfil - ${profileName}`;
-      } else {
+          document.title = `Experience - Página de Perfil - ${profileName}`;
+      }  else {
           document.title = `Experience`;
       }
   }
