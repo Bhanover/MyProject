@@ -5,12 +5,14 @@
 <p align="center">
   👉
     <a href="https://www.youtube.com/watch?v=OknDmeu9GZs">
-        <img src="https://img.shields.io/badge/YouTube-Click Video del %20Proyecto-red" alt="Video Proyecto Experience"> 
+        <img src="https://img.shields.io/badge/YouTube-Video%20del%20Proyecto-red" alt="Haga clic para ver el video del proyecto"> 
     </a> 
-    👈
+  👈
 </p>
 
-[![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://www.transfernow.net/es/dltransfer?utm_source=20230602GXvBjvRa&utm_medium=NWWj2GjF)
+
+
+[![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://drive.google.com/file/d/1I1FGF7gVnOAENQyFN3yu36JucukKFotp/view?usp=drive_link)
 [![Download IntelliJ IDEA](https://img.shields.io/badge/download-IntelliJ%20IDEA-blue)](https://www.jetbrains.com/idea/download/)
 [![React](https://img.shields.io/badge/React-^17.0.0-blue)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-^14.0.0-green)](https://nodejs.org/)
@@ -136,9 +138,9 @@ La importación puede llevar bastante tiempo. Asegúrate de que tu computadora n
 ## Cómo Empezar
 Después de configurar el entorno de desarrollo y la base de datos, puedes iniciar el servidor y el cliente de la siguiente manera:
 
-### Puedes empezar con una base de datos ya creada:
+### Puedes empezar con una base de datos ya creada
  - Aqui te dejo el link de descarga :
-[![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://www.transfernow.net/es/dltransfer?utm_source=20230602GXvBjvRa&utm_medium=NWWj2GjF)
+[![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://drive.google.com/file/d/1I1FGF7gVnOAENQyFN3yu36JucukKFotp/view?usp=drive_link)
  - Estos son los usuarios creados "billy","car","ange","pepe".
  - Todos los usuarios tienen la misma contraseña : "1234567890"
 
