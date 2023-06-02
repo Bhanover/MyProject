@@ -5,7 +5,7 @@
 <p align="center">
   👉
     <a href="https://www.youtube.com/watch?v=OknDmeu9GZs">
-        <img src="https://img.shields.io/badge/YouTube-Video%20del%20Proyecto-red" alt="Haga clic para ver el video del proyecto"> 
+        <img src="https://img.shields.io/badge/YouTube-Video%20del%20Proyecto-red" > 
     </a> 
   👈
 </p>
