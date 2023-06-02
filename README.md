@@ -3,11 +3,11 @@
 
 
 <p align="center">
-  👉👉👉👉👉👉👉👉👉👉👉👉👉👉👉👉👉
+  👉
     <a href="https://www.youtube.com/watch?v=OknDmeu9GZs">
         <img src="https://img.shields.io/badge/YouTube-Click Video del %20Proyecto-red" alt="Video Proyecto Experience"> 
     </a> 
-    👈👈👈👈👈👈👈👈👈👈👈👈👈👈👈👈
+    👈
 </p>
 
 [![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://www.transfernow.net/es/dltransfer?utm_source=20230602GXvBjvRa&utm_medium=NWWj2GjF)
@@ -103,8 +103,47 @@ server.port=8081
 ```
 Una ves creado en Mysql el usuario "root" con password "1234" no olvides de crear la base de datos con el comando `create database experience`;
 
+### (Opcional)Configuración de la base de datos para importar un archivo .sql
+
+Para importar una base de datos a MySQL Workbench, puedes seguir los siguientes pasos:
+
+Paso 1: Abre MySQL Workbench
+
+- Lanza la aplicación MySQL Workbench en tu ordenador.
+
+Paso 2: Conéctate a tu instancia de MySQL
+
+- En la pantalla inicial, haz clic en la conexión a la instancia de MySQL donde quieres importar la base de datos.
+
+Paso 3: Abre la herramienta de importación de datos
+
+- Una vez que estás conectado a tu instancia de MySQL, selecciona "Server" en la barra de menú, luego "Data Import".
+
+Paso 4: Selecciona las opciones de importación
+
+- En la ventana "Data Import", selecciona "Import from Self-Contained File". Luego, navega hasta el archivo de la base de datos que deseas importar (debería ser un archivo .sql).
+
+Paso 5: Selecciona la base de datos de destino
+
+- En la sección "Default Target Schema", selecciona la base de datos en la que deseas importar tus datos. Si no tienes una base de datos para este propósito, tendrás que crear una nueva: puedes hacerlo seleccionando "Create New" en el menú desplegable.
+
+Paso 6: Comienza la importación
+
+- Haz clic en "Start Import" en la parte inferior de la pantalla para comenzar a importar tus datos.
+
+La importación puede llevar bastante tiempo. Asegúrate de que tu computadora no se apague ni entre en modo de suspensión durante este tiempo, ya que podría interrumpir la importación.
+
 ## Cómo Empezar
 Después de configurar el entorno de desarrollo y la base de datos, puedes iniciar el servidor y el cliente de la siguiente manera:
+
+### Puedes empezar con una base de datos ya creada:
+ - Aqui te dejo el link de descarga :
+[![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://www.transfernow.net/es/dltransfer?utm_source=20230602GXvBjvRa&utm_medium=NWWj2GjF)
+ - Estos son los usuarios creados "billy","car","ange","pepe".
+ - Todos los usuarios tienen la misma contraseña : "1234567890"
+
+### También puedes empezar desde 0 
+ - Spring Boot ya te crea las tablas (solo nesesitarias crear la base de datos)
 
 ### Servidor (Spring Boot)
 1. En IntelliJ IDEA, busca la clase principal de la aplicación (usualmente nombrada `Application` o `Main`) en el panel de archivos del proyecto.
