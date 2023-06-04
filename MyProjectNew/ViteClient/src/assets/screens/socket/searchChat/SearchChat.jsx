@@ -31,7 +31,6 @@ function SearchChat() {
         });
         setUserInfo(response.data);
         setCurrentUser(response.data.username);
-        console.log(response.data.username)
       } catch (error) {
         console.error("Error al obtener la información del usuario:", error.response.data);
         alert("Error al obtener la información del usuario. Inténtalo de nuevo.");
@@ -110,7 +109,7 @@ function SearchChat() {
         />
       )}
       <div className="searchChatSC">
-        <h1>Buscar usuario para chatear</h1>
+        <h1>Search user to chat</h1>
         <form onSubmit={handleSubmit} className="searchChat-userSC">
           <div>
             <input
@@ -121,7 +120,7 @@ function SearchChat() {
             />
           </div>
           <div>
-            <button type="submit">Buscar</button>
+            <button type="submit">Search</button>
           </div>
         </form>
         <div>

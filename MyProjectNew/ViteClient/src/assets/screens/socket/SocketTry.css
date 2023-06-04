@@ -20,7 +20,7 @@
     border-radius: 5px;
     word-wrap: break-word;
     word-break: break-word;
- }
+  }
 
  .socketTry-generalchatST::-webkit-scrollbar {
     width: 5px;
@@ -38,7 +38,11 @@
  .socketTry-generalchatST  li{
     margin-bottom: 10px;
     background: linear-gradient( #b8d8ee,rgb(255, 255, 255,0.5), #b8d8ee ) ;
- }
+    font-size: 12px;
+    padding: 3px;
+    border-radius: 5px;
+
+}
 .socketTry-generalinfoST {
     display: flex;
     justify-content: center;

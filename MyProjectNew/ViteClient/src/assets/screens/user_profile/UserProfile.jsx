@@ -26,7 +26,6 @@ const UserProfile = ({ userId }) => {
       })
        .then((response) => {
         setUserInfo(response.data);
-        console.log(response.data);
 
         updateProfileImage(response.data.profileImageUrl); 
       })

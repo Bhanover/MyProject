@@ -38,7 +38,11 @@
     border: 1px solid rgb(216, 214, 214);
     margin-top: 10px;
 }
-
+.searchChat-userSC button:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
 .searchChat-userSC{
     display: flex;
     justify-content: center;

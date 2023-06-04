@@ -114,7 +114,7 @@ const UserListSocket = () => {
   //<button onClick={handleDisconnect}>Desconectar</button>
   return (
     <div className="user-list-container">
-      <h1>Contactos</h1>
+      <h1>Contacts</h1>
  
       {users && users.length > 0 ? (
         <ul>

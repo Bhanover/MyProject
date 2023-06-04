@@ -65,7 +65,7 @@ const UserLogout = () => {
 
   return (
     <div>
-      <h2>Cerrando sesión...</h2>
+      <h2>Logging out...</h2>
     </div>
   );
 };

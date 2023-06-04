@@ -35,7 +35,6 @@ const UserVideos = (props) => {
       const sortedVideos = response.data.sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime));
 
       setVideoUrls(sortedVideos);
-      console.log(sortedVideos);
       setLoading(false);
 
     } catch (error) {

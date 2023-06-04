@@ -92,7 +92,7 @@ function SocketTry() {
                    <div className="socketTry-disconnectST">
                 <button onClick={disconnect}>x</button>
               </div>
-              <h2>Conectado al Chat General</h2>
+              <h2>Connected to General Chat</h2>
               
               <div className="socketTry-generalchatST">
                 <ul>
@@ -112,7 +112,7 @@ function SocketTry() {
       type="text"
       value={message}
       onChange={(e) => setMessage(e.target.value)}
-      placeholder="Escribe algo..."
+      placeholder="Write something..."
     />
     <button type="submit">
       <FontAwesomeIcon icon={faPaperPlane} />
@@ -125,7 +125,7 @@ function SocketTry() {
             </div>
           ) : (
             <div className="socketTry-generalST">
-              <h3>Chat General</h3>
+              <h3>General Chat</h3>
               <button onClick={connect}>Connect</button>
             </div>
           )}

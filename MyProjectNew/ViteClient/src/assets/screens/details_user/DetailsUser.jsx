@@ -24,7 +24,6 @@ const  DetailsUser= ({userId}) => {
       .then((response) => {
         setUserInfo(response.data);
         setUpdatedUser(response.data);
-        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {

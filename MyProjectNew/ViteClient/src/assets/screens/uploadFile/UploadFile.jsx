@@ -114,7 +114,7 @@ function UploadFile({ isOpen, onClose , onNewFile  }) {
           className="dropzone"
         >
           <input {...getInputProps()} />
-          <p>Click aquí o arrastra una imagen o video para subir</p>
+          <p>Click here or drag an image or video to upload</p>
         </div>
         {src && fileType === "image" && (
           <ImageEditor

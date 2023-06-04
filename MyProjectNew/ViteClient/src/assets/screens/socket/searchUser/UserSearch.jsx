@@ -34,7 +34,6 @@ function UserSearch(props) {
         () => {
           stompClient.subscribe("/topic/searchResults", (message) => {
             const data = JSON.parse(message.body);
-            console.log("dentro de subscribe");
             setSearchResults(data);
             setSearchError(data.length === 0);
             setLoading(false);
@@ -116,7 +115,7 @@ function UserSearch(props) {
       <div className="userSearch-textUS"> 
       <input
         type="text"
-        placeholder="Buscar por nombre o apodo"
+        placeholder="Search by username"
         value={searchTerm}
         onChange={handleInputChange}
       />
