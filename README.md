@@ -132,24 +132,25 @@ Paso 5: Selecciona la base de datos de destino
 
 Paso 6: Comienza la importación
 
-- Haz clic en "Start Import" en la parte inferior de la pantalla para comenzar a importar tus datos.
+- Haz clic en "Start Import" en la parte inferior de la pantalla para comenzar a importar tus datos o puede encontrarse en import progress.
 
 La importación puede llevar bastante tiempo. Asegúrate de que tu computadora no se apague ni entre en modo de suspensión durante este tiempo, ya que podría interrumpir la importación.
 
 ## Cómo Empezar
 Después de configurar el entorno de desarrollo y la base de datos, puedes iniciar el servidor y el cliente de la siguiente manera:
 
-### Puedes empezar con una base de datos ya creada
+### Puedes empezar con una base de datos ya creada(Mysql)
  - Aqui te dejo el link de descarga :
-[![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://drive.google.com/file/d/1I1FGF7gVnOAENQyFN3yu36JucukKFotp/view?usp=drive_link)
+[![Database Download](https://img.shields.io/badge/Database-Download-blue)](https://drive.google.com/file/d/1I1FGF7gVnOAENQyFN3yu36JucukKFotp/view?usp=drive_link) 
+ - Ahora solo nesesitarias importar la base de datos.
  - Estos son los usuarios creados "billy","car","ange","pepe".
- - Todos los usuarios tienen la misma contraseña : "1234567890"
+ - Todos los usuarios tienen la misma contraseña : "1234567890".
 
-### También puedes empezar desde 0 
+### También puedes empezar desde 0 (Mysql)
  - Spring Boot ya te crea las tablas (solo nesesitarias crear la base de datos)
 
 ### Servidor (Spring Boot)
-1. En IntelliJ IDEA, busca la clase principal de la aplicación (usualmente nombrada `Application` o `Main`) en el panel de archivos del proyecto.
+1. En IntelliJ IDEA, busca la clase principal de la aplicación (usualmente nombrada `Application` o `Main`) en el panel de archivos del proyecto `/src/main/java/com/myserver/myserver` ahí encontraras la clase `MyserverApplication`.
 2. Haz clic derecho en la clase principal y selecciona 'Run `Application.main()`' en el menú contextual. Esto iniciará el servidor en el puerto que se especificó en el archivo `application.properties`.
 
 ![image](https://github.com/Bhanover/MyProject/assets/127310131/e7fdda1f-6c65-4516-b273-62e29dc0fde5)
