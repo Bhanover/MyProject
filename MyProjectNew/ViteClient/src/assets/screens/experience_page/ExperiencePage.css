@@ -47,6 +47,7 @@
   .menuButton:hover{
     background-color: rgb(217, 218, 221);
     cursor: pointer;
+    border-radius: 50%;
   }
   .leftEXP {
     width: 0;
